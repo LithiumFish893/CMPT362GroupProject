@@ -141,8 +141,12 @@ class MainActivity : AppCompatActivity() {
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         var builder =  AppBarConfiguration.Builder()
-        mAppBarConfiguration = builder.setOpenableLayout(drawer).build()
-            //Builder(R.id.nav_maps, R.id.nav_home, R.id.nav_about).setOpenableLayout(drawer).build()
+        mAppBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.nav_maps, R.id.nav_home
+            ), drawer
+        )
+        //Builder(R.id.nav_maps, R.id.nav_home, R.id.nav_about).setOpenableLayout(drawer).build()
         val navController = findNavController(this, R.id.nav_host_fragment)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
