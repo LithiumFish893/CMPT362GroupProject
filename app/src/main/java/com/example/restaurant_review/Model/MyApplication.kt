@@ -10,7 +10,7 @@ import android.content.Context
  * Created by Pin Wen
  * A way to getContext globally.
  */
-abstract class MyApplication : Application() {
+class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         context = applicationContext

@@ -38,7 +38,7 @@ class DataRequest {
 
     init {
         // init the volley request queue
-        val queue = Volley.newRequestQueue(context)
+        val queue = Volley.newRequestQueue(MyApplication.context)
         // Request the info for restaurants
         val restaurantsRequest = StringRequest(Request.Method.GET, URL_RESTAURANT, { response ->
             try {

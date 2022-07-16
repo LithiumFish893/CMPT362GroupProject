@@ -23,7 +23,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Restaurant_review"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        android:name="com.example.restaurant_review.Model.MyApplication">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
