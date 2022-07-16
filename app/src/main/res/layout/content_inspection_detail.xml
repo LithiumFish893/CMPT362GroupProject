@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorWhite">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_column="1"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/ic_inspection_date"
+                android:padding="12dp" />
+
+            <TextView
+                android:id="@+id/inspection_date"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_column="2"
+                android:layout_weight="7"
+                android:ellipsize="marquee"
+                android:gravity="center_vertical"
+                android:padding="8dp"
+                android:text="@string/inspection_date"
+                android:textColor="@color/blackFont"
+                android:textSize="16sp" />
+        </TableRow>
+
+        <View android:layout_height="2dp" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite">
+
+            <ImageView
+                android:id="@+id/inspection_type_icon"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_column="1"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:padding="4dp" />
+
+            <TextView
+                android:id="@+id/inspection_type"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_column="2"
+                android:layout_weight="7"
+                android:gravity="center_vertical"
+                android:padding="8dp"
+                android:text="@string/inspection_type"
+                android:textColor="@color/blackFont"
+                android:textSize="16sp" />
+        </TableRow>
+
+        <View android:layout_height="2dp" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_column="1"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/ic_inspection_critical" />
+
+            <TextView
+                android:id="@+id/inspection_critical"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_column="2"
+                android:layout_weight="7"
+                android:gravity="center_vertical"
+                android:padding="8dp"
+                android:text="@string/inspection_critical"
+                android:textColor="@color/blackFont"
+                android:textSize="16sp" />
+        </TableRow>
+
+        <View android:layout_height="2dp" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_column="1"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/ic_inspection_non_critical" />
+
+            <TextView
+                android:id="@+id/inspection_non_critical"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_column="2"
+                android:layout_weight="7"
+                android:gravity="center_vertical"
+                android:padding="8dp"
+                android:text="@string/inspection_non_critical"
+                android:textColor="@color/blackFont"
+                android:textSize="16sp" />
+        </TableRow>
+
+        <View android:layout_height="2dp" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite">
+
+            <ImageView
+                android:id="@+id/inspection_hazard_icon"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_column="1"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:padding="8dp" />
+
+            <TextView
+                android:id="@+id/inspection_hazard"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_column="2"
+                android:layout_weight="7"
+                android:gravity="center_vertical"
+                android:padding="8dp"
+                android:textColor="@color/blackFont"
+                android:textSize="16sp" />
+        </TableRow>
+
+        <View android:layout_height="2dp" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_weight="1"
+                android:background="@color/colorSecondary"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingLeft="40dp"
+                android:paddingTop="5dp"
+                android:paddingRight="40dp"
+                android:paddingBottom="5dp"
+                android:text="@string/inspection_violations_history"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp" />
+        </TableRow>
+    </TableLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_weight="1">
+        <ListView
+            android:id="@+id/violation_history_listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorGreyBackground"
+            android:divider="@color/colorGreyBackground"
+            android:dividerHeight="2.0sp" />
+    </LinearLayout>
+</LinearLayout>

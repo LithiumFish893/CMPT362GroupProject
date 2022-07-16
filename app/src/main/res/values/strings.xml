@@ -1,0 +1,97 @@
+<resources>
+    <string name="app_name">Restaurant Review</string>
+
+    <string name="nav_header_title">Restaurant Health Inspection</string>
+    <string name="nav_header_subtitle">Restaurant Health Inspection</string>
+    <string name="toolbar_restaurant_detail">Details of selected restaurant</string>
+    <string name="toolbar_inspection_detail">Details of selected inspection</string>
+
+    <!--  string value for the drawer menu items -->
+    <string name="menu_maps">Maps View</string>
+    <string name="menu_home">List View</string>
+    <string name="menu_about">About</string>
+
+    <!--  string value for the MainActivity -->
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="cannot_connect_with_server">Cannot connect with server!</string>
+    <string name="lastest_database">You already have a recent database!</string>
+    <string name="new_database_is_available">New database is available now.</string>
+    <string name="update_now">Update now?</string>
+    <string name="not_now">Not Now</string>
+    <string name="OK" translatable="false">OK</string>
+
+    <!--  string value for the HomeFragment -->
+    <string name="restaurant_list">Restaurants List</string>
+    <string name="restaurant_no_record">No record found</string>
+
+    <!--  string value for the MapsFragment -->
+    <string name="maps_view">Restaurants near your location</string>
+    <string name="location_permission">Please allow the app using your location!</string>
+    <string name="file_permission">Please allow the app to write the file on your device!</string>
+    <string name="location_service">Please enable your location service!</string>
+    <string name="cluster_click_message">Double click to zoom in!</string>
+    <string name="you_are_here">You\'re Here!</string>
+    <string name="snippet_address">Address: </string>
+    <string name="snippet_hazard">Hazard: </string>
+    <string name="unable_find_your_location">Unable to find your location!</string>
+
+    <!--  string value for the AboutFragment -->
+    <string name="about_info_text">"Thank you for using Restaurant Health Inspection.  This app uses restaurant and inspection data from the open data of Fraser Health.  This app is developed by Chengxi Li (@cla420) Dylan D'Mello (@ddmello) Jamie Lo (@lojamiel) Pin Wen (@pinw)  Course Link: <a href="https://opencoursehub.cs.sfu.ca/jackt/grav-cms/cmpt276-2/project">CMPT276 Project 1</a> "</string>
+    <string name="about_disclaimer_title">Disclaimers</string>
+    <string name="about_disclaimer_description">This app cannot guarantee the accuracy of information</string>
+
+    <!--  string value for the RestaurantDetailActivity -->
+    <string name="restaurant_name" translatable="false">eg. Subway</string>
+    <string name="restaurant_address" translatable="false">%1$s, %2$s</string>
+    <string name="restaurant_gps" translatable="false">%1$s, %2$s</string>
+    <string name="restaurant_inspection_history">Inspection History</string>
+    <string name="hazard_unknown">Unknown</string>
+    <string name="restaurant_issues">%1$d issues found</string>
+
+    <!--  string value for the InspectionDetailActivity -->
+    <string name="inspection_date">inspection date: 4th Nov 2020</string>
+    <string name="inspection_type">inspection type: ROUTINE</string>
+    <string name="inspection_critical">%1$d critical issues found</string>
+    <string name="inspection_non_critical">%1$d non-critical issues found</string>
+    <string name="inspection_violations_history">Violation History</string>
+    <string name="inspection_days">%1$d day(s) ago</string>
+    <string name="inspection_hazard_list">hazard</string>
+    <string name="inspection_critical_list"> critical issues found</string>
+    <string name="inspection_noncritical_list"> non-critical issues found</string>
+    <string name="days_ago">day(s) ago</string>
+
+    <!--    string value for violation-->
+    <string name="violationType" translatable="false">%1$s (%2$s):</string>
+    <string name="hazardLevel">%1$s hazard</string>
+
+    <!--  string value for launching intent -->
+    <string name="intent_extra_id" translatable="false">ID</string>
+    <string name="intent_extra_index" translatable="false">INDEX</string>
+
+    <!--  string value for Download Fragment -->
+    <string name="dialog_title">Updating....</string>
+    <string name="update_completed">Update Completed!</string>
+    <string name="update_progress">Updating progress: %1$d%%</string>
+
+    <!--  string value for Home menu item-->
+    <string name="menu_favorite_only">Favorite only</string>
+    <string name="menu_filter_by_safety">Filter by safety</string>
+    <string name="menu_filter_by_violations">Filter by # violation</string>
+    <string name="menu_check_update">Check update</string>
+    <string name="safetyLevel_safe">Safe</string>
+    <string name="safetyLevel_moderate">Moderate</string>
+    <string name="safetyLevel_unsafe">Unsafe</string>
+    <string name="safetyLevel_unknown">Unknown</string>
+
+    <string name="filter_button">Filter</string>
+    <string name="cancel_button">Cancel</string>
+
+    <string name="filter_by_violations_title">To filter restaurants with critical violations within last year</string>
+    <string name="filter_by_violations_less">Less and equal than</string>
+    <string name="filter_by_violations_great">Great and equal than</string>
+    <string name="filter_by_violations_hint">Please enter a positive number</string>
+
+    <string name="faves_update_title">What\'s new on your favourite restaurants\' list</string>
+    <string name="download_error">Unable to update the map without location permission!</string>
+    
+</resources>
