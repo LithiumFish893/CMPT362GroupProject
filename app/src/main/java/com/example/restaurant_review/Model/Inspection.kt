@@ -24,7 +24,7 @@ class Inspection(// files name in CVS file
     val numCritical: Int
     val numNonCritical: Int
     val hazard: String
-    var violLump: String
+    private var violLump: String
     private var violationsList: ArrayList<Violation>?
     fun getViolationsList(): ArrayList<Violation>? {
         return if (violationsList == null) {
@@ -32,7 +32,7 @@ class Inspection(// files name in CVS file
         } else violationsList
     }
 
-    fun getViolationsList(violationsLump: String): ArrayList<Violation>? {
+    private fun getViolationsList(violationsLump: String): ArrayList<Violation>? {
         violationsList = ArrayList<Violation>()
         try {
             if (violationsLump.contains("|")) {

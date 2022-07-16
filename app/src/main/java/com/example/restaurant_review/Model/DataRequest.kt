@@ -5,7 +5,6 @@ import com.android.volley.toolbox.StringRequest
 import org.json.JSONObject
 import android.util.Log
 import com.android.volley.Request
-import com.example.restaurant_review.Model.MyApplication.Companion.context
 import java.lang.Exception
 
 /**

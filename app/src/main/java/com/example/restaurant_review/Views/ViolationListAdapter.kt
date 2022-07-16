@@ -34,20 +34,20 @@ class ViolationListAdapter(context: Context?, violations: ArrayList<Violation>?)
         // setup values for each view
 
         // setup the violation icon
-        if (item?.violationDetail?.toLowerCase()?.contains("food") == true) {
+        if (item?.violationDetail?.lowercase()?.contains("food") == true) {
             violationIcon.setImageResource(R.drawable.ic_violation_food)
-        } else if (item?.violationDetail?.toLowerCase()?.contains("pest") == true) {
+        } else if (item?.violationDetail?.lowercase()?.contains("pest") == true) {
             violationIcon.setImageResource(R.drawable.ic_violation_pest)
-        } else if (item?.violationDetail?.toLowerCase()?.contains("equipment") == true) {
+        } else if (item?.violationDetail?.lowercase()?.contains("equipment") == true) {
             violationIcon.setImageResource(R.drawable.ic_violation_equipment)
-        } else if (item?.violationDetail?.toLowerCase()?.contains("employee") == true) {
+        } else if (item?.violationDetail?.lowercase()?.contains("employee") == true) {
             violationIcon.setImageResource(R.drawable.ic_violation_employee)
         } else {
             violationIcon.setImageResource(R.drawable.ic_hazard_unknown)
         }
 
         // setup the text color
-        if (item?.violationCritical?.toLowerCase()?.contains("not critical") == true) {
+        if (item?.violationCritical?.lowercase()?.contains("not critical") == true) {
             violationType.setTextColor(context.getColor(R.color.colorModerateHazard))
         } else {
             violationType.setTextColor(context.getColor(R.color.colorHighHazard))

@@ -47,7 +47,7 @@ class FavesUpdateFragment : AppCompatDialogFragment() {
     private fun populateListView() {
         // setup ListView
         val restaurantListView =
-            rootView!!.findViewById<View>(R.id.faves_restaurant_listView) as ListView
+            rootView.findViewById<View>(R.id.faves_restaurant_listView) as ListView
         val restaurantList: ArrayList<Restaurant> ?=
             RestaurantManager.instance?.allRestaurants
         val filteredRestaurants: ArrayList<Restaurant> = ArrayList<Restaurant>()
@@ -71,7 +71,7 @@ class FavesUpdateFragment : AppCompatDialogFragment() {
                 return if (faveRestaurants.isNotEmpty()) {
                     if (faveRestaurants.contains(",")) {
                         ArrayList(
-                            Arrays.asList(
+                            listOf(
                                 *faveRestaurants.split(
                                     ","
                                 ).toTypedArray()
@@ -79,7 +79,7 @@ class FavesUpdateFragment : AppCompatDialogFragment() {
                         )
                     } else {
                         return ArrayList(
-                            Arrays.asList(
+                            listOf(
                                 faveRestaurants
                             )
                         )

@@ -11,7 +11,7 @@ import java.util.*
  * To store an ArrayList of inspection data in class.
  */
 class InspectionManager private constructor() {
-    val inspections: ArrayList<Inspection>
+    val inspections: ArrayList<Inspection> = ArrayList()
     val safetyLevels = HashMap<String, String?>()
     private val NumOfCritical = HashMap<String?, Int>()
     fun addInspection(i: Inspection) {
@@ -21,7 +21,7 @@ class InspectionManager private constructor() {
     fun getInspections(ID: String): ArrayList<Inspection> {
         val retArrayList = ArrayList<Inspection>()
         for (i in inspections) {
-            if (i.id.equals(ID)) {
+            if (i.id == ID) {
                 retArrayList.add(i)
             }
         }
@@ -83,7 +83,4 @@ class InspectionManager private constructor() {
             private set
     }
 
-    init {
-        inspections = ArrayList()
-    }
 }

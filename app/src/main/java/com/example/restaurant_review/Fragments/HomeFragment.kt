@@ -1,5 +1,6 @@
 package com.example.restaurant_review.Fragments
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
@@ -30,7 +31,7 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val rootView: View = inflater.inflate(R.layout.fragment_home, container, false)
         // setup menu icon on toolbar
         setHasOptionsMenu(true)
@@ -302,6 +303,7 @@ class HomeFragment : Fragment() {
     }
 
     companion object {
+        @SuppressLint("StaticFieldLeak")
         var restaurantListView: ListView? = null
         private var restaurantListAdapter: RestaurantListAdapter? = null
         private var floatingSearchView: FloatingSearchView? = null

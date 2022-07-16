@@ -56,11 +56,11 @@ object ReadCVS {
         Collections.sort(allRestaurants, Comparator { item, t1 ->
             val s1 = item.name
             val s2 = t1.name
-            s1!!.compareTo((s2)!!, ignoreCase = true)
+            s1.compareTo((s2), ignoreCase = true)
         })
     }
 
-    fun readInspectionData(`is`: InputStream?) {
+    private fun readInspectionData(`is`: InputStream?) {
         // Read CSV Resource File: Android Programming - Brian Fraser
         // Reference: https://www.youtube.com/watch?v=i-TqNzUryn8&ab_channel=BrianFraser
         val reader = BufferedReader(

@@ -8,8 +8,8 @@ import java.util.ArrayList
  * Singleton supported
  * To store an ArrayList of restaurant data in class.
  */
-class RestaurantManager constructor() {
-    val allRestaurants: ArrayList<Restaurant>
+class RestaurantManager {
+    val allRestaurants: ArrayList<Restaurant> = ArrayList()
     fun addRestaurant(r: Restaurant) {
         allRestaurants.add(r)
     }
@@ -45,7 +45,4 @@ class RestaurantManager constructor() {
             private set
     }
 
-    init {
-        allRestaurants = ArrayList()
-    }
 }

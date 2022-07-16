@@ -20,6 +20,7 @@ import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.example.restaurant_review.Fragments.DownloadFragment
 import com.example.restaurant_review.Model.DataRequest
 import com.example.restaurant_review.Model.ReadCVS
+import com.example.restaurant_review.Nav.KeepStateNavigator
 import com.example.restaurant_review.R
 import com.google.android.material.navigation.NavigationView
 import java.text.ParseException
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         DataRequest.instance
 
         // load local database
-        ReadCVS.LoadLocalData()
+        //ReadCVS.LoadLocalData()
 
         // set a timer for check update task.
         val timer = Timer()
@@ -65,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         ) // delay 5s run check update task after app launching to wait the GET request finish
     }
 
-    fun isReadyToUpdate(): Boolean {
+    private fun isReadyToUpdate(): Boolean {
         // Check the value of SharedPreferences (is first time running)
         val mPrefs = this.getSharedPreferences("mPrefs", MODE_PRIVATE)
         val restaurantsLastModified = mPrefs.getString("RestaurantsLastModified", null)
@@ -95,10 +96,8 @@ class MainActivity : AppCompatActivity() {
         if (restaurantsLastModified != null && inspectionsLastModified != null) {
             //  If it more than 20 hours sincere last update
             try {
-                if (isMoreThan20hours(restaurantsLastModified) or isMoreThan20hours(
-                        inspectionsLastModified
-                    )
-                ) {
+                if (isMoreThan20hours(restaurantsLastModified) or
+                    isMoreThan20hours(inspectionsLastModified)) {
                     // Check is new database available
                     if (restaurantsLastModified == DataRequest.instance!!
                             .restaurantsLastModified && inspectionsLastModified == DataRequest.instance!!
@@ -139,19 +138,20 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         //TODO: set up navigation drawer
         // Setup Navigation Bar
-//        val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
-//        val navigationView = findViewById<NavigationView>(R.id.nav_view)
-//        mAppBarConfiguration =
-//            Builder(R.id.nav_maps, R.id.nav_home, R.id.nav_about).setOpenableLayout(drawer).build()
-//        val navController = findNavController(this, R.id.nav_host_fragment)
-//        val navHostFragment =
-//            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
-//        val navigator =
-//            KeepStateNavigator(this, navHostFragment!!.childFragmentManager, R.id.nav_host_fragment)
-//        navController.navigatorProvider.addNavigator(navigator)
-//        navController.setGraph(R.navigation.navigation)
-//        setupActionBarWithNavController(this, navController, mAppBarConfiguration!!)
-//        setupWithNavController(navigationView, navController)
+        val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
+        val navigationView = findViewById<NavigationView>(R.id.nav_view)
+        var builder =  AppBarConfiguration.Builder()
+        mAppBarConfiguration = builder.setOpenableLayout(drawer).build()
+            //Builder(R.id.nav_maps, R.id.nav_home, R.id.nav_about).setOpenableLayout(drawer).build()
+        val navController = findNavController(this, R.id.nav_host_fragment)
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
+        val navigator =
+            KeepStateNavigator(this, navHostFragment!!.childFragmentManager, R.id.nav_host_fragment)
+        navController.navigatorProvider.addNavigator(navigator)
+        navController.setGraph(R.navigation.navigation)
+        setupActionBarWithNavController(this, navController, mAppBarConfiguration!!)
+        setupWithNavController(navigationView, navController)
 
         // Setup Fragment Manager
         mFragmentManager = supportFragmentManager
@@ -208,7 +208,7 @@ class MainActivity : AppCompatActivity() {
         return (navigateUp(navController, mAppBarConfiguration!!)
                 || super.onSupportNavigateUp())
     }
-
+//
 //    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 //        menuInflater.inflate(R.menu.menu_main_activity, menu)
 //        return super.onCreateOptionsMenu(menu!!)

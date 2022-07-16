@@ -97,7 +97,7 @@ class DownloadFragment : AppCompatDialogFragment() {
         override fun onPreExecute() {
             super.onPreExecute()
             // init updating progress
-            progress?.setProgress(0)
+            progress.progress = 0
         }
 
         override fun doInBackground(vararg params: String?): String? {
@@ -144,19 +144,19 @@ class DownloadFragment : AppCompatDialogFragment() {
                     values[1]?.let { progress.incrementProgressBy(it) }
                     // get the download progress and update the TextView
                     val i = progress.getProgress() .div(contentLen)
-                    tv.setText(getString(R.string.update_progress, i))
+                    tv.text = getString(R.string.update_progress, i)
                 }
             }
         }
 
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
-            progress.setVisibility(View.GONE)
-            tv.setText(result)
+            progress.visibility = View.GONE
+            tv.text = result
             // When download completed, update SP
             // check if download successfully
             val editor: SharedPreferences.Editor = mPrefs.edit()
-            if (fileName!!.lowercase(Locale.getDefault()).contains("restaurants")) {
+            if (fileName.lowercase(Locale.getDefault()).contains("restaurants")) {
                 editor.putString("RestaurantsFilePath", filePath + File.separator + fileName)
                 editor.putString(
                     "RestaurantsLastModified",

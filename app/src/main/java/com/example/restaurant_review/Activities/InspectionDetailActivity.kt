@@ -7,7 +7,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ImageView
-import android.widget.ListAdapter
 import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
@@ -30,7 +29,7 @@ class InspectionDetailActivity: AppCompatActivity(){
     var ID: String? = null
     var INDEX = 0
 
-    fun makeLaunchIntent(context: Context?, ID: String?, index: Int): Intent? {
+    fun makeLaunchIntent(context: Context?, ID: String?, index: Int): Intent {
         val intent = Intent(context, InspectionDetailActivity::class.java)
         intent.putExtra(java.lang.String.valueOf(R.string.intent_extra_id), ID)
         intent.putExtra(java.lang.String.valueOf(R.string.intent_extra_index), index)
@@ -39,7 +38,7 @@ class InspectionDetailActivity: AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inspection_detail)
-        val intent = getIntent()
+        val intent = intent
         ID = intent.getStringExtra(java.lang.String.valueOf(R.string.intent_extra_id))
         INDEX = intent.getIntExtra(java.lang.String.valueOf(R.string.intent_extra_index), -1)
 
@@ -79,10 +78,10 @@ class InspectionDetailActivity: AppCompatActivity(){
         val hazard: TextView = findViewById<TextView>(R.id.inspection_hazard)
         val hazardIcon: ImageView = findViewById<ImageView>(R.id.inspection_hazard_icon)
         val df = SimpleDateFormat("MMM dd, yyyy")
-        val SimpleDate = df.format(mInspection?.simpleDate)
+        val simpleDate = df.format(mInspection?.simpleDate!!)
 
         // Set values
-        date.text = SimpleDate
+        date.text = simpleDate
         type.text = (mInspection?.type)
         val typeIcon: ImageView = findViewById<ImageView>(R.id.inspection_type_icon)
         if (mInspection?.type.equals("Follow-Up")) {
@@ -128,7 +127,8 @@ class InspectionDetailActivity: AppCompatActivity(){
                     (violationsList!![position]).violationDetail,
                     Snackbar.LENGTH_SHORT
                 )
-                    .setAction(R.string.OK, View.OnClickListener { })
+                    .setAction(R.string.OK, View.OnClickListener {
+                    })
                     .show()
             }
     }

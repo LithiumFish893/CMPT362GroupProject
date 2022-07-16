@@ -50,6 +50,7 @@ import java.util.*
  *
  * To load the Google Map v2 fragment and set the listener for user events.
  */
+@Suppress("DEPRECATION")
 open class MapsFragment : Fragment(), OnMapReadyCallback {
     private lateinit var rootView: View
     private lateinit var myLocationMarker: Marker
@@ -59,9 +60,9 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
     protected var includeModerate = true
     protected var includeUnsafe = true
     protected var includeUnknown = true
-    protected var lessEqualThan = false
-    protected var greatEqualThan = true
-    protected var numOfViolation = 0
+    private var lessEqualThan = false
+    private var greatEqualThan = true
+    private var numOfViolation = 0
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (!hidden) {
@@ -127,7 +128,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
             //If low selected
             if (includeSafe) {
                 for (s in safeties?.keys!!) {
-                    if (safeties.get(s) == "Low") {
+                    if (safeties[s] == "Low") {
                         filteredBySafety.add(s)
                     }
                 }
@@ -135,7 +136,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
             //If mid selected
             if (includeModerate) {
                 for (s in safeties?.keys!!) {
-                    if (safeties.get(s) == "Moderate") {
+                    if (safeties[s] == "Moderate") {
                         filteredBySafety.add(s)
                     }
                 }
@@ -289,12 +290,12 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     private val favorites: ArrayList<String?>
-        private get() {
+        get() {
             val faveRestaurants: String? = mPrefs.getString("fave_restaurants", "")
             return if (faveRestaurants?.isNotEmpty() == true) {
                 if (faveRestaurants.contains(",")) {
                     ArrayList(
-                        Arrays.asList(
+                        listOf(
                             *faveRestaurants.split(
                                 ","
                             ).toTypedArray()
@@ -302,7 +303,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
                     )
                 } else {
                     ArrayList(
-                        Arrays.asList(
+                        listOf(
                             faveRestaurants
                         )
                     )
@@ -343,11 +344,9 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
             // Set map move Listener
             mMap?.setOnCameraMoveListener(object : GoogleMap.OnCameraMoveListener {
                 override fun onCameraMove() {
-                    val centerOfMap: LatLng ?= mMap?.getCameraPosition()?.target
-                    if (myLocationMarker != null) {
-                        if (centerOfMap != null) {
-                            myLocationMarker!!.position = centerOfMap
-                        }
+                    val centerOfMap: LatLng ?= mMap?.cameraPosition?.target
+                    if (centerOfMap != null) {
+                        myLocationMarker.position = centerOfMap
                     }
                 }
             })
@@ -433,7 +432,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
         ) {
             // Request Permissions
             ActivityCompat.requestPermissions(requireActivity(), permissions, REQUEST_CODE)
-            // addCurrentLocationMarker();
+            //addCurrentLocationMarker();
             return
         }
         // get last location
@@ -460,7 +459,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
                         rootView,
                         R.string.unable_find_your_location,
                         Snackbar.LENGTH_SHORT
-                    )
+                    ).show()
                 }
             }
         })
@@ -468,7 +467,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
 
     // permissions OK, initialize the map.
     private val isLocationPermissionGranted: Boolean
-        private get() {
+        get() {
             val permissions =
                 arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
             return if (ActivityCompat.checkSelfPermission(
@@ -728,7 +727,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
                                 ?.getString(R.string.snippet_address) + " " + r.address + ", " + r.city + "|" +
                             MyApplication.context
                                 ?.getString(R.string.snippet_hazard) + " " + mHazard
-                    var options: MarkerOptions = MarkerOptions()
+                    var options = MarkerOptions()
                     if(mHazardIcon != null)
                      options = MarkerOptions()
                         .position(LatLng(mLatitude, mLongitude))
@@ -749,7 +748,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
             // Learn from: lbarbosa's answer under VectorDrawable with GoogleMap BitmapDescriptor
             // https://stackoverflow.com/questions/33548447/vectordrawable-with-googlemap-bitmapdescriptor
             val vectorDrawable =
-                MyApplication.context?.getResources()
+                MyApplication.context?.resources
                     ?.let { ResourcesCompat.getDrawable(it, id, null) }
             val bitmap: Bitmap = Bitmap.createBitmap(
                 vectorDrawable!!.intrinsicWidth,
