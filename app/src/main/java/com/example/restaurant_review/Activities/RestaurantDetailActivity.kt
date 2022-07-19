@@ -185,13 +185,13 @@ class RestaurantDetailActivity : AppCompatActivity() {
     }
 
     fun DDtoDMS(d: Double): String {
-        val array = d.toString().split("[.]").toTypedArray()
+        val array = d.toString().split(".").toTypedArray()
         val degrees = array[0]
         val m = ("0." + array[1]).toDouble() * 60
-        val array1 = java.lang.Double.toString(m).split("[.]").toTypedArray()
+        val array1 = java.lang.Double.toString(m).split(".").toTypedArray()
         val minutes = array1[0]
         val s = ("0." + array1[1]).toDouble() * 60
-        val array2 = java.lang.Double.toString(s).split("[.]").toTypedArray()
+        val array2 = java.lang.Double.toString(s).split(".").toTypedArray()
         val seconds = array2[0]
         return "$degrees°$minutes\'$seconds\""
     }
