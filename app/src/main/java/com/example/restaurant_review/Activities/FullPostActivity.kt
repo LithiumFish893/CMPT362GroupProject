@@ -1,4 +1,4 @@
-package com.example.restaurant_review.socialmediapost
+package com.example.restaurant_review.Activities
 
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -16,7 +16,6 @@ import com.example.restaurant_review.local_database.*
 import com.example.restaurant_review.Util.Util
 import com.example.restaurant_review.Views.CommentAdapter
 import com.example.restaurant_review.Views.HorizontalImageAdapter
-import com.example.restaurant_review.local_database.*
 import java.util.*
 import kotlin.collections.ArrayList
 

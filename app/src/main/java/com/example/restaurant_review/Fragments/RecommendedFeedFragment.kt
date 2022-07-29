@@ -13,8 +13,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.restaurant_review.local_database.*
 import com.example.restaurant_review.Activities.SocialMediaPostActivity
+import com.example.restaurant_review.local_database.*
 import com.example.restaurant_review.R
 import com.example.restaurant_review.Util.Util
 import com.example.restaurant_review.Views.SocialMediaPostAdapter

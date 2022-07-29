@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.restaurant_review.R
 import com.example.restaurant_review.Util.Util
 import com.example.restaurant_review.local_database.*
-import com.example.restaurant_review.socialmediapost.FullPostActivity
+import com.example.restaurant_review.Activities.FullPostActivity
 
 class SocialMediaPostAdapter : PagingDataAdapter<SocialMediaPostModel, RecyclerView.ViewHolder>(
     COMPARATOR

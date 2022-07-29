@@ -5,11 +5,14 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
+import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.updateLayoutParams
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
@@ -18,8 +21,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.arlib.floatingsearchview.FloatingSearchView
+import com.arlib.floatingsearchview.util.Util
 import com.example.restaurant_review.Fragments.DownloadFragment
-import com.example.restaurant_review.Fragments.SocialMediaFragment
 import com.example.restaurant_review.Model.DataRequest
 import com.example.restaurant_review.Nav.KeepStateNavigator
 import com.example.restaurant_review.R
@@ -30,6 +34,7 @@ import com.google.firebase.ktx.Firebase
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class MainActivity : AppCompatActivity() {
     private var mFragmentManager: FragmentManager? = null
@@ -171,6 +176,25 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
         val navigator =
             KeepStateNavigator(this, navHostFragment!!.childFragmentManager, R.id.nav_host_fragment)
+        val search = findViewById<FloatingSearchView>(R.id.floating_search_bar)
+        val frameLayout : FrameLayout = findViewById(R.id.nav_host_fragment)
+        navController.addOnDestinationChangedListener {
+            _, dest, _ ->
+                // add more views here to make the search bar gone
+                if (dest.id == R.id.nav_social_media){
+                    search.visibility = View.GONE
+                    // hacky way to remove the search bar
+                    val params = frameLayout.layoutParams as FrameLayout.LayoutParams
+                    params.topMargin = 0
+                    frameLayout.layoutParams = params
+                }
+                else{
+                    search.visibility = View.VISIBLE
+                    val params = frameLayout.layoutParams as FrameLayout.LayoutParams
+                    params.topMargin = Util.dpToPx(70)
+                    frameLayout.layoutParams = params
+                }
+        }
         navController.navigatorProvider.addNavigator(navigator)
         navController.setGraph(R.navigation.navigation)
         setupActionBarWithNavController( navController, mAppBarConfiguration!!)

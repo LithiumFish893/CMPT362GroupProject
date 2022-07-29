@@ -23,17 +23,22 @@
         app:layout_constraintTop_toTopOf="parent">
 
     </com.arlib.floatingsearchview.FloatingSearchView>
-
-    <fragment
-        android:id="@+id/nav_host_fragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
+    <FrameLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginTop="70dp"
-        app:defaultNavHost="true"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/floating_search_bar"/>
-<!--        app:navGraph="@navigation/navigation" />-->
+        app:layout_constraintTop_toBottomOf="@+id/floating_search_bar"
+        android:id="@+id/host_fragment_frame"
+        >
+        <fragment
+            android:id="@+id/nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_marginTop="70dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:defaultNavHost="true" />
+    <!--        app:navGraph="@navigation/navigation" />-->
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

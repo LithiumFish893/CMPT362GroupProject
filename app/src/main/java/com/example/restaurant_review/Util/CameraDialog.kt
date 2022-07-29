@@ -8,7 +8,6 @@ import android.widget.*
 import androidx.fragment.app.DialogFragment
 import com.example.restaurant_review.Activities.SocialMediaPostActivity
 import com.example.restaurant_review.R
-import com.example.restaurant_review.Util.Util
 
 
 class CameraDialog: DialogFragment(), AdapterView.OnItemClickListener {
