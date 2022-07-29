@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         DataRequest.instance
 
         // load local database
-        //ReadCVS.LoadLocalData()
+        ReadCVS.LoadLocalData()
 
         // set a timer for check update task.
         val timer = Timer()

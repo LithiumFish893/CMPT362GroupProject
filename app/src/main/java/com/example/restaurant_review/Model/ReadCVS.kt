@@ -24,7 +24,7 @@ object ReadCVS {
         val reader = BufferedReader(
             InputStreamReader(`is`, StandardCharsets.UTF_8)
         )
-        var line = ""
+        var line:String ?= ""
         try {
             // To skip over headline
             reader.readLine()
@@ -46,6 +46,7 @@ object ReadCVS {
                     tokens[6].toDouble()
                 )
                 manager?.addRestaurant(mRestaurant)
+                line = reader.readLine()
             }
         } catch (e: IOException) {
             e.printStackTrace()
@@ -66,17 +67,16 @@ object ReadCVS {
         val reader = BufferedReader(
             InputStreamReader(`is`, StandardCharsets.UTF_8)
         )
-        var line = ""
+        var line:String?
         try {
             // To skip over headline
             reader.readLine()
-            while ((reader.readLine().also { line = it }) != null) {
+            line = reader.readLine()
+            while (line != null) {
                 // Split by ","
                 // Don's split the content with quotation mark
                 val tokens =
-                    line.trim { it <= ' ' }.split(",(?=([^\\\"]*\\\"[^\\\"]*\\\")*[^\\\"]*$)")
-                        .dropLastWhile { it.isEmpty() }
-                        .toTypedArray()
+                    line.split(",").map { it.trim() }
                 // Create the Inspection Manager
                 val manager: InspectionManager ?= InspectionManager.Companion.instance
                 // Create the new Inspection object to store data
@@ -90,6 +90,7 @@ object ReadCVS {
                     tokens[6].replace("\"".toRegex(), "")
                 )
                 manager?.addInspection(mInspection)
+                line = reader.readLine()
             }
         } catch (e: IOException) {
             e.printStackTrace()
@@ -107,6 +108,7 @@ object ReadCVS {
         val mPrefs: SharedPreferences ?= MyApplication.context
             ?.getSharedPreferences("mPrefs", Context.MODE_PRIVATE)
         // init with the iteration 1 data
+        mPrefs?.edit()?.clear()?.apply()
         var restaurantInputStream: InputStream? =
             MyApplication.context?.resources
                 ?.openRawResource(R.raw.restaurants_itr1)
