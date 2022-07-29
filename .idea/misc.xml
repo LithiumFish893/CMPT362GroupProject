@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project Github/CMPT362GroupProject/app/src/main/res/layout/activity_login.xml" value="0.146875" />
+        <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project Github/CMPT362GroupProject/app/src/main/res/layout/activity_profile.xml" value="0.146875" />
+        <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project Github/CMPT362GroupProject/app/src/main/res/layout/fragment_maps.xml" value="0.10891590678824721" />
         <entry key="app/src/main/res/drawable/side_nav_bar.xml" value="0.159" />
         <entry key="app/src/main/res/layout/activity_inspection_detail.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/activity_restaurant_detail.xml" value="0.2006340579710145" />

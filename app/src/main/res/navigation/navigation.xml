@@ -21,4 +21,5 @@
         android:name="com.example.restaurant_review.Fragments.AboutFragment"
         android:label="@string/menu_about"
         tools:layout="@layout/fragment_about" />
+
 </navigation>

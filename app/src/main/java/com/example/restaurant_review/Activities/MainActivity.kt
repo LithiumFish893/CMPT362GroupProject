@@ -1,28 +1,31 @@
 package com.example.restaurant_review.Activities
 
+import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentManager
-import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI.navigateUp
-import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
-import androidx.navigation.ui.NavigationUI.setupWithNavController
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.restaurant_review.Fragments.DownloadFragment
 import com.example.restaurant_review.Model.DataRequest
-import com.example.restaurant_review.Model.ReadCVS
 import com.example.restaurant_review.Nav.KeepStateNavigator
 import com.example.restaurant_review.R
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -30,11 +33,14 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
     private var mFragmentManager: FragmentManager? = null
     private var mAppBarConfiguration: AppBarConfiguration? = null
+    private lateinit var auth: FirebaseAuth
+    private lateinit var greeting: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        auth = Firebase.auth
         // setup toolbar and navigation
         setupUI()
 
@@ -64,6 +70,19 @@ class MainActivity : AppCompatActivity() {
             },
             5000
         ) // delay 5s run check update task after app launching to wait the GET request finish
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
+        if(currentUser == null){
+            println("Debug: Current user == null")
+            startActivity(Intent(this, LoginActivity::class.java))
+        }else{
+            println("Debug: Current user exist")
+            val username = auth.currentUser?.email.toString()
+        }
     }
 
     private fun isReadyToUpdate(): Boolean {
@@ -137,28 +156,45 @@ class MainActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         //TODO: set up navigation drawer
-        // Setup Navigation Bar
+        //Setup Navigation Bar
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         var builder =  AppBarConfiguration.Builder()
+
+
+        //mAppBarConfiguration = builder.setOpenableLayout(drawer).build()
         mAppBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_maps, R.id.nav_home
+                R.id.nav_maps, R.id.nav_home, R.id.nav_about
             ), drawer
         )
-        //Builder(R.id.nav_maps, R.id.nav_home, R.id.nav_about).setOpenableLayout(drawer).build()
-        val navController = findNavController(this, R.id.nav_host_fragment)
+            //Builder(R.id.nav_maps, R.id.nav_home, R.id.nav_about).setOpenableLayout(drawer).build()
+        val navController = findNavController( R.id.nav_host_fragment)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
         val navigator =
             KeepStateNavigator(this, navHostFragment!!.childFragmentManager, R.id.nav_host_fragment)
         navController.navigatorProvider.addNavigator(navigator)
         navController.setGraph(R.navigation.navigation)
-        setupActionBarWithNavController(this, navController, mAppBarConfiguration!!)
-        setupWithNavController(navigationView, navController)
-
-        // Setup Fragment Manager
+        setupActionBarWithNavController( navController, mAppBarConfiguration!!)
+        navigationView.setupWithNavController(navController)
         mFragmentManager = supportFragmentManager
+
+        val menu = navigationView.menu
+        val logoutButton = menu.findItem(R.id.log_out)
+        val profileButton = menu.findItem(R.id.profile)
+        logoutButton.setOnMenuItemClickListener(){
+            auth.signOut()
+            startActivity(Intent(this, LoginActivity::class.java))
+            true
+        }
+        profileButton.setOnMenuItemClickListener(){
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+            true
+        }
+        // Setup Fragment Manager
+
     }
 
     private fun askUserUpdateNow() {
@@ -208,8 +244,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(this, R.id.nav_host_fragment)
-        return (navigateUp(navController, mAppBarConfiguration!!)
+        val navController = findNavController(R.id.nav_host_fragment)
+        return (navController.navigateUp( mAppBarConfiguration!!)
                 || super.onSupportNavigateUp())
     }
 //

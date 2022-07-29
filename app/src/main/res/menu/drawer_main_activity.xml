@@ -24,5 +24,18 @@
             </group>
         </menu>
     </item>
-
+    <item android:title="User Options">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/profile"
+                    android:icon="@drawable/baseline_account_circle_black_48"
+                    android:title="Profile" />
+                <item
+                    android:id="@+id/log_out"
+                    android:icon="@drawable/baseline_logout_black_48"
+                    android:title="Logout" />
+            </group>
+        </menu>
+    </item>
 </menu>
