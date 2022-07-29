@@ -20,6 +20,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.restaurant_review.Fragments.DownloadFragment
 import com.example.restaurant_review.Model.DataRequest
+import com.example.restaurant_review.Model.ReadCVS
 import com.example.restaurant_review.Nav.KeepStateNavigator
 import com.example.restaurant_review.R
 import com.google.android.material.navigation.NavigationView
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         DataRequest.instance
 
         // load local database
-        ReadCVS.LoadLocalData()
+        //ReadCVS.LoadLocalData()
 
         // set a timer for check update task.
         val timer = Timer()
