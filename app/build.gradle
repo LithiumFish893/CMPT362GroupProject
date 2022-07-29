@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 apply plugin: 'com.android.application'
@@ -31,6 +32,21 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+        freeCompilerArgs += [
+                "-Xjvm-default=all",
+                "-Xopt-in=kotlin.RequiresOptIn",
+        ]
+    }
+    // include other directories like social media
+    sourceSets {
+        main {
+            res.srcDirs =
+                    [
+                            'src/main/res/layouts/layout_social_media',
+                            'src/main/res/layouts',
+                            'src/main/res'
+                    ]
+        }
     }
 }
 
@@ -77,4 +93,13 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-auth:21.0.6'
 
+    // room
+    implementation "androidx.room:room-ktx:2.4.2"
+    kapt "androidx.room:room-compiler:2.4.2"
+    androidTestImplementation "androidx.room:room-testing:2.4.2"
+    implementation "androidx.room:room-paging:2.4.2"
+
+    // paging
+    implementation "androidx.paging:paging-runtime-ktx:3.1.1"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.0"
 }

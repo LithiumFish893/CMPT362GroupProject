@@ -22,5 +22,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="gray">#FFAAAAAA</color>
+    <color name="social_media_feed_background_color">#FFFFFFFF</color>
+    <color name="location">#007bff</color>
+    <color name="yellow_500">#FFFFC047</color>
 
 </resources>

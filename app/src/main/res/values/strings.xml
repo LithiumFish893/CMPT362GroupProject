@@ -93,5 +93,15 @@
 
     <string name="faves_update_title">What\'s new on your favourite restaurants\' list</string>
     <string name="download_error">Unable to update the map without location permission!</string>
+
+    <!-- Social media stuff-->
+    <string name="image">Images</string>
+    <string name="save_button">Post</string>
+    <string name="add">Add</string>
+    <string name="title_label">Title</string>
+    <string name="title_default">Title must be under 30 characters long.</string>
+    <string name="textContent">Post Content</string>
+    <string name="textContent_default">Content must be under 255 characters long.</string>
+    <string name="social_media">Social Media</string>
     
 </resources>

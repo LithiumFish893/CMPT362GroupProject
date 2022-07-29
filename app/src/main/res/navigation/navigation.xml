@@ -17,6 +17,12 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/nav_social_media"
+        android:name="com.example.restaurant_review.Fragments.SocialMediaFragment"
+        android:label="@string/social_media"
+        tools:layout="@layout/sm_fragment_social_media" />
+
+    <fragment
         android:id="@+id/nav_about"
         android:name="com.example.restaurant_review.Fragments.AboutFragment"
         android:label="@string/menu_about"

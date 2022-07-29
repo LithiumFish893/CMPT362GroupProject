@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!--androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/smp_imgs"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@id/smp_textContent"
+        app:layout_constraintTop_toBottomOf="@id/smp_textContent" /-->
+
+    <ImageView
+        android:id="@+id/smp_imgs"
+        android:layout_width="match_parent"
+        android:scaleType="centerCrop"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_max="150dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView    android:layout_margin="5dp"
+        android:id="@+id/smp_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="normal"
+        android:textColor="@color/location"
+        app:layout_constraintBottom_toTopOf="@id/smp_time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/smp_imgs"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView    android:layout_margin="5dp"
+        android:id="@+id/smp_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@id/smp_textContent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/smp_title" />
+
+    <TextView    android:layout_margin="5dp"
+        android:id="@+id/smp_textContent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:layout_marginVertical="@dimen/default_padding"
+        app:layout_constraintBottom_toTopOf="@id/replyTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/smp_time" />
+
+    <TextView    android:layout_margin="5dp"
+        android:id="@+id/replyTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/smp_textContent"
+        android:text="Replies: "/>
+
+    <LinearLayout    android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/replyBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/replyTextView">
+        <EditText
+            android:id="@+id/commentEditText"
+            android:gravity="top|start"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:height="80dp"
+            android:hint="Write a comment..."
+            android:layout_weight="0.8"
+            android:maxLength="@integer/smp_textContent_max_length"
+            android:inputType="textMultiLine" />
+        <Button
+            android:id="@+id/postCommentButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:text="Post"/>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/replyBar"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/comment_list"/>
+
+    <View
+        android:id="@+id/fadeBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:background="@android:color/black"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="@string/app_name"
+        android:id="@+id/imagesCount"
+        android:textColor="#FFDDDDDD"
+        android:fontFamily="Helvetica"
+        android:textSize="24sp"
+        android:layout_marginTop="@dimen/default_padding"
+        android:background="@drawable/round_rectangle"
+        android:paddingHorizontal="@dimen/default_padding"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageButton
+        android:id="@+id/button_delete"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="@dimen/default_padding"
+        android:background="?android:attr/selectableItemBackground"
+        android:src="@drawable/close_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/gallery_images"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imagesCount"
+        android:paddingBottom="60dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

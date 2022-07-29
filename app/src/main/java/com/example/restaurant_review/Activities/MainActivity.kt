@@ -19,8 +19,8 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.restaurant_review.Fragments.DownloadFragment
+import com.example.restaurant_review.Fragments.SocialMediaFragment
 import com.example.restaurant_review.Model.DataRequest
-import com.example.restaurant_review.Model.ReadCVS
 import com.example.restaurant_review.Nav.KeepStateNavigator
 import com.example.restaurant_review.R
 import com.google.android.material.navigation.NavigationView
@@ -160,16 +160,12 @@ class MainActivity : AppCompatActivity() {
         //Setup Navigation Bar
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
-        var builder =  AppBarConfiguration.Builder()
 
-
-        //mAppBarConfiguration = builder.setOpenableLayout(drawer).build()
         mAppBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_maps, R.id.nav_home, R.id.nav_about
+                R.id.nav_maps, R.id.nav_home, R.id.nav_social_media, R.id.nav_about
             ), drawer
         )
-            //Builder(R.id.nav_maps, R.id.nav_home, R.id.nav_about).setOpenableLayout(drawer).build()
         val navController = findNavController( R.id.nav_host_fragment)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
