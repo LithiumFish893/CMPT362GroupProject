@@ -1,0 +1,106 @@
+{
+  "project_info": {
+    "project_number": "867579589217",
+    "firebase_url": "https://cmpt-362-wereview-default-rtdb.firebaseio.com",
+    "project_id": "cmpt-362-wereview",
+    "storage_bucket": "cmpt-362-wereview.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:867579589217:android:452bd588c06a40b7fd3020",
+        "android_client_info": {
+          "package_name": "com.cmpt362project.db"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "867579589217-220v84ojps0f70vv52478kc52pgr4l33.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAewakaN7wX7McWLrfo0plvX0uoaHP89ns"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "867579589217-220v84ojps0f70vv52478kc52pgr4l33.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:867579589217:android:4f1355182d011a60fd3020",
+        "android_client_info": {
+          "package_name": "com.example.logintest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "867579589217-iv1ts6afieo2j6st1e65vqug89flg6bq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.logintest",
+            "certificate_hash": "535dbc25a2930a6792ad1ea5611cf9f79a7222a8"
+          }
+        },
+        {
+          "client_id": "867579589217-220v84ojps0f70vv52478kc52pgr4l33.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAewakaN7wX7McWLrfo0plvX0uoaHP89ns"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "867579589217-220v84ojps0f70vv52478kc52pgr4l33.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:867579589217:android:021f76e5a62b5569fd3020",
+        "android_client_info": {
+          "package_name": "com.example.restaurant_review"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "867579589217-220v84ojps0f70vv52478kc52pgr4l33.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAewakaN7wX7McWLrfo0plvX0uoaHP89ns"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "867579589217-220v84ojps0f70vv52478kc52pgr4l33.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
