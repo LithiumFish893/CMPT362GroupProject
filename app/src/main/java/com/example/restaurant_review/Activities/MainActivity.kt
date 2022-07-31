@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.updateLayoutParams
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
@@ -177,22 +176,22 @@ class MainActivity : AppCompatActivity() {
         val navigator =
             KeepStateNavigator(this, navHostFragment!!.childFragmentManager, R.id.nav_host_fragment)
         val search = findViewById<FloatingSearchView>(R.id.floating_search_bar)
-        val frameLayout : FrameLayout = findViewById(R.id.nav_host_fragment)
+        val hostFragmentFrameLayout : FrameLayout = findViewById(R.id.nav_host_fragment)
         navController.addOnDestinationChangedListener {
             _, dest, _ ->
                 // add more views here to make the search bar gone
                 if (dest.id == R.id.nav_social_media){
                     search.visibility = View.GONE
                     // hacky way to remove the search bar
-                    val params = frameLayout.layoutParams as FrameLayout.LayoutParams
+                    val params = hostFragmentFrameLayout.layoutParams as FrameLayout.LayoutParams
                     params.topMargin = 0
-                    frameLayout.layoutParams = params
+                    hostFragmentFrameLayout.layoutParams = params
                 }
                 else{
                     search.visibility = View.VISIBLE
-                    val params = frameLayout.layoutParams as FrameLayout.LayoutParams
+                    val params = hostFragmentFrameLayout.layoutParams as FrameLayout.LayoutParams
                     params.topMargin = Util.dpToPx(70)
-                    frameLayout.layoutParams = params
+                    hostFragmentFrameLayout.layoutParams = params
                 }
         }
         navController.navigatorProvider.addNavigator(navigator)
