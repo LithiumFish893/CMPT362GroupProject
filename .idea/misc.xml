@@ -32,9 +32,44 @@
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project Github/CMPT362GroupProject/app/src/main/res/layout/fragment_maps.xml" value="0.10891590678824721" />
         <entry key="app/src/main/res/drawable/side_nav_bar.xml" value="0.159" />
         <entry key="app/src/main/res/layout/activity_inspection_detail.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.22146739130434784" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.11614583333333334" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.22146739130434784" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.1875" />
         <entry key="app/src/main/res/layout/activity_restaurant_detail.xml" value="0.2006340579710145" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.10891590678824721" />
+        <entry key="app/src/main/res/layout/cardview_review.xml" value="0.22146739130434784" />
+        <entry key="app/src/main/res/layout/content_inspection_detail.xml" value="0.22146739130434784" />
+        <entry key="app/src/main/res/layout/content_main.xml" value="0.22146739130434784" />
+        <entry key="app/src/main/res/layout/content_restaurant_detail.xml" value="0.22146739130434784" />
+        <entry key="app/src/main/res/layout/custom_info_window.xml" value="0.22146739130434784" />
+        <entry key="app/src/main/res/layout/dialog_download.xml" value="0.22146739130434784" />
+        <entry key="app/src/main/res/layout/dialog_faves_update.xml" value="0.22146739130434784" />
+        <entry key="app/src/main/res/layout/dialog_filter_by_violations.xml" value="0.22146739130434784" />
+        <entry key="app/src/main/res/layout/dialog_write_review.xml" value="0.22146739130434784" />
+        <entry key="app/src/main/res/layout/fragment_about.xml" value="0.22146739130434784" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.15520833333333334" />
+        <entry key="app/src/main/res/layout/fragment_maps.xml" value="0.22146739130434784" />
+        <entry key="app/src/main/res/layout/list_item_inspection.xml" value="0.22146739130434784" />
+        <entry key="app/src/main/res/layout/list_item_restaurant.xml" value="0.22146739130434784" />
+        <entry key="app/src/main/res/layout/list_item_violation.xml" value="0.22146739130434784" />
         <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.10643115942028986" />
+        <entry key="app/src/main/res/layout/sm_activity_post_full.xml" value="0.22146739130434784" />
+        <entry key="app/src/main/res/layout/sm_activity_social_media_post.xml" value="0.22146739130434784" />
+        <entry key="app/src/main/res/layout/sm_fragment_dialog_text_field.xml" value="0.22146739130434784" />
+        <entry key="app/src/main/res/layout/sm_fragment_nearby_feed.xml" value="0.22146739130434784" />
+        <entry key="app/src/main/res/layout/sm_fragment_recommended_feed.xml" value="0.22146739130434784" />
+        <entry key="app/src/main/res/layout/sm_fragment_subscribed_feed.xml" value="0.1875" />
+        <entry key="app/src/main/res/layout/sm_image_view_social_media_post.xml" value="0.1875" />
+        <entry key="app/src/main/res/layout/sm_list_view.xml" value="0.18645833333333334" />
+        <entry key="app/src/main/res/layout/sm_view_comment.xml" value="0.1875" />
+        <entry key="app/src/main/res/layout/sm_view_social_media_post.xml" value="0.1875" />
+        <entry key="app/src/main/res/layouts/layout_social_media/layout/sm_fragment_social_media.xml" value="0.22146739130434784" />
+        <entry key="app/src/main/res/menu/drawer_main_activity.xml" value="0.15520833333333334" />
+        <entry key="app/src/main/res/menu/menu_home_fragment.xml" value="0.21197916666666666" />
+        <entry key="app/src/main/res/menu/menu_main_activity.xml" value="0.15520833333333334" />
+        <entry key="app/src/main/res/menu/menu_maps_fragment.xml" value="0.24583333333333332" />
+        <entry key="app/src/main/res/menu/menu_restaurant_detail.xml" value="0.24583333333333332" />
       </map>
     </option>
   </component>

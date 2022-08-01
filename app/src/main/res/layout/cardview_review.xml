@@ -1,42 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/review_card_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:orientation="vertical">
+        android:paddingLeft="1dp"
+        android:paddingTop="1dp"
+        android:paddingBottom="1dp"
+        android:text="sample title"
+        android:textColor="@color/black"
+        android:textSize="22sp" />
 
-        <TextView
-            android:id="@+id/review_card_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="1dp"
-            android:textColor="@color/black"
-            android:text="sample title"
-            android:textSize="22sp" />
+    <RatingBar
+        android:id="@+id/review_card_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:paddingLeft="1dp"
+        android:paddingTop="1dp"
+        android:paddingBottom="1dp" />
 
-        <RatingBar
-            android:id="@+id/review_card_rating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:numStars="5"
-            android:isIndicator="true"
-            />
+    <TextView
+        android:id="@+id/review_card_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="1dp"
+        android:text="sample comment"
+        android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/review_card_comment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="1dp"
-            android:textSize="18sp"
-            android:text="sample comment"
-            />
-
-    </LinearLayout>
-
-</androidx.cardview.widget.CardView>
+</LinearLayout>

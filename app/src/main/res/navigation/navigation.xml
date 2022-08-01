@@ -22,7 +22,7 @@
         android:label="@string/social_media"
         tools:layout="@layout/sm_fragment_social_media" />
 
-    <fragment
+    <keep_state_fragment
         android:id="@+id/nav_about"
         android:name="com.example.restaurant_review.Fragments.AboutFragment"
         android:label="@string/menu_about"

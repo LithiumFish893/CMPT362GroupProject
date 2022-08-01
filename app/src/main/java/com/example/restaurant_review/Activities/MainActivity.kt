@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
@@ -13,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -23,7 +23,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.util.Util
 import com.example.restaurant_review.Fragments.DownloadFragment
+import com.example.restaurant_review.Fragments.MapsFragment
 import com.example.restaurant_review.Model.DataRequest
+import com.example.restaurant_review.Model.ReadCVS
 import com.example.restaurant_review.Nav.KeepStateNavigator
 import com.example.restaurant_review.R
 import com.google.android.material.navigation.NavigationView
@@ -53,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         DataRequest.instance
 
         // load local database
-        //ReadCVS.LoadLocalData()
+        ReadCVS.LoadLocalData()
 
         // set a timer for check update task.
         val timer = Timer()
@@ -90,7 +92,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun isReadyToUpdate(): Boolean {
+    fun isReadyToUpdate(): Boolean {
         // Check the value of SharedPreferences (is first time running)
         val mPrefs = this.getSharedPreferences("mPrefs", MODE_PRIVATE)
         val restaurantsLastModified = mPrefs.getString("RestaurantsLastModified", null)
@@ -160,14 +162,13 @@ class MainActivity : AppCompatActivity() {
         // Setup Toolbar
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        //TODO: set up navigation drawer
         //Setup Navigation Bar
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
 
         mAppBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_maps, R.id.nav_home, R.id.nav_social_media, R.id.nav_about
+                R.id.nav_maps, R.id.nav_home, R.id.nav_social_media, R.id.nav_about, R.id.profile
             ), drawer
         )
         val navController = findNavController( R.id.nav_host_fragment)
@@ -175,12 +176,18 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
         val navigator =
             KeepStateNavigator(this, navHostFragment!!.childFragmentManager, R.id.nav_host_fragment)
+        navController.navigatorProvider.addNavigator(navigator)
+        navController.setGraph(R.navigation.navigation)
+        setupActionBarWithNavController( navController, mAppBarConfiguration!!)
+        navigationView.setupWithNavController(navController)
+        mFragmentManager = supportFragmentManager
+
         val search = findViewById<FloatingSearchView>(R.id.floating_search_bar)
         val hostFragmentFrameLayout : FrameLayout = findViewById(R.id.nav_host_fragment)
         navController.addOnDestinationChangedListener {
             _, dest, _ ->
                 // add more views here to make the search bar gone
-                if (dest.id == R.id.nav_social_media){
+                if (dest.id == R.id.nav_social_media || dest.id == R.id.profile){
                     search.visibility = View.GONE
                     // hacky way to remove the search bar
                     val params = hostFragmentFrameLayout.layoutParams as FrameLayout.LayoutParams
@@ -194,15 +201,12 @@ class MainActivity : AppCompatActivity() {
                     hostFragmentFrameLayout.layoutParams = params
                 }
         }
-        navController.navigatorProvider.addNavigator(navigator)
-        navController.setGraph(R.navigation.navigation)
-        setupActionBarWithNavController( navController, mAppBarConfiguration!!)
-        navigationView.setupWithNavController(navController)
-        mFragmentManager = supportFragmentManager
+
 
         val menu = navigationView.menu
         val logoutButton = menu.findItem(R.id.log_out)
         val profileButton = menu.findItem(R.id.profile)
+
         logoutButton.setOnMenuItemClickListener(){
             auth.signOut()
             startActivity(Intent(this, LoginActivity::class.java))
@@ -217,7 +221,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun askUserUpdateNow() {
+    fun askUserUpdateNow() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(R.string.new_database_is_available)
         builder.setMessage(R.string.update_now)
@@ -264,23 +268,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
+        super.onSupportNavigateUp()
         val navController = findNavController(R.id.nav_host_fragment)
-        return (navController.navigateUp( mAppBarConfiguration!!)
-                || super.onSupportNavigateUp())
+        return (navController.navigateUp( mAppBarConfiguration!!))
     }
-//
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.menu_main_activity, menu)
-//        return super.onCreateOptionsMenu(menu!!)
-//    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.menu_check_update) {
-            if (isReadyToUpdate()) {
-                askUserUpdateNow()
-                return true
-            }
-        }
-        return false
-    }
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        menuInflater.inflate(R.menu.menu_main_activity, menu)
+//        return super.onCreateOptionsMenu(menu)
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        Toast.makeText(this, "Main activity", Toast.LENGTH_SHORT).show()
+//        if (item.itemId == R.id.menu_check_update) {
+//            if (isReadyToUpdate()) {
+//                askUserUpdateNow()
+//                return true
+//            }
+//        }
+//        return false
+//    }
 }

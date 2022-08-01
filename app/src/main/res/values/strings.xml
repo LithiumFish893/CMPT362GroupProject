@@ -36,7 +36,7 @@
     <string name="unable_find_your_location">Unable to find your location!</string>
 
     <!--  string value for the AboutFragment -->
-    <string name="about_info_text">"Thank you for using Restaurant Health Inspection.  This app uses restaurant and inspection data from the open data of Fraser Health.  This app is developed by Chengxi Li (@cla420) Dylan D'Mello (@ddmello) Jamie Lo (@lojamiel) Pin Wen (@pinw)  Course Link: <a href="https://opencoursehub.cs.sfu.ca/jackt/grav-cms/cmpt276-2/project">CMPT276 Project 1</a> "</string>
+    <string name="about_info_text">"Thank you for using Restaurant Review App.  This app uses restaurant and inspection data from the open data of Fraser Health.  This app is based upon the developed by a team as a part of cmpt276 project.The current version of the app is designed and developed by Andy Lu, Chengxi Li, Denson Zhong, Jasmeen Kaur and  Zhaohan Zhang"</string>
     <string name="about_disclaimer_title">Disclaimers</string>
     <string name="about_disclaimer_description">This app cannot guarantee the accuracy of information</string>
 
@@ -69,7 +69,7 @@
     <string name="intent_extra_index" translatable="false">INDEX</string>
 
     <!--  string value for Download Fragment -->
-    <string name="dialog_title">Updating....</string>
+    <string name="dialog_title">Update Data</string>
     <string name="update_completed">Update Completed!</string>
     <string name="update_progress">Updating progress: %1$d%%</string>
 

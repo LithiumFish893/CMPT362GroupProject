@@ -15,9 +15,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -26,6 +28,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import com.arlib.floatingsearchview.FloatingSearchView
+import com.example.restaurant_review.Activities.MainActivity
 import com.example.restaurant_review.Activities.RestaurantDetailActivity
 import com.example.restaurant_review.Cluster.CustomClusterItem
 import com.example.restaurant_review.Cluster.CustomClusterRenderer
@@ -50,7 +53,6 @@ import java.util.*
  *
  * To load the Google Map v2 fragment and set the listener for user events.
  */
-@Suppress("DEPRECATION")
 open class MapsFragment : Fragment(), OnMapReadyCallback {
     private lateinit var rootView: View
     private lateinit var myLocationMarker: Marker
@@ -79,9 +81,10 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        mPrefs = requireActivity().getSharedPreferences("mPrefs", AppCompatActivity.MODE_PRIVATE)
         rootView = inflater.inflate(R.layout.fragment_maps, container, false)
         // setup menu
-        setHasOptionsMenu(true)
+        this.setHasOptionsMenu(true)
         return rootView
     }
 
@@ -251,13 +254,19 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        Toast.makeText(requireActivity(),"List Activity", Toast.LENGTH_SHORT).show()
         super.onCreateOptionsMenu(menu, inflater)
-        requireActivity().menuInflater.inflate(R.menu.menu_maps_fragment, menu)
+        inflater.inflate(R.menu.menu_maps_fragment, menu)
+        inflater.inflate(R.menu.menu_main_activity, menu);
+
         menu.getItem(0).isChecked = favesOnly
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Toast.makeText(requireActivity(),"item selected", Toast.LENGTH_SHORT).show()
         when (item.itemId) {
             R.id.list_view -> {
                 val navController: NavController =
@@ -284,6 +293,14 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
             R.id.menu_filter_by_violation -> {
                 showFilterByViolationDialog()
                 return true
+            }
+            R.id.menu_check_update ->{
+                if((activity as MainActivity).isReadyToUpdate()){
+                    (activity as MainActivity).askUserUpdateNow()
+                    return true
+                }
+                else
+                    super.onOptionsItemSelected(item)
             }
         }
         return false
@@ -599,14 +616,21 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
 
         // Define the variables
         val num: TextView = dialogView.findViewById<View>(R.id.editTextNumberDecimal) as TextView
+        val radioGrp: RadioGroup = dialogView.findViewById(R.id.radioGroup)
         val less: RadioButton = dialogView.findViewById<View>(R.id.radioButton_less) as RadioButton
         val great: RadioButton =
             dialogView.findViewById<View>(R.id.radioButton_great) as RadioButton
 
         // Set values for weighs
         num.text = numOfViolation.toString()
-        less.isChecked= lessEqualThan
-        great.isChecked = greatEqualThan
+        if(less.id == radioGrp.checkedRadioButtonId) {
+            less.isChecked = true
+            great.isChecked = false
+        }
+        else{
+            less.isChecked = false
+            great.isChecked = true
+        }
 
         // Specify the dialog is cancelable
         builder.setCancelable(true)

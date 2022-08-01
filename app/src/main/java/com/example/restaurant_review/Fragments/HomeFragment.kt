@@ -6,20 +6,19 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.ListView
-import android.widget.RadioButton
-import android.widget.TextView
+import android.widget.*
+import android.widget.Toast.LENGTH_SHORT
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import com.arlib.floatingsearchview.FloatingSearchView
+import com.example.restaurant_review.Activities.MainActivity
 import com.example.restaurant_review.Activities.RestaurantDetailActivity
 import com.example.restaurant_review.Model.Restaurant
 import com.example.restaurant_review.Model.RestaurantManager
 import com.example.restaurant_review.R
 import com.example.restaurant_review.Views.RestaurantListAdapter
-import java.util.ArrayList
 
 /**
  * HomeFragment Class Implementation
@@ -45,73 +44,78 @@ class HomeFragment : Fragment() {
     }
 
     private fun initializeSearchBar() {
-        floatingSearchView =
-            requireActivity().findViewById<View>(R.id.floating_search_bar) as FloatingSearchView
+        val floatingSearchView: FloatingSearchView =
+            requireActivity().findViewById(R.id.floating_search_bar)
         // when switching views
-        restaurantListAdapter?.getFilter()?.filter(floatingSearchView!!.query)
+        restaurantListAdapter?.getFilter()?.filter(floatingSearchView.query)
         // set text change listener
-        floatingSearchView!!.setOnQueryChangeListener { _, newQuery ->
+        floatingSearchView.setOnQueryChangeListener { _, newQuery ->
             restaurantListAdapter?.getFilter()?.filter(newQuery)
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        Toast.makeText(requireActivity(),"List Activity", LENGTH_SHORT).show()
         super.onCreateOptionsMenu(menu, inflater)
-        requireActivity().menuInflater.inflate(R.menu.menu_home_fragment, menu)
+        inflater.inflate(R.menu.menu_home_fragment, menu);
+
+       inflater.inflate(R.menu.menu_main_activity, menu)
+
         menu.getItem(0).isChecked = restaurantListAdapter?.favesOnly == true
+//        return super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun populateListView() {
         // setup ListView
-        val restaurantList: ArrayList<Restaurant> ?=
-            RestaurantManager.instance?.allRestaurants
+        val restaurantList: ArrayList<Restaurant> =
+            RestaurantManager.instance!!.allRestaurants
         restaurantListAdapter =
-            restaurantList?.let {
                 RestaurantListAdapter(
                     activity,
                     R.layout.list_item_restaurant,
-                    it
+                    restaurantList
                 )
-            }
+
         restaurantListView!!.adapter = restaurantListAdapter
 
         // click the item to launch the Restaurant Detail Activity
         restaurantListView!!.setOnItemClickListener { parent, view, position, id ->
             val intent: Intent = RestaurantDetailActivity.makeLaunchIntent(
                 activity,
-                restaurantList?.get(position)?.id,
+                restaurantList.get(position).id,
                 position
             )
-            startActivityForResult(intent, 0)
+//            startActivity(intent)
+          startActivityForResult(intent, 0)
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection
+        Toast.makeText(requireActivity(),"item selected", LENGTH_SHORT).show()
         return when (item.itemId) {
             R.id.map_view -> {
 
                 // for switching to map view from listView
-                val navController: NavController? =
-                    activity?.let { findNavController(it, R.id.nav_host_fragment) }
-                navController?.navigate(R.id.nav_maps)
+                val navController: NavController =
+                    requireActivity().let { findNavController(it, R.id.nav_host_fragment) }
+                navController.navigate(R.id.nav_maps)
                 true
             }
             R.id.menu_favorite_only -> {
                 if (!item.isChecked) {
-                    restaurantListAdapter?.filter?.setFavoriteOnly(true)
+                    restaurantListAdapter!!.filter.setFavoriteOnly(true)
                     item.isChecked = true
                     MapsFragment.setFaveOnly(true)
                 } else {
-                    restaurantListAdapter?.filter?.setFavoriteOnly(false)
+                    restaurantListAdapter!!.filter.setFavoriteOnly(false)
                     item.isChecked = false
                     MapsFragment.setFaveOnly(false)
                 }
                 // set the filter
-                floatingSearchView =
-                    requireActivity().findViewById<View>(R.id.floating_search_bar) as FloatingSearchView
-                restaurantListAdapter?.getFilter()
-                    ?.filter(floatingSearchView!!.query)
+                val floatingSearchView : FloatingSearchView=
+                    requireActivity().findViewById(R.id.floating_search_bar)
+                restaurantListAdapter!!.getFilter().filter(floatingSearchView.query)
                 true
             }
             R.id.menu_filter_by_safety -> {
@@ -121,6 +125,14 @@ class HomeFragment : Fragment() {
             R.id.menu_filter_by_violation -> {
                 showFilterByViolationDialog()
                 true
+            }
+            R.id.menu_check_update ->{
+                if((activity as MainActivity).isReadyToUpdate()){
+                    (activity as MainActivity).askUserUpdateNow()
+                    return true
+                }
+                else
+                    super.onOptionsItemSelected(item)
             }
             else -> super.onOptionsItemSelected(item)
         }
@@ -141,11 +153,18 @@ class HomeFragment : Fragment() {
         val less: RadioButton = dialogView.findViewById<View>(R.id.radioButton_less) as RadioButton
         val great: RadioButton =
             dialogView.findViewById<View>(R.id.radioButton_great) as RadioButton
+        val radioGrp: RadioGroup = dialogView.findViewById(R.id.radioGroup)
 
         // Set values for weighs
         num.text = (restaurantListAdapter?.numOfViolation?.let { Integer.toString(it) })
-        less.isChecked = restaurantListAdapter?.lessEuqalThan == true
-        great.isChecked = restaurantListAdapter?.greatEuqalThan == true
+        if(less.id == radioGrp.checkedRadioButtonId) {
+            less.isChecked = true
+            great.isChecked = false
+        }
+        else{
+            less.isChecked = false
+            great.isChecked = true
+        }
 
         // Specify the dialog is cancelable
         builder.setCancelable(true)
@@ -267,7 +286,7 @@ class HomeFragment : Fragment() {
                             it
                         )
                     }
-                    restaurantListAdapter?.getFilter()?.filter(floatingSearchView?.query)
+                    restaurantListAdapter!!.filter.filter(floatingSearchView!!.query)
                 }
             })
 

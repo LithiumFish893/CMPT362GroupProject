@@ -6,12 +6,15 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.activity.setViewTreeOnBackPressedDispatcherOwner
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.appcompat.widget.Toolbar
 import com.example.restaurant_review.Fragments.HomeFragment
 import com.example.restaurant_review.Model.Inspection
@@ -64,31 +67,20 @@ class RestaurantDetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection
         return when (item.itemId) {
-            android.R.id.home -> {
+            android.R.id.home-> {
                 finish()
-                if (item.icon.constantState == getDrawable(R.drawable.ic_menu_unmark_favorite)!!.constantState) {
-                    addFave(ID)
-                    item.setIcon(R.drawable.ic_menu_mark_favorite)
-                    Toast.makeText(this, "Added to Favorites", Toast.LENGTH_LONG).show()
-                    setViewListIcon(R.drawable.ic_menu_mark_favorite)
-                } else {
-                    removeFave(ID)
-                    item.setIcon(R.drawable.ic_menu_unmark_favorite)
-                    Toast.makeText(this, "Removed from Favorites", Toast.LENGTH_LONG).show()
-                    setViewListIcon(R.drawable.ic_menu_unmark_favorite)
-                }
                 true
             }
             R.id.favourite -> {
                 if (item.icon.constantState == getDrawable(R.drawable.ic_menu_unmark_favorite)!!.constantState) {
                     addFave(ID)
                     item.setIcon(R.drawable.ic_menu_mark_favorite)
-                    Toast.makeText(this, "Added to Favorites", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Added to Favorites", Toast.LENGTH_SHORT).show()
                     setViewListIcon(R.drawable.ic_menu_mark_favorite)
                 } else {
                     removeFave(ID)
                     item.setIcon(R.drawable.ic_menu_unmark_favorite)
-                    Toast.makeText(this, "Removed from Favorites", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Removed from Favorites", Toast.LENGTH_SHORT).show()
                     setViewListIcon(R.drawable.ic_menu_unmark_favorite)
                 }
                 true
@@ -139,7 +131,12 @@ class RestaurantDetailActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.setTitle(R.string.toolbar_restaurant_detail)
         setSupportActionBar(toolbar)
-        Objects.requireNonNull(supportActionBar)?.setDisplayHomeAsUpEnabled(true)
+        if(supportActionBar == null){
+            Log.e("TAG", "setupUI: toolbar support action is null", )
+        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+//        Objects.requireNonNull(supportActionBar)?.setDisplayHomeAsUpEnabled(true)
 
         // setup UI Views
         ID = intent.getStringExtra(java.lang.String.valueOf(R.string.intent_extra_id))

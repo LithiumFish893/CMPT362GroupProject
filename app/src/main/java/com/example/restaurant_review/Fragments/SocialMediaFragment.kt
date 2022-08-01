@@ -2,6 +2,7 @@ package com.example.restaurant_review.Fragments
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +37,7 @@ class SocialMediaFragment : Fragment() {
     ): View? {
         val pView = inflater.inflate(R.layout.sm_fragment_social_media, container, false)
         // Check permissions to take photo
+        Log.e("tag", "social media : is created now")
         Util.checkPermissions(requireActivity())
 
         // Initialize the fragments and add them to the list

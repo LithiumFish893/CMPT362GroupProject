@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "867579589217-0ig6d6r56s1dklkvdrl5shnuqcf3ogag.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cmpt362project.db",
+            "certificate_hash": "535dbc25a2930a6792ad1ea5611cf9f79a7222a8"
+          }
+        },
+        {
           "client_id": "867579589217-220v84ojps0f70vv52478kc52pgr4l33.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -80,6 +88,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "867579589217-a8sd912rtvbmph867vnrgkjstp796apg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.restaurant_review",
+            "certificate_hash": "535dbc25a2930a6792ad1ea5611cf9f79a7222a8"
+          }
+        },
         {
           "client_id": "867579589217-220v84ojps0f70vv52478kc52pgr4l33.apps.googleusercontent.com",
           "client_type": 3

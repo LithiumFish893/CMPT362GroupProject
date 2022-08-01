@@ -175,6 +175,9 @@ class RestaurantListAdapter(
 
     // TODO: To Jason and Dylan
     // For setup filter/favorite functions
+    override fun getFilter(): RestaurantsFilter {
+        return RestaurantsFilter()
+    }
     var favesOnly = false
         protected set
     var includeSafe = true
@@ -191,8 +194,8 @@ class RestaurantListAdapter(
         protected set
     var numOfViolation = 0
         protected set
-    val filter: RestaurantsFilter
-        get() = RestaurantsFilter()
+//    val filter: RestaurantsFilter
+//        get() = RestaurantsFilter()
 
     // Implementation of Filter
     inner class RestaurantsFilter : Filter() {
