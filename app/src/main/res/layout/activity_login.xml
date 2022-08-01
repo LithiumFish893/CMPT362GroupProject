@@ -177,6 +177,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/login_button"
             android:textSize="15dp"
+            android:autoLink="web"
             />
 
         <TextView
@@ -185,7 +186,7 @@
             android:text=" | "/>
 
         <TextView
-            android:id="@+id/privacy"
+            android:id="@+id/Privacy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Privacy Policy"

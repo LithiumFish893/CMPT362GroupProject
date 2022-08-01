@@ -46,6 +46,7 @@ class RestaurantDetailActivity : AppCompatActivity() {
         populateListListView()
     }
 
+
     // load the menu to the activity
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
@@ -144,6 +145,7 @@ class RestaurantDetailActivity : AppCompatActivity() {
         val name: TextView = findViewById<TextView>(R.id.restaurant_name)
         val address: TextView = findViewById<TextView>(R.id.restaurant_address)
         val gps: TextView = findViewById<TextView>(R.id.restaurant_gps)
+        val writeReview = findViewById<Button>(R.id.button6)
         name.text = mRestaurant?.name
         address.text = getString(R.string.restaurant_address, mRestaurant?.address, mRestaurant?.city)
 
@@ -161,7 +163,12 @@ class RestaurantDetailActivity : AppCompatActivity() {
             setResult(Activity.RESULT_OK, i)
             finish()
         })
+        writeReview.setOnClickListener(){
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
     }
+
 
     private fun populateListListView() {
         // setup InspectionListList

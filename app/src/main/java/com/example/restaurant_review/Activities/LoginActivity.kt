@@ -1,24 +1,21 @@
 package com.example.restaurant_review.Activities
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.activity.result.contract.ActivityResultContract
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.restaurant_review.R
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import java.lang.Exception
+
 
 class LoginActivity:AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -37,10 +34,24 @@ class LoginActivity:AppCompatActivity() {
         passwordTV = findViewById(R.id.password_input)
         loginButton = findViewById(R.id.login_button)
         signUpButton = findViewById(R.id.sign_up)
-
+        signUpButton = findViewById(R.id.sign_up)
         googleSignInButton = findViewById(R.id.google_login)
-
         auth = FirebaseAuth.getInstance()
+
+        val termText = findViewById<View>(R.id.Terms) as TextView
+
+        termText.setOnClickListener(){
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("https://github.com/LithiumFish893/CMPT362GroupProject/blob/kotlin_code/EULA")
+            startActivity(intent)
+        }
+        val privatePolicyText = findViewById<View>(R.id.Privacy) as TextView
+
+        privatePolicyText.setOnClickListener(){
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("https://github.com/LithiumFish893/CMPT362GroupProject/blob/kotlin_code/Privacy")
+            startActivity(intent)
+        }
 
         emailTV.setOnFocusChangeListener(){
                 view, focus->
