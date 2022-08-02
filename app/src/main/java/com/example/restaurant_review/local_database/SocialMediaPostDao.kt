@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface SocialMediaPostDao {
     @Insert
-    suspend fun insertPost(post: SocialMediaPostModel)
+    suspend fun insertPost(post: SocialMediaPostModel): Long
 
     @Query("SELECT * FROM social_media_post_table")
     // don't need suspend because we're using Flow, Flow makes it act like suspend
@@ -50,7 +50,7 @@ interface SocialMediaPostDao {
     fun getAllCommentsWithId(id: Int): Flow<List<CommentModel>>
 
     @Insert
-    suspend fun insertComment(commentModel: CommentModel)
+    suspend fun insertComment(commentModel: CommentModel): Long
 
     @Query("DELETE FROM comment_table")
     suspend fun deleteAllComments()

@@ -6,19 +6,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".Activities.ProfileActivity">
 
-    <Button
-        android:id="@+id/writeReview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="write Review"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+
+    <EditText
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:maxLines="1"
         android:text="Hello!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,6 +21,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.2"
         android:textSize="30dp"
+        />
+    <Button
+        android:id="@+id/usernameChange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="change username"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         />
 
 

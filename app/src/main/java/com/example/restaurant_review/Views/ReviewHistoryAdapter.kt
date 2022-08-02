@@ -12,6 +12,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restaurant_review.Data.Review
 import com.example.restaurant_review.R
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import org.w3c.dom.Text
 
 class ReviewHistoryAdapter(private val context: Context, private var reviewList: List<Review>):
     RecyclerView.Adapter<ReviewHistoryAdapter.ViewHolder>(){
@@ -27,10 +30,18 @@ class ReviewHistoryAdapter(private val context: Context, private var reviewList:
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        var database = Firebase.database
         val review = reviewList[position]
         holder.titleView.text = review.title
         holder.commentView.text = review.comment
         holder.ratingView.rating = review.rating
+        database.reference.child("user")
+            .child(review.author).child("username").get().addOnCompleteListener() {
+                if (it.isSuccessful) {
+                    holder.author.text = "By: " + it.result.value.toString()
+                }else {
+                }
+            }
     }
 
     override fun getItemCount(): Int {
@@ -41,6 +52,7 @@ class ReviewHistoryAdapter(private val context: Context, private var reviewList:
         val titleView: TextView = itemView.findViewById(R.id.review_card_title)
         val commentView: TextView = itemView.findViewById(R.id.review_card_comment)
         val ratingView: RatingBar = itemView.findViewById(R.id.review_card_rating)
+        val author: TextView = itemView.findViewById(R.id.review_card_author)
     }
 
     /*

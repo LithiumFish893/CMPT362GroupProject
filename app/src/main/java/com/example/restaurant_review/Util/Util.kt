@@ -12,6 +12,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment.DIRECTORY_PICTURES
+import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -21,6 +22,10 @@ import com.example.restaurant_review.Activities.SocialMediaPostActivity.Companio
 import com.example.restaurant_review.Activities.SocialMediaPostActivity.Companion.LAT_KEY
 import com.example.restaurant_review.Activities.SocialMediaPostActivity.Companion.LONG_KEY
 import com.example.restaurant_review.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.time.Month
@@ -129,11 +134,12 @@ object Util {
         val lat = bundle.getDouble(LAT_KEY)
         val long = bundle.getDouble(LONG_KEY)
         val titleString = bundle.getString(SocialMediaPostActivity.TITLE_KEY)
-        val userId = bundle.getInt(SocialMediaPostActivity.USERID_KEY)
+        val userId = bundle.getString(SocialMediaPostActivity.USERID_KEY)!!
         val textContent = bundle.getString(SocialMediaPostActivity.TEXT_CONTENT_KEY)
         val timeStamp = bundle.getLong(SocialMediaPostActivity.TIMESTAMP_KEY, 0L)
         val imageUris = bundle.getStringArrayList(SocialMediaPostActivity.IMAGE_URIS_KEY)
-        return SocialMediaPostModel(id = id, locationLat = lat, locationLong = long, timeStamp = timeStamp, userId = userId, title = titleString!!,
+        return SocialMediaPostModel(
+            id = id, locationLat = lat, locationLong = long, timeStamp = timeStamp, userId = userId, title = titleString!!,
             textContent = textContent!!, imgList = imageUris!!)
     }
 
@@ -145,7 +151,7 @@ object Util {
         bundle.putDouble(LAT_KEY, post.locationLat)
         bundle.putDouble(LONG_KEY, post.locationLong)
         bundle.putString(SocialMediaPostActivity.TITLE_KEY, post.title)
-        bundle.putInt(SocialMediaPostActivity.USERID_KEY, post.userId)
+        bundle.putString(SocialMediaPostActivity.USERID_KEY, post.userId)
         bundle.putString(SocialMediaPostActivity.TEXT_CONTENT_KEY, post.textContent)
         bundle.putLong(SocialMediaPostActivity.TIMESTAMP_KEY, post.timeStamp)
         bundle.putStringArrayList(SocialMediaPostActivity.IMAGE_URIS_KEY, list)
@@ -154,6 +160,21 @@ object Util {
 
     fun getNameFromUserId (id: Int) : String{
         return "User$id"
+    }
+
+    fun getUsernameFromUserId (id: String) : String{
+        val database = Firebase.database
+        var userName = "Unknown User"
+        database.reference.child("user")
+            .child(id).child("username").get().addOnCompleteListener() {
+                if (it.isSuccessful) {
+                    userName = it.result.value.toString()
+                    println("Debug: Success username $userName, ${it.result.value.toString()}")
+                } else {
+                    println("Debug: Failed username")
+                }
+            }
+        return userName
     }
 
     fun getUserId () : Int {
@@ -168,7 +189,7 @@ object Util {
         return false
     }
 
-    fun getProfilePhotoFromUserId (id: Int, context: Context) : Drawable {
+    fun getProfilePhotoFromUserId (id: String, context: Context) : Drawable {
         return AppCompatResources.getDrawable(context, R.drawable.person)!!
     }
 }

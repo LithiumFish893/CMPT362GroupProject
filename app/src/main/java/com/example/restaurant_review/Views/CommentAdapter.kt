@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.restaurant_review.R
 import com.example.restaurant_review.Util.Util
 import com.example.restaurant_review.local_database.CommentModel
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 
 class CommentAdapter(private var commentList: MutableList<CommentModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -28,9 +30,20 @@ class CommentAdapter(private var commentList: MutableList<CommentModel>) : Recyc
         private var date: TextView = view.findViewById(R.id.comment_date)
         private var textContent: TextView = view.findViewById(R.id.comment_text_content)
 
+        val database = Firebase.database
+
         fun bind (comment: CommentModel){
             imageView.setImageDrawable(Util.getProfilePhotoFromUserId(comment.userId, context))
-            username.text = Util.getNameFromUserId(comment.userId)
+            database.reference.child("user")
+                .child(comment.userId).child("username").get().addOnCompleteListener() {
+                    if (it.isSuccessful) {
+                        username.text = it.result.value.toString()
+                        println("Debug: Success comment username, ${it.result.value.toString()}")
+                    } else {
+                        println("Debug: Failed comment username")
+                    }
+                }
+            //TODO needs new logic.
             date.text = Util.toDateString(comment.timeStamp)
             textContent.text = comment.textContent
         }

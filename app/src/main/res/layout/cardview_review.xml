@@ -29,11 +29,20 @@
         android:paddingBottom="1dp" />
 
     <TextView
+        android:id="@+id/review_card_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="1dp"
+        android:text="sample comment"
+        android:textStyle="italic"
+        android:textSize="13sp" />
+    <TextView
         android:id="@+id/review_card_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="1dp"
         android:text="sample comment"
+        android:textColor="@color/black"
         android:textSize="18sp" />
 
 </LinearLayout>

@@ -12,9 +12,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
-import androidx.activity.setViewTreeOnBackPressedDispatcherOwner
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.appcompat.widget.Toolbar
 import com.example.restaurant_review.Fragments.HomeFragment
 import com.example.restaurant_review.Model.Inspection
@@ -23,7 +21,6 @@ import com.example.restaurant_review.Model.Restaurant
 import com.example.restaurant_review.Model.RestaurantManager
 import com.example.restaurant_review.R
 import com.example.restaurant_review.Views.InspectionListAdapter
-import java.util.*
 
 /**
  * RestaurantDetailActivity Class Implementation
@@ -164,7 +161,10 @@ class RestaurantDetailActivity : AppCompatActivity() {
             finish()
         })
         writeReview.setOnClickListener(){
-            val intent = Intent(this, ProfileActivity::class.java)
+            val bundle = Bundle()
+            bundle.putString("ID",ID)
+            val intent = Intent(this, RestaurantReviewsActivity::class.java)
+            intent.putExtras(bundle)
             startActivity(intent)
         }
     }

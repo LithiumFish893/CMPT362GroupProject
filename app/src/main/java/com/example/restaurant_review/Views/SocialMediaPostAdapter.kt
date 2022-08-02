@@ -17,6 +17,9 @@ import com.example.restaurant_review.R
 import com.example.restaurant_review.Util.Util
 import com.example.restaurant_review.local_database.*
 import com.example.restaurant_review.Activities.FullPostActivity
+import com.example.restaurant_review.Util.Util.getUsernameFromUserId
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class SocialMediaPostAdapter : PagingDataAdapter<SocialMediaPostModel, RecyclerView.ViewHolder>(
     COMPARATOR
@@ -86,7 +89,17 @@ class SocialMediaPostAdapter : PagingDataAdapter<SocialMediaPostModel, RecyclerV
                 context.startActivity(intent)
             }
             photo.setImageDrawable(Util.getProfilePhotoFromUserId(post.userId, context))
-            user.text = Util.getNameFromUserId(post.userId)
+
+            val fireDatabase = Firebase.database
+            fireDatabase.reference.child("user")
+                .child(post.userId).child("username").get().addOnCompleteListener() {
+                    if (it.isSuccessful) {
+                        user.text = it.result.value.toString()
+                    } else {
+                        println("Debug: Failed username")
+                        user.text = "Unknown User"
+                    }
+                }
 
             val orange = AppCompatResources.getDrawable(context, R.drawable.thumbs_up_orange)
             val greyUp = AppCompatResources.getDrawable(context, R.drawable.thumbs_up_gray)

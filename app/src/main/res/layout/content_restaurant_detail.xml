@@ -39,7 +39,7 @@
                 android:id="@+id/button6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Write Review" />
+                android:text="View Reviews" />
 
         </TableRow>
 

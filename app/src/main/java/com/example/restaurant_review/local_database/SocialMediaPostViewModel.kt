@@ -26,6 +26,7 @@ class SocialMediaPostViewModel (private val repository: SocialMediaPostRepositor
     }
 
     fun getAllPosts(): Flow<PagingData<SocialMediaPostModel>> {
+
         return repository.letSocialMediaFlowDb().cachedIn(viewModelScope)
     }
 

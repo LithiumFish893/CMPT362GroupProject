@@ -43,6 +43,8 @@
             android:name=".Activities.FullPostActivity"
             android:exported="true">
         </activity>
+        <activity android:name=".Activities.RestaurantReviewsActivity"/>
+
         <activity
             android:name=".Activities.InspectionDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />

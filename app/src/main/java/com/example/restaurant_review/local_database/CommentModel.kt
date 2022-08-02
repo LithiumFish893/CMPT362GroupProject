@@ -10,7 +10,8 @@ class CommentModel(
     @ColumnInfo(name = "id")
     val id: Int = 0,
     val parentPostId: Int = 0,
-    val userId: Int = 0,
+    val parentPostUserId: String = "",
+    val userId: String = "",
     val timeStamp: Long = 0,
     val textContent: String = "",
 ) {

@@ -11,6 +11,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.restaurant_review.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class RegisterActivity:AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -19,7 +22,7 @@ class RegisterActivity:AppCompatActivity() {
     private lateinit var confirmPasswordTV: EditText
     private lateinit var registerButton: Button
     private lateinit var signInButton: TextView
-
+    private lateinit var database: FirebaseDatabase
 
     override fun onCreate(savedInstance: Bundle?){
         super.onCreate(savedInstance)
@@ -32,6 +35,7 @@ class RegisterActivity:AppCompatActivity() {
         signInButton = findViewById(R.id.have_Account)
 
         auth =  FirebaseAuth.getInstance()
+        database = Firebase.database
 
         registerButton.setOnClickListener(){
             createUser()
@@ -69,6 +73,9 @@ class RegisterActivity:AppCompatActivity() {
         }else{
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this){
                 if(it.isSuccessful){
+                    println("debug: User created: ${it.result.user.toString()}")
+                    database.reference.child("user").child(it.result.user?.uid!!).child("username").setValue(
+                        it.result.user!!.email)
                     Toast.makeText(this,"Successes!", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this, LoginActivity::class.java))
                 }else{
