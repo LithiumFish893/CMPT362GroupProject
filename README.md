@@ -21,6 +21,9 @@
 ## Show and Tell 1
 * https://docs.google.com/presentation/d/11CwGZ1_hoYxtPX6LLlGqM4BYVR58DcFBCd2HpLCIoh0/edit?usp=sharing
 * Video:  
-[![Project Pitch](http://img.youtube.com/vi/5Npa1MFbv5w/0.jpg)](http://www.youtube.com/watch?v=5Npa1MFbv5w "Project Pitch")
+[![Project Pitch](http://img.youtube.com/vi/5Npa1MFbv5w/0.jpg)](http://www.youtube.com/watch?v=5Npa1MFbv5w "Show and Tell 1")
 
 ## Show and Tell 2
+* https://docs.google.com/presentation/d/1uUcbLpZ12-iuLgq6auoPDe2XkdhCJqxzqzwauJ64NMI/edit?usp=sharing
+* Video:  
+[![Project Pitch](http://img.youtube.com/vi/H5655FbNSE8/0.jpg)](https://www.youtube.com/watch?v=H5655FbNSE8 "Show and Tell 2")
