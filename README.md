@@ -27,3 +27,8 @@
 * https://docs.google.com/presentation/d/1uUcbLpZ12-iuLgq6auoPDe2XkdhCJqxzqzwauJ64NMI/edit?usp=sharing
 * Video:  
 [![Project Pitch](http://img.youtube.com/vi/H5655FbNSE8/0.jpg)](https://www.youtube.com/watch?v=H5655FbNSE8 "Show and Tell 2")
+
+## APK Releases
+
+### Show and Tell 2 APK
+* https://github.com/LithiumFish893/CMPT362GroupProject/releases/tag/show_and_tell_2
