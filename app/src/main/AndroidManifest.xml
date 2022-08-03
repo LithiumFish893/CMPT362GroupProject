@@ -40,6 +40,16 @@
             android:exported="true">
         </activity>
         <activity
+            android:name=".Activities.VRViewActivity"
+            android:theme="@style/AppTheme"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".Activities.CreateVRTourActivity"
+            android:theme="@style/AppTheme"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".Activities.FullPostActivity"
             android:theme="@style/AppTheme"
             android:exported="true">
