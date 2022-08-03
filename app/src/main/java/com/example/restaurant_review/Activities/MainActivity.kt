@@ -167,7 +167,7 @@ class MainActivity : AppCompatActivity() {
 
         mAppBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_maps, R.id.nav_home, R.id.nav_social_media, R.id.nav_about
+                R.id.nav_maps, R.id.nav_home, R.id.nav_social_media, R.id.nav_vr_tour, R.id.nav_about
             ), drawer
         )
         val navController = findNavController( R.id.nav_host_fragment)
@@ -180,7 +180,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener {
             _, dest, _ ->
                 // add more views here to make the search bar gone
-                if (dest.id == R.id.nav_social_media){
+                if (dest.id == R.id.nav_social_media || dest.id == R.id.nav_vr_tour){
                     search.visibility = View.GONE
                     // hacky way to remove the search bar
                     val params = hostFragmentFrameLayout.layoutParams as FrameLayout.LayoutParams

@@ -21,7 +21,13 @@
                 android:icon="@drawable/ic_menu_social_media"
                 android:title="@string/social_media" />
         </group>
-    </menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_vr_tour"
+                    android:icon="@drawable/ic_vr_tour"
+                    android:title="@string/vr_tour" />
+            </group>
+        </menu>
     </item>
 
     <item android:title="@string/menu_about">

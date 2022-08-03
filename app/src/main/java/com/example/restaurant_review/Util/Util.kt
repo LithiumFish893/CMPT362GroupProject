@@ -2,6 +2,7 @@ package com.example.restaurant_review.Util
 
 import android.Manifest
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -12,6 +13,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment.DIRECTORY_PICTURES
+import androidx.annotation.AnyRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -170,5 +172,15 @@ object Util {
 
     fun getProfilePhotoFromUserId (id: Int, context: Context) : Drawable {
         return AppCompatResources.getDrawable(context, R.drawable.person)!!
+    }
+
+    fun getUriFromDrawable (context: Context, @AnyRes resourceId: Int) : Uri {
+        val resources = context.resources
+        return (Uri.Builder())
+                .scheme(ContentResolver.SCHEME_ANDROID_RESOURCE)
+            .authority(resources.getResourcePackageName(resourceId))
+            .appendPath(resources.getResourceTypeName(resourceId))
+            .appendPath(resources.getResourceEntryName(resourceId))
+            .build()
     }
 }

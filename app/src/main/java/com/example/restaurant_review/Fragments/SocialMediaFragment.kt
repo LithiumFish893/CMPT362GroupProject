@@ -43,9 +43,9 @@ class SocialMediaFragment : Fragment() {
         recommendedFeedFragment = RecommendedFeedFragment()
         subscribedFeedFragment = SubscribedFeedFragment()
         fragmentList = ArrayList()
-        fragmentList.add(nearbyFeedFragment)
-        fragmentList.add(recommendedFeedFragment)
         fragmentList.add(subscribedFeedFragment)
+        fragmentList.add(recommendedFeedFragment)
+        fragmentList.add(nearbyFeedFragment)
 
         // Add the fragment info to the state adapter
         // Then add state adapter to view pager so it can show the fragments

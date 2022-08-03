@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:text="VR Restaurant Tours"/>
+    <TextView
+        android:layout_marginTop="@dimen/default_padding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:text="View a VR tour for these restaurants"/>
+    <Button
+        android:id="@+id/view_vr_tour_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View VR Tour"/>
+    <TextView
+        android:layout_marginTop="@dimen/default_padding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:text="Or submit your own VR Tour"/>
+    <Button
+        android:id="@+id/submit_vr_tour_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit VR Tour"/>
+</LinearLayout>
