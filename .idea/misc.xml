@@ -3,7 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/drawable-v24/thumbs_up_orange.xml" value="0.386" />
         <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/layout/activity_inspection_detail.xml" value="0.5203804347826086" />
         <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/layout/activity_profile.xml" value="0.5203804347826086" />
@@ -15,9 +14,7 @@
         <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/layout/content_main.xml" value="0.2657407407407407" />
         <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/layout/content_restaurant_detail.xml" value="0.5203804347826086" />
         <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/layout/custom_info_window.xml" value="0.5203804347826086" />
-        <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/layout/dialog_download.xml" value="0.465625" />
         <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/layout/dialog_faves_update.xml" value="0.2657407407407407" />
-        <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/layout/dialog_filter_by_violations.xml" value="0.465625" />
         <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/layout/dialog_write_review.xml" value="0.5203804347826086" />
         <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/layout/fragment_about.xml" value="0.5203804347826086" />
         <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/layout/fragment_home.xml" value="0.5203804347826086" />
@@ -31,12 +28,10 @@
         <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/layout/sm_fragment_dialog_text_field.xml" value="0.5203804347826086" />
         <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/layout/sm_fragment_nearby_feed.xml" value="0.5203804347826086" />
         <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/layout/sm_fragment_recommended_feed.xml" value="0.5203804347826086" />
-        <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/layout/sm_fragment_subscribed_feed.xml" value="0.465625" />
         <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/layout/sm_image_view_social_media_post.xml" value="0.5203804347826086" />
         <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/layout/sm_list_view.xml" value="0.5203804347826086" />
         <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/layout/sm_view_comment.xml" value="0.5203804347826086" />
         <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/layout/sm_view_social_media_post.xml" value="0.2657407407407407" />
-        <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/layouts/layout_social_media/layout/activity_restarurant_reviews.xml" value="0.465625" />
         <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/layouts/layout_social_media/layout/sm_fragment_social_media.xml" value="0.2657407407407407" />
         <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/menu/drawer_main_activity.xml" value="0.5536458333333333" />
         <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/menu/menu_main_activity.xml" value="0.5536458333333333" />
@@ -44,6 +39,7 @@
         <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/menu/menu_restaurant_detail.xml" value="0.5536458333333333" />
         <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.446" />
         <entry key="..\:/CMPT362/CMPT362GroupProject/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.446" />
+        <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/CMPT362GroupProject/app/src/main/res/layout/sm_fragment_recommended_feed.xml" value="0.15" />
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/drawable-v24/close_button.xml" value="0.1" />
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/drawable-v24/person.xml" value="0.308" />
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/drawable-v24/round_rectangle.xml" value="0.1" />

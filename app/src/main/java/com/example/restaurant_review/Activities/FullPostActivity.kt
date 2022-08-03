@@ -19,6 +19,7 @@ import com.example.restaurant_review.Views.HorizontalImageAdapter
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import java.io.FileNotFoundException
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -79,7 +80,11 @@ class FullPostActivity : AppCompatActivity() {
         contentView.text = post.textContent
         bitmaps = arrayListOf<Bitmap>()
         for (path: String in post.imgList) {
-            bitmaps.add(Util.filePathToBitmap(this, path))
+            // TODO: Change when we get cloud storage
+            try {
+                bitmaps.add(Util.filePathToBitmap(this, path))
+            }
+            catch (e: FileNotFoundException){}
         }
         if (bitmaps.isNotEmpty()) imagesView.setImageBitmap(bitmaps[0])
         imagesView.setOnClickListener {
