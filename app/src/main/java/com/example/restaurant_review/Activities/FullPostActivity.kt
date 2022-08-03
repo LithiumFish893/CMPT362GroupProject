@@ -16,6 +16,10 @@ import com.example.restaurant_review.local_database.*
 import com.example.restaurant_review.Util.Util
 import com.example.restaurant_review.Views.CommentAdapter
 import com.example.restaurant_review.Views.HorizontalImageAdapter
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import java.io.FileNotFoundException
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -55,14 +59,32 @@ class FullPostActivity : AppCompatActivity() {
         commentPostButton = findViewById(R.id.postCommentButton)
         comments = findViewById(R.id.comment_list)
 
+
+        val firebaseAuth = Firebase.auth
+        val firebaseDatabase = Firebase.database
+        val userRef = firebaseDatabase.reference.child("user").child(post.userId).child("username")
+
         titleView.text = "Location: "//post.title.ifEmpty { "<No Title>" }
-        timeView.text = "Posted on " + Util.toDateString(post.timeStamp) + ", by " + Util.getNameFromUserId(
-            post.userId
-        )
+
+        userRef.get().addOnCompleteListener() {
+                if (it.isSuccessful) {
+                    timeView.text = "Posted on " + Util.toDateString(post.timeStamp) + ", by " + it.result.value.toString()
+                    println("Debug: Success comment username, ${it.result.value.toString()}")
+                } else {
+                    println("Debug: Failed comment username")
+                }
+            }
+
+
+
         contentView.text = post.textContent
         bitmaps = arrayListOf<Bitmap>()
         for (path: String in post.imgList) {
-            bitmaps.add(Util.filePathToBitmap(this, path))
+            // TODO: Change when we get cloud storage
+            try {
+                bitmaps.add(Util.filePathToBitmap(this, path))
+            }
+            catch (e: FileNotFoundException){}
         }
         if (bitmaps.isNotEmpty()) imagesView.setImageBitmap(bitmaps[0])
         imagesView.setOnClickListener {
@@ -89,6 +111,7 @@ class FullPostActivity : AppCompatActivity() {
         val factory = SocialMediaPostViewModelFactory(repository)
         val viewModel = ViewModelProvider(this, factory).get(SocialMediaPostViewModel::class.java)
 
+
         viewModel.getAllCommentsWithId(post.id).observe(this) {
             commentAdapter.updateList(it)
         }
@@ -99,7 +122,8 @@ class FullPostActivity : AppCompatActivity() {
             }
             val comment = CommentModel(
                 parentPostId = post.id,
-                userId = Util.getUserId(),
+                parentPostUserId = post.userId,
+                userId = firebaseAuth.currentUser!!.uid,
                 timeStamp = Calendar.getInstance().timeInMillis,
                 textContent = commentEditText.text.toString()
             )

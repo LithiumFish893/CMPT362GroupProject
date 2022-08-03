@@ -41,9 +41,9 @@ class KeepStateNavigator(
         val currentFragment = manager.primaryNavigationFragment
         if (currentFragment != null) {
             transaction.hide(currentFragment)
-        } /* else {
+        }  else {
             initialNavigate = true;
-        }*/
+        }
         var fragment = manager.findFragmentByTag(tag)
         if (fragment == null) {
             val className = destination.className

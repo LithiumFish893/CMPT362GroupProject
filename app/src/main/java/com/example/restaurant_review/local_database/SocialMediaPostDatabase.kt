@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [SocialMediaPostModel::class, LikedPostsModel::class, CommentModel::class], version = 8)
+@Database(entities = [SocialMediaPostModel::class, LikedPostsModel::class, CommentModel::class], version = 12)
 abstract class SocialMediaPostDatabase : RoomDatabase() {
     abstract val socialMediaPostDao: SocialMediaPostDao
 

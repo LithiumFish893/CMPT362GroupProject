@@ -19,7 +19,7 @@
         android:textSize="15sp"/>
     <RatingBar
         android:id="@+id/write_review_rating"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:numStars="5"
         />

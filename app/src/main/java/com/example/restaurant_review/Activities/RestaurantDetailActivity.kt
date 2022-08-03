@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -20,7 +21,6 @@ import com.example.restaurant_review.Model.Restaurant
 import com.example.restaurant_review.Model.RestaurantManager
 import com.example.restaurant_review.R
 import com.example.restaurant_review.Views.InspectionListAdapter
-import java.util.*
 
 /**
  * RestaurantDetailActivity Class Implementation
@@ -43,6 +43,7 @@ class RestaurantDetailActivity : AppCompatActivity() {
         populateListListView()
     }
 
+
     // load the menu to the activity
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
@@ -64,31 +65,20 @@ class RestaurantDetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection
         return when (item.itemId) {
-            android.R.id.home -> {
+            android.R.id.home-> {
                 finish()
-                if (item.icon.constantState == getDrawable(R.drawable.ic_menu_unmark_favorite)!!.constantState) {
-                    addFave(ID)
-                    item.setIcon(R.drawable.ic_menu_mark_favorite)
-                    Toast.makeText(this, "Added to Favorites", Toast.LENGTH_LONG).show()
-                    setViewListIcon(R.drawable.ic_menu_mark_favorite)
-                } else {
-                    removeFave(ID)
-                    item.setIcon(R.drawable.ic_menu_unmark_favorite)
-                    Toast.makeText(this, "Removed from Favorites", Toast.LENGTH_LONG).show()
-                    setViewListIcon(R.drawable.ic_menu_unmark_favorite)
-                }
                 true
             }
             R.id.favourite -> {
                 if (item.icon.constantState == getDrawable(R.drawable.ic_menu_unmark_favorite)!!.constantState) {
                     addFave(ID)
                     item.setIcon(R.drawable.ic_menu_mark_favorite)
-                    Toast.makeText(this, "Added to Favorites", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Added to Favorites", Toast.LENGTH_SHORT).show()
                     setViewListIcon(R.drawable.ic_menu_mark_favorite)
                 } else {
                     removeFave(ID)
                     item.setIcon(R.drawable.ic_menu_unmark_favorite)
-                    Toast.makeText(this, "Removed from Favorites", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Removed from Favorites", Toast.LENGTH_SHORT).show()
                     setViewListIcon(R.drawable.ic_menu_unmark_favorite)
                 }
                 true
@@ -139,7 +129,12 @@ class RestaurantDetailActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.setTitle(R.string.toolbar_restaurant_detail)
         setSupportActionBar(toolbar)
-        Objects.requireNonNull(supportActionBar)?.setDisplayHomeAsUpEnabled(true)
+        if(supportActionBar == null){
+            Log.e("TAG", "setupUI: toolbar support action is null", )
+        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+//        Objects.requireNonNull(supportActionBar)?.setDisplayHomeAsUpEnabled(true)
 
         // setup UI Views
         ID = intent.getStringExtra(java.lang.String.valueOf(R.string.intent_extra_id))
@@ -147,6 +142,7 @@ class RestaurantDetailActivity : AppCompatActivity() {
         val name: TextView = findViewById<TextView>(R.id.restaurant_name)
         val address: TextView = findViewById<TextView>(R.id.restaurant_address)
         val gps: TextView = findViewById<TextView>(R.id.restaurant_gps)
+        val writeReview = findViewById<Button>(R.id.button6)
         name.text = mRestaurant?.name
         address.text = getString(R.string.restaurant_address, mRestaurant?.address, mRestaurant?.city)
 
@@ -164,7 +160,15 @@ class RestaurantDetailActivity : AppCompatActivity() {
             setResult(Activity.RESULT_OK, i)
             finish()
         })
+        writeReview.setOnClickListener(){
+            val bundle = Bundle()
+            bundle.putString("ID",ID)
+            val intent = Intent(this, RestaurantReviewsActivity::class.java)
+            intent.putExtras(bundle)
+            startActivity(intent)
+        }
     }
+
 
     private fun populateListListView() {
         // setup InspectionListList

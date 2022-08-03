@@ -20,7 +20,7 @@ data class SocialMediaPostModel(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Int = 0,
-    val userId: Int = 0,
+    val userId: String = "",
     val timeStamp: Long = 0,
     val locationLat: Double = 0.0,
     val locationLong: Double = 0.0,
@@ -33,7 +33,7 @@ data class SocialMediaPostModel(
 
     override fun hashCode(): Int {
         var result = id
-        result = 31 * result + userId
+        result = 31 * result + userId.hashCode()
         result = 31 * result + timeStamp.hashCode()
         result = 31 * result + locationLat.hashCode()
         result = 31 * result + locationLong.hashCode()

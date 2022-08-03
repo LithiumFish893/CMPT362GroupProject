@@ -24,6 +24,7 @@ import com.example.restaurant_review.local_database.SocialMediaPostModel
 import com.example.restaurant_review.Model.ImagesViewModel
 import com.example.restaurant_review.Util.CameraDialog
 import com.example.restaurant_review.Views.HorizontalImageAdapter
+import com.google.firebase.auth.FirebaseAuth
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
@@ -47,6 +48,8 @@ class SocialMediaPostActivity : AppCompatActivity() {
     private lateinit var textContentView: EditText
     private lateinit var postButton: Button
     private lateinit var cancelButton: Button
+
+    private lateinit var auth: FirebaseAuth
 
     companion object {
         const val ID_KEY = "id key"
@@ -73,6 +76,8 @@ class SocialMediaPostActivity : AppCompatActivity() {
         cancelButton = findViewById(R.id.smp_cancel_button)
         postButton.setOnClickListener { onSaveClicked() }
         cancelButton.setOnClickListener { onCancelClicked() }
+
+        auth = FirebaseAuth.getInstance()
 
         // Define the file & uri to store the image in
         file = File(getExternalFilesDir(null), TEMP_FILE_NAME)
@@ -175,7 +180,8 @@ class SocialMediaPostActivity : AppCompatActivity() {
 
         // put all the info into bundle
         val intent = Intent()
-        val post = SocialMediaPostModel(title = title, userId = Util.getUserId(),
+        val post = SocialMediaPostModel(
+            title = title, userId = auth.currentUser!!.uid,
             textContent = textContent, timeStamp = timeStamp, imgList = viewModel.imgUris.value!!)
         intent.putExtras(Util.postToBundle(post))
         setResult(RESULT_CODE, intent)

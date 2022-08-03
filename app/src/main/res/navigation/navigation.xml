@@ -28,7 +28,7 @@
         android:label="@string/vr_tour"
         tools:layout="@layout/fragment_vr_tour" />
 
-    <fragment
+    <keep_state_fragment
         android:id="@+id/nav_about"
         android:name="com.example.restaurant_review.Fragments.AboutFragment"
         android:label="@string/menu_about"

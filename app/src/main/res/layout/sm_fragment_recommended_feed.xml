@@ -19,6 +19,22 @@
             android:id="@+id/button_delete"
             android:text="delete"/>
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/sm_recommended_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_gravity="center"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Loading posts..."
+            android:layout_gravity="center"/>
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/testRV"
         android:layout_width="match_parent"

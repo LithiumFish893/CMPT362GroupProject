@@ -8,12 +8,14 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.app.ActivityCompat
@@ -66,16 +68,16 @@ class DownloadFragment : AppCompatDialogFragment() {
                     d1?.cancel(true)
                     d2?.cancel(true)
                     // clear the SP
-                    val editor: SharedPreferences.Editor = mPrefs.edit()
-                    editor.putString("RestaurantsFilePath", "")
-                    editor.putString("InspectionsFilePath", "")
-                    editor.putString("RestaurantsLastModified", "")
-                    editor.putString("InspectionsLastModified", "")
-                    editor.apply()
+                    val editor: SharedPreferences.Editor ?= mPrefs.edit()
+                    editor?.putString("RestaurantsFilePath", "")
+                    editor?.putString("InspectionsFilePath", "")
+                    editor?.putString("RestaurantsLastModified", "")
+                    editor?.putString("InspectionsLastModified", "")
+                    editor?.apply()
                 }
             }
         tv = rootView!!.findViewById<View>(R.id.loading_tv) as TextView
-        progress = rootView!!.findViewById<View>(R.id.download_progress_bar) as ProgressBar
+        progress = rootView!!.findViewById(R.id.download_progress_bar) as ProgressBar
 
         // start the download task
         if (DataRequest.instance?.isRestaurantsConnected == true) {
@@ -100,7 +102,7 @@ class DownloadFragment : AppCompatDialogFragment() {
             progress.progress = 0
         }
 
-        override fun doInBackground(vararg params: String?): String? {
+        override fun doInBackground(vararg params: String?): String {
             try {
                 val url = URL(params[0])
                 // Request connection
@@ -108,7 +110,8 @@ class DownloadFragment : AppCompatDialogFragment() {
                 // Request the size of file
                 contentLen = connection.contentLength
                 // Setup progress bar base on file size
-                publishProgress(PROGRESS_MAX, contentLen)
+//                publishProgress(PROGRESS_MAX, contentLen)
+//                progress.max = contentLen
                 // Generating the file path and file name
                 filePath = activity!!.getExternalFilesDir("cvs")!!.absolutePath
                 fileName = url.file
@@ -122,12 +125,15 @@ class DownloadFragment : AppCompatDialogFragment() {
                 )
                 var len = -1
                 val bytes = ByteArray(1024)
+//                progress.visibility = View.VISIBLE
+                progress.isIndeterminate = true
                 while (bis.read(bytes).also { len = it } != -1) {
                     bos.write(bytes, 0, len)
                     bos.flush()
                     // real time downloading progress
-                    publishProgress(UPDATE, len)
+//                    publishProgress(UPDATE, len)
                 }
+                progress.isIndeterminate = false
                 bos.close()
                 bis.close()
             } catch (e: Exception) {
@@ -136,18 +142,18 @@ class DownloadFragment : AppCompatDialogFragment() {
             return getString(R.string.update_completed)
         }
 
-        override fun onProgressUpdate(vararg values: Int?) {
-            super.onProgressUpdate(*values)
-            when (values[0]) {
-                PROGRESS_MAX -> values[1]?.let { progress.setMax(it) }
-                UPDATE -> {
-                    values[1]?.let { progress.incrementProgressBy(it) }
-                    // get the download progress and update the TextView
-                    val i = progress.getProgress() .div(contentLen)
-                    tv.text = getString(R.string.update_progress, i)
-                }
-            }
-        }
+//        override fun onProgressUpdate(vararg values: Int?) {
+//            super.onProgressUpdate(*values)
+//            when (values[0]) {
+//                PROGRESS_MAX -> values[1]?.let { progress.setMax(it) }
+//                UPDATE -> {
+//                    values[1]?.let { progress.incrementProgressBy(it) }
+//                    // get the download progress and update the TextView
+//                    val i = progress.getProgress() .div(contentLen)
+//                    tv.text = getString(R.string.update_progress, i)
+//                }
+//            }
+//        }
 
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)

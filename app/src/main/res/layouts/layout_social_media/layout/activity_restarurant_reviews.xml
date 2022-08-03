@@ -4,29 +4,42 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".Activities.ProfileActivity">
+    tools:context=".Activities.RestaurantReviewsActivity">
 
 
 
-    <EditText
-        android:id="@+id/username"
+    <TextView
+        android:id="@+id/rating_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:text="Hello!"
+        android:text="Average Rating"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2"
+        app:layout_constraintVertical_bias="0.1"        android:textSize="20dp"
+        />
+
+    <RatingBar
+        android:id="@+id/reviews_average_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:text="Hello!"
+        app:layout_constraintTop_toBottomOf="@+id/rating_title"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:rating="3.5"
+        android:isIndicator="true"
         android:textSize="30dp"
         />
     <Button
-        android:id="@+id/usernameChange"
+        android:id="@+id/write_reviews"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="change username"
+        android:text="write reviews"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
@@ -36,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/username"
+        app:layout_constraintTop_toBottomOf="@id/reviews_average_rating"
         android:id="@+id/divider"
         android:gravity="center_vertical"
         android:layout_marginTop="10dp"
@@ -57,10 +70,10 @@
         android:id="@+id/history_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Review history"
+        android:text="Reviews"
         app:layout_constraintEnd_toEndOf="parent"
         android:paddingTop="10dp"
-        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/divider"
         android:textSize="20dp"

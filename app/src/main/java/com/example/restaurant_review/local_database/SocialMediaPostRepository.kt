@@ -6,6 +6,10 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.restaurant_review.Util.Util
 import com.example.restaurant_review.local_database.*
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,6 +22,9 @@ class SocialMediaPostRepository(private val socialMediaPostDatabase: SocialMedia
     val allLikedPosts2 = socialMediaPostDao.getAllLikedPosts()
     var allLikedPosts = socialMediaPostDao.getLikedPosts(Util.getUserId())
     var allDislikedPosts = socialMediaPostDao.getDislikedPosts(Util.getUserId())
+    var firebaseDatabase = Firebase.database
+    var firebaseMediaRef = firebaseDatabase.reference.child("socialMediaPost")
+    var auth = Firebase.auth
 
     companion object {
         const val DEFAULT_PAGE_INDEX = 1
@@ -39,7 +46,21 @@ class SocialMediaPostRepository(private val socialMediaPostDatabase: SocialMedia
 
     fun insert (post: SocialMediaPostModel){
         CoroutineScope(Dispatchers.IO).launch {
-            socialMediaPostDao.insertPost(post)
+            val id = socialMediaPostDao.insertPost(post)
+            val userRef = firebaseMediaRef.child("users").child(post.userId)
+            //val postId = userRef.push().key
+            println("debug: id $id.")
+
+            val postRef = userRef.child("posts").child(id.toString())
+            postRef.child("title").setValue(post.title)
+            postRef.child("content").setValue(post.textContent)
+            postRef.child("timeStamp").setValue(post.timeStamp)
+            postRef.child("imgList").setValue(post.imgList)
+            postRef.child("likeCount").setValue(post.likeCount)
+            postRef.child("locationLat").setValue(post.locationLat)
+            postRef.child("locationLong").setValue(post.locationLong)
+
+
         }
     }
 
@@ -52,6 +73,7 @@ class SocialMediaPostRepository(private val socialMediaPostDatabase: SocialMedia
     fun deleteAllEntries (){
         CoroutineScope(Dispatchers.IO).launch {
             socialMediaPostDao.deleteAllPosts()
+            firebaseMediaRef.child("users").child(auth.currentUser!!.uid).removeValue()
         }
     }
 
@@ -79,7 +101,18 @@ class SocialMediaPostRepository(private val socialMediaPostDatabase: SocialMedia
 
     fun insertComment (comment: CommentModel){
         CoroutineScope(Dispatchers.IO).launch {
-            socialMediaPostDao.insertComment(comment)
+            val id = socialMediaPostDao.insertComment(comment)
+            println("debug: ${comment.parentPostUserId}, ${comment.parentPostId}")
+
+            val commentRef = firebaseMediaRef.child("users").child(comment.parentPostUserId)
+                .child("posts").child(comment.parentPostId.toString())
+                .child("comment").child(id.toString())
+            commentRef.child("parentPostId").setValue(comment.parentPostId)
+            commentRef.child("userId").setValue(comment.userId)
+            commentRef.child("textContent").setValue(comment.textContent)
+            commentRef.child("timeStamp").setValue(comment.timeStamp)
+            //val postId = userRef.push().key
+            //println("debug: id $id.")
         }
     }
 

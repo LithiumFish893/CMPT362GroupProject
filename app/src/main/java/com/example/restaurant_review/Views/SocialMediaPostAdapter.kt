@@ -2,6 +2,7 @@ package com.example.restaurant_review.Views
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,33 +18,16 @@ import com.example.restaurant_review.R
 import com.example.restaurant_review.Util.Util
 import com.example.restaurant_review.local_database.*
 import com.example.restaurant_review.Activities.FullPostActivity
+import com.example.restaurant_review.Util.Util.getUsernameFromUserId
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import java.io.FileNotFoundException
 
-class SocialMediaPostAdapter : PagingDataAdapter<SocialMediaPostModel, RecyclerView.ViewHolder>(
-    COMPARATOR
-) {
+class SocialMediaPostAdapter(private var postList: MutableList<SocialMediaPostModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         private val MAX_CONTENT_LENGTH = 100
-        private val COMPARATOR = object: DiffUtil.ItemCallback<SocialMediaPostModel>(){
-            override fun areItemsTheSame(
-                oldItem: SocialMediaPostModel,
-                newItem: SocialMediaPostModel
-            ): Boolean {
-                return oldItem.id == newItem.id
-            }
 
-            override fun areContentsTheSame(
-                oldItem: SocialMediaPostModel,
-                newItem: SocialMediaPostModel
-            ): Boolean {
-                return oldItem == newItem
-            }
-
-        }
-    }
-
-    fun interface OnItemClickListener {
-        fun onClick(position: Int)
     }
 
     /**
@@ -76,8 +60,12 @@ class SocialMediaPostAdapter : PagingDataAdapter<SocialMediaPostModel, RecyclerV
                 content.text =  content.text.toString() + "..."
             }
             if (len > 0){
-                val img = Util.filePathToBitmap(context, post.imgList[0])
-                thumbnail.setImageBitmap(img)
+                // TODO: Change when we implement cloud data storage
+                try {
+                    val img = Util.filePathToBitmap(context, post.imgList[0])
+                    thumbnail.setImageBitmap(img)
+                }
+                catch (e: FileNotFoundException){}
             }
             thumbnail.setOnClickListener {
                 val intent = Intent((context as AppCompatActivity), FullPostActivity::class.java)
@@ -86,7 +74,17 @@ class SocialMediaPostAdapter : PagingDataAdapter<SocialMediaPostModel, RecyclerV
                 context.startActivity(intent)
             }
             photo.setImageDrawable(Util.getProfilePhotoFromUserId(post.userId, context))
-            user.text = Util.getNameFromUserId(post.userId)
+
+            val fireDatabase = Firebase.database
+            fireDatabase.reference.child("user")
+                .child(post.userId).child("username").get().addOnCompleteListener() {
+                    if (it.isSuccessful) {
+                        user.text = it.result.value.toString()
+                    } else {
+                        println("Debug: Failed username")
+                        user.text = "Unknown User"
+                    }
+                }
 
             val orange = AppCompatResources.getDrawable(context, R.drawable.thumbs_up_orange)
             val greyUp = AppCompatResources.getDrawable(context, R.drawable.thumbs_up_gray)
@@ -118,13 +116,23 @@ class SocialMediaPostAdapter : PagingDataAdapter<SocialMediaPostModel, RecyclerV
             }
         }
     }
+
+    fun updateList(newList: List<SocialMediaPostModel>) {
+        this.postList = newList as MutableList<SocialMediaPostModel>
+        notifyDataSetChanged()
+    }
+
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): PostViewHolder {
         return PostViewHolder.getInstance(viewGroup)
     }
 
     // Replace the contents of a view (invoked by the layout manager)
-    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
-        getItem(position)?.let { (viewHolder as PostViewHolder).bind(it) }
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        (holder as PostViewHolder).bind(postList[position])
+    }
+
+    override fun getItemCount(): Int {
+        return postList.size
     }
 }

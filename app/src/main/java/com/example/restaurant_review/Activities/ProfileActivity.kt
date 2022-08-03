@@ -2,13 +2,14 @@ package com.example.restaurant_review.Activities
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RatingBar
-import android.widget.TextView
+import android.text.InputType
+import android.view.KeyEvent
+import android.view.inputmethod.InputMethodManager
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,49 +26,55 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class ProfileActivity: AppCompatActivity(), DialogInterface.OnClickListener {
+class ProfileActivity: AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
-    private lateinit var userName: TextView
-    private lateinit var writeReview: Button
+    private lateinit var userName: EditText
     private lateinit var commentHistory: RecyclerView
     private lateinit var database: FirebaseDatabase
     private lateinit var loggedUser: FirebaseUser
-    private lateinit var reviewTitle: EditText
-    private lateinit var reviewRating: RatingBar
-    private lateinit var reviewComment: EditText
-    private lateinit var writeReviewDialog: Dialog
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var myAdapter: ReviewHistoryAdapter
     private lateinit var list: ArrayList<Review>
+    private lateinit var changeUsername: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         auth = Firebase.auth
         userName = findViewById(R.id.username)
-        writeReview = findViewById(R.id.writeReview)
-
+        userName.inputType = InputType.TYPE_NULL
+        changeUsername = findViewById(R.id.usernameChange)
         recyclerView = findViewById(R.id.review_history)
         database = Firebase.database
         recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val imm: InputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
         list = ArrayList()
         myAdapter = ReviewHistoryAdapter(this,list)
         recyclerView.adapter = myAdapter
 
-        writeReview.setOnClickListener() {
-            val builder = AlertDialog.Builder(this)
-            var view = layoutInflater.inflate(R.layout.dialog_write_review, null)
-            builder.setView(view)
-            builder.setTitle("Distance")
-            builder.setPositiveButton("ok", this)
-            builder.setNegativeButton("cancel", this)
-            reviewTitle = view.findViewById<EditText>(R.id.write_review_title)
-            reviewRating = view.findViewById<RatingBar>(R.id.write_review_rating)
-            reviewRating.numStars = 5
-            reviewComment = view.findViewById<EditText>(R.id.write_review_comment)
-            writeReviewDialog = builder.create()
-            writeReviewDialog.show()
+
+
+        changeUsername.setOnClickListener() {
+            userName.inputType = InputType.TYPE_CLASS_TEXT
+            userName.requestFocus()
+            userName.setSelection(userName.length())
+            imm.showSoftInput(userName, 0)
+        }
+
+        userName.setOnKeyListener(){ view, keycode, event ->
+            if ((event.action == KeyEvent.ACTION_DOWN) && (keycode == KeyEvent.KEYCODE_ENTER)) {
+                database.reference.child("user").child(loggedUser.uid).child("username")
+                    .setValue(userName.text.toString())
+                userName.inputType = InputType.TYPE_NULL
+                userName.clearFocus()
+                imm.hideSoftInputFromWindow(userName.windowToken, 0)
+                return@setOnKeyListener true
+            }
+            return@setOnKeyListener false
         }
 
         database.reference.child("reviews").addValueEventListener(object : ValueEventListener {
@@ -107,25 +114,16 @@ class ProfileActivity: AppCompatActivity(), DialogInterface.OnClickListener {
         }else{
             println("Debug: Current user exist")
             loggedUser = currentUser
-            val username = auth.currentUser?.email.toString()
-            userName.text = "$username"
+            database.reference.child("user")
+                .child(loggedUser.uid).child("username").get().addOnCompleteListener() {
+                    if (it.isSuccessful) {
+                        userName.setText("${it.result.value}")
+                    }else {
+                        Toast.makeText(this, "Error!" + it.exception!!.message, Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
         }
     }
 
-    override fun onClick(dialog: DialogInterface?, which: Int) {
-        if (dialog == writeReviewDialog) {
-            if (which == DialogInterface.BUTTON_POSITIVE) {
-                val historyRef = database.reference.child("user").child(loggedUser.uid).child("history")
-                val key = historyRef.push().key
-                historyRef.child(key!!).setValue(key)
-                val reviewRef = database.reference.child("reviews")
-                reviewRef.child(key).child("Author").setValue(loggedUser.uid)
-                reviewRef.child(key).child("Title").setValue(reviewTitle.text.toString())
-                reviewRef.child(key).child("Rating").setValue(reviewRating.rating)
-                reviewRef.child(key).child("Comment").setValue(reviewComment.text.toString())
-            } else if (which == DialogInterface.BUTTON_NEGATIVE) {
-                println("debug: negative pressed")
-            }
-        }
-    }
 }

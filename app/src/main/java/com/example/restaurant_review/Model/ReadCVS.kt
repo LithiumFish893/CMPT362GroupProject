@@ -2,6 +2,7 @@ package com.example.restaurant_review.Model
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import com.example.restaurant_review.R
 import java.io.*
 import java.nio.charset.StandardCharsets
@@ -32,7 +33,7 @@ object ReadCVS {
             while (line != null) {
                 // Split by ","
                 // Don's split the content with quotation mark
-                val tokens = line.split(",").map { it.trim() }
+                val tokens = parseString(line)
                 // Create the Restaurant Manager
                 val manager: RestaurantManager? = RestaurantManager.Companion.instance
                 // Create the new Restaurant object to store data
@@ -60,7 +61,39 @@ object ReadCVS {
             s1.compareTo((s2), ignoreCase = true)
         })
     }
+//reference : https://stackoverflow.com/questions/1757065/java-splitting-a-comma-separated-string-but-ignoring-commas-in-quotes
 
+    fun parseString(input: String): List<String> {
+        val result = mutableListOf<String>()
+        var inQuotes = false
+        var inEscape = false
+        val current = StringBuilder()
+        for (i in input.indices) {
+            // If this character is escaped, add it without looking
+            if (inEscape) {
+                inEscape = false
+                current.append(input[i])
+                continue
+            }
+            when (val c = input[i]) {
+                '\\' -> inEscape = true // escape the next character, \ isn't added to result
+                ',' -> if (inQuotes) {
+                    current.append(c)
+                } else {
+                    result += current.toString()
+                    current.clear()
+                }
+                '"' -> inQuotes = !inQuotes
+                else -> current.append(c)
+            }
+        }
+        if (current.isNotEmpty()) {
+            result += current.toString()
+        }
+        if(result.size == 6)
+            result += ""
+        return result
+    }
     private fun readInspectionData(`is`: InputStream?) {
         // Read CSV Resource File: Android Programming - Brian Fraser
         // Reference: https://www.youtube.com/watch?v=i-TqNzUryn8&ab_channel=BrianFraser
@@ -75,11 +108,12 @@ object ReadCVS {
             while (line != null) {
                 // Split by ","
                 // Don's split the content with quotation mark
-                val tokens =
-                    line.split(",").map { it.trim() }
-                // Create the Inspection Manager
+
+                val tokens = parseString(line)
+                    // Create the Inspection Manager
                 val manager: InspectionManager ?= InspectionManager.Companion.instance
                 // Create the new Inspection object to store data
+
                 val mInspection = Inspection(
                     tokens[0].replace("\"".toRegex(), ""),
                     tokens[1].replace("\"".toRegex(), ""),
@@ -108,7 +142,7 @@ object ReadCVS {
         val mPrefs: SharedPreferences ?= MyApplication.context
             ?.getSharedPreferences("mPrefs", Context.MODE_PRIVATE)
         // init with the iteration 1 data
-        mPrefs?.edit()?.clear()?.apply()
+//        mPrefs?.edit()?.clear()?.apply()
         var restaurantInputStream: InputStream? =
             MyApplication.context?.resources
                 ?.openRawResource(R.raw.restaurants_itr1)
