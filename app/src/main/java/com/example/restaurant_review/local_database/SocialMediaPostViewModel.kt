@@ -1,12 +1,8 @@
 package com.example.restaurant_review.local_database
 
 import androidx.lifecycle.*
-import androidx.paging.ExperimentalPagingApi
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import kotlinx.coroutines.flow.Flow
 
-@ExperimentalPagingApi
 class SocialMediaPostViewModel (private val repository: SocialMediaPostRepository) : ViewModel() {
 
     val allLikedPosts = repository.allLikedPosts2.asLiveData()
@@ -25,9 +21,9 @@ class SocialMediaPostViewModel (private val repository: SocialMediaPostRepositor
         repository.delete(id)
     }
 
-    fun getAllPosts(): Flow<PagingData<SocialMediaPostModel>> {
+    fun getAllPosts(): Flow<List<SocialMediaPostModel>> {
 
-        return repository.letSocialMediaFlowDb().cachedIn(viewModelScope)
+        return repository.allPosts
     }
 
     fun getAllComments(): Flow<List<CommentModel>>  {
@@ -63,7 +59,6 @@ class SocialMediaPostViewModel (private val repository: SocialMediaPostRepositor
     }
 }
 
-@ExperimentalPagingApi
 class SocialMediaPostViewModelFactory(private val repository: SocialMediaPostRepository): ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SocialMediaPostViewModel::class.java)) {

@@ -101,7 +101,7 @@
     <string name="title_label">Title</string>
     <string name="title_default">Title must be under 30 characters long.</string>
     <string name="textContent">Post Content</string>
-    <string name="textContent_default">Content must be under 255 characters long.</string>
+    <string name="textContent_default">Post Content</string>
     <string name="social_media">Social Media</string>
     
 </resources>

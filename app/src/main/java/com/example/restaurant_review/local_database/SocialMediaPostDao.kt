@@ -1,6 +1,5 @@
 package com.example.restaurant_review.local_database
 
-import androidx.paging.PagingSource
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
@@ -11,7 +10,7 @@ interface SocialMediaPostDao {
 
     @Query("SELECT * FROM social_media_post_table")
     // don't need suspend because we're using Flow, Flow makes it act like suspend
-    fun getAllPosts(): PagingSource<Int, SocialMediaPostModel>
+    fun getAllPosts(): Flow<List<SocialMediaPostModel>>
 
     @Query("SELECT MAX(id) from social_media_post_table")
     fun getMaxId(): Flow<Int>

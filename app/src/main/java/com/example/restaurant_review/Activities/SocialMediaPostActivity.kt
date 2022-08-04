@@ -1,35 +1,59 @@
 package com.example.restaurant_review.Activities
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Rect
+import android.graphics.Typeface
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
+import android.view.Gravity
 import android.view.View
-import android.widget.*
+import android.view.Window
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast.LENGTH_SHORT
 import android.widget.Toast.makeText
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.restaurant_review.R
-import com.example.restaurant_review.Util.Util
-import com.example.restaurant_review.local_database.SocialMediaPostModel
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.example.restaurant_review.Model.ImagesViewModel
+import com.example.restaurant_review.Model.MyApplication
+import com.example.restaurant_review.R
 import com.example.restaurant_review.Util.CameraDialog
+import com.example.restaurant_review.Util.Util
 import com.example.restaurant_review.Views.HorizontalImageAdapter
+import com.example.restaurant_review.local_database.SocialMediaPostModel
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 import com.google.firebase.auth.FirebaseAuth
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
+import org.json.JSONObject
+
 
 class SocialMediaPostActivity : AppCompatActivity() {
+    private var isLookingForLocation: Boolean = false
     private val MIN_TEXTCONTENT_LENGTH: Int = 5
     private var SHARED_PREF_FILE_NAME: String = "shared_pref"
     private lateinit var uri: Uri
@@ -42,10 +66,18 @@ class SocialMediaPostActivity : AppCompatActivity() {
     private val MAX_IMAGE_COUNT = 3
     private lateinit var file: File
 
+    private var savedLatitude: Double = 0.0
+    private var savedLongitude: Double = 0.0
+
     private lateinit var adapter: HorizontalImageAdapter
     private lateinit var imgView: RecyclerView
     private lateinit var titleView: EditText
+    private lateinit var noneLocationTv: TextView
+    private lateinit var noneTv: TextView
     private lateinit var textContentView: EditText
+    private lateinit var locationConstraintLayout: ConstraintLayout
+    private lateinit var locationTextView: TextView
+    private lateinit var findLocationButton: Button
     private lateinit var postButton: Button
     private lateinit var cancelButton: Button
 
@@ -67,15 +99,21 @@ class SocialMediaPostActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.sm_activity_social_media_post)
-
+        title = "New Post"
         // Get all the views
         imgView = findViewById(R.id.profile_picture)
         //titleView = findViewById(R.id.smp_title)
+        noneLocationTv = findViewById(R.id.none_location_tv)
+        noneTv = findViewById(R.id.none_images_tv)
         textContentView = findViewById(R.id.smp_textContent)
+        locationConstraintLayout = findViewById(R.id.sm_post_location_constraint_layout)
+        locationTextView = findViewById(R.id.sm_post_location_text_view)
+        findLocationButton = findViewById(R.id.sm_post_find_location_button)
         postButton = findViewById(R.id.smp_save_button)
         cancelButton = findViewById(R.id.smp_cancel_button)
         postButton.setOnClickListener { onSaveClicked() }
         cancelButton.setOnClickListener { onCancelClicked() }
+        findLocationButton.setOnClickListener { findApproximateLocation() }
 
         auth = FirebaseAuth.getInstance()
 
@@ -87,6 +125,8 @@ class SocialMediaPostActivity : AppCompatActivity() {
         viewModel.imgs.value = arrayListOf()
         viewModel.imgUris.value = arrayListOf()
         viewModel.imgs.observe(this) {
+            if (it.isNotEmpty()) noneTv.visibility = View.GONE
+            else noneTv.visibility = View.VISIBLE
             adapter.updateList(it)
         }
         // Get the camera
@@ -118,6 +158,111 @@ class SocialMediaPostActivity : AppCompatActivity() {
             //imgView.setImageBitmap(bitmap)
         }
 
+    }
+
+    private fun findApproximateLocation() {
+        /**
+         * Gets the user's location and finds an approximate one close to the restaurant
+         */
+        if (isLookingForLocation) return
+        else if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            makeText(this, "Please enable location tracking first!", LENGTH_SHORT).show()
+        }
+        else {
+            isLookingForLocation = true
+            noneLocationTv.visibility = View.GONE
+            val progressBar = ProgressBar(this)
+            val textView = TextView(this)
+            progressBar.isIndeterminate = false
+            progressBar.id = View.generateViewId()
+            textView.id = View.generateViewId()
+            locationConstraintLayout.addView(progressBar)
+            locationConstraintLayout.addView(textView)
+            progressBar.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                startToStart = locationTextView.id
+                topToBottom = locationTextView.id
+                width = com.arlib.floatingsearchview.util.Util.dpToPx(24)
+                height = com.arlib.floatingsearchview.util.Util.dpToPx(24)
+            }
+            progressBar.updatePadding(0,0,com.arlib.floatingsearchview.util.Util.dpToPx(10),0,)
+            textView.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                startToEnd = progressBar.id
+                topToBottom = locationTextView.id
+            }
+            textView.setTypeface(textView.typeface, Typeface.ITALIC)
+            textView.text = "Finding your location..."
+
+            val locationClient = LocationServices.getFusedLocationProviderClient(this)
+            locationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+                .addOnSuccessListener {
+                    val queue = Volley.newRequestQueue(MyApplication.context)
+                    textView.text = "Finding a close restaurant..."
+                    val latitude = it.latitude
+                    val longitude = it.longitude
+                    val url = "https://api.yelp.com/v3/businesses/search?term=res&latitude=$latitude&longitude=$longitude&radius=1000&limit=50"
+                    val restaurantsRequest: StringRequest = object : StringRequest(
+                        Method.GET, url,
+                        Response.Listener { response ->
+                            if (response != null) {
+                                val responseJSON = JSONObject(response)
+                                val businessArray = responseJSON.getJSONArray("businesses")
+                                if (businessArray.length() == 0){
+                                    progressBar.visibility = View.GONE
+                                    textView.text = "Could not find nearby restaurant."
+                                    return@Listener
+                                }
+                                var minDist = 100000f
+                                var minIndex = 0
+                                var minLat = 0.0
+                                var minLong = 0.0
+                                for (i in 0 until businessArray.length()){
+                                    val coords = businessArray.getJSONObject(i).getJSONObject("coordinates")
+                                    val lat = coords.getDouble("latitude")
+                                    val long = coords.getDouble("longitude")
+                                    val results = floatArrayOf(0f,0f,0f)
+                                    Location.distanceBetween(latitude, longitude, lat, long, results)
+                                    var dist = results[0]  // in meters
+                                    // todo: check
+                                    dist = businessArray.getJSONObject(i).getDouble("distance").toFloat()
+                                    if (dist < minDist){
+                                        minDist = dist
+                                        minIndex = i
+                                        minLat = lat
+                                        minLong = long
+                                    }
+                                }
+                                savedLatitude = minLat
+                                savedLongitude = minLong
+                                val minDistBusiness = businessArray.getJSONObject(minIndex)
+                                var name = minDistBusiness.getString("name")
+                                var displayName = "Using "
+                                progressBar.visibility = View.GONE
+                                displayName += name
+                                /*var tol = 30
+                                var currLen = displayName.length
+                                for (string in name.split(" ")){
+                                    if (currLen > tol){
+                                        displayName += "\n"
+                                        currLen = 0
+                                    }
+                                    displayName += "$string "
+                                    currLen += string.length + 1
+                                }*/
+                                textView.text = displayName
+                            }
+                        },
+                        Response.ErrorListener { }) {
+                        //This is for Headers If You Needed
+                        override fun getHeaders(): Map<String, String> {
+                            val params: MutableMap<String, String> = HashMap()
+                            params["Content-Type"] = "application/json; charset=UTF-8"
+                            params["Authorization"] = "Bearer 5DID7gCf8IVCfpHugs-cdm6My39YfL3nvQHIu9XMgKphdbVsXRaM4SNZ740uPQ_dwRUcgh3KHqi7P-Bla1OiK2FuuhKpSaewxI0t_KuPmHzhHPWselIlD2co62zrYnYx"
+                            return params
+                        }
+                    }
+                    queue.add(restaurantsRequest)
+                }
+        }
     }
 
     fun onChangeClicked(view: View) {
@@ -181,7 +326,7 @@ class SocialMediaPostActivity : AppCompatActivity() {
         // put all the info into bundle
         val intent = Intent()
         val post = SocialMediaPostModel(
-            title = title, userId = auth.currentUser!!.uid,
+            title = title, userId = auth.currentUser!!.uid, locationLat = savedLatitude, locationLong = savedLongitude,
             textContent = textContent, timeStamp = timeStamp, imgList = viewModel.imgUris.value!!)
         intent.putExtras(Util.postToBundle(post))
         setResult(RESULT_CODE, intent)

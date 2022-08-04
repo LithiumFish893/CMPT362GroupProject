@@ -1,96 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
+        android:id="@+id/sm_post_img_linear_layout"
         android:layout_height = "wrap_content"
         android:layout_width = "match_parent"
-        android:orientation = "vertical">
-        <LinearLayout
+        android:orientation = "vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="@color/bootstrap_blue"
+            android:elevation="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/write_a_post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_padding"
+                android:text="New Post"
+                android:textColor="#eaffffff"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!--View
+                android:id="@+id/view2"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="@+id/write_a_post"
+                app:layout_constraintStart_toStartOf="@id/write_a_post"
+                app:layout_constraintTop_toBottomOf="@id/write_a_post" /-->
+            <EditText
+                android:layout_marginStart="@dimen/default_padding"
+                android:layout_marginTop="@dimen/default_padding"
+                android:layout_marginEnd="@dimen/default_padding"
+                android:id="@+id/smp_textContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top|start"
+                android:hint="@string/textContent_default"
+                android:textColorHint="@color/white_transparent"
+                android:textColor="@color/white"
+                android:maxLength="@integer/smp_textContent_max_length"
+                android:inputType="textMultiLine"
+                android:maxLines="10"
+                app:layout_constraintTop_toBottomOf="@id/write_a_post"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sm_post_location_constraint_layout"
+            android:layout_marginTop="15dp">
+            <ImageView
+                android:layout_marginStart="@dimen/default_padding"
+                android:id="@+id/sm_post_location_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_location_on_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/sm_post_location_text_view"
+                app:layout_constraintBottom_toBottomOf="@id/sm_post_location_text_view"/>
+            <TextView
+                android:id="@+id/sm_post_location_text_view"
+                android:layout_marginTop="@dimen/default_padding"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_padding"
+                android:textSize="18sp"
+                android:text="@string/location"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toEndOf="@id/sm_post_location_icon"
+                app:layout_constraintTop_toTopOf="parent"/>
+            <TextView
+                android:id="@+id/none_location_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/sm_post_location_text_view"
+                app:layout_constraintStart_toStartOf="@id/sm_post_location_text_view"
+                android:text="@string/none"/>
+            <Button
+                android:id="@+id/sm_post_find_location_button"
+                android:backgroundTint="@color/bootstrap_blue"
+                android:textColor="@color/white"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/find"
+                android:layout_gravity="right"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_height = "wrap_content"
             android:layout_width = "match_parent"
-            android:orientation= "horizontal">
+            android:layout_marginTop="15dp">
+            <ImageView
+                android:id="@+id/image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_image_24"
+                android:layout_marginStart="@dimen/default_padding"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/image"
+                app:layout_constraintBottom_toBottomOf="@id/image"/>
             <TextView
                 android:id="@+id/image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/image"
-                android:minHeight="48dp"
-                android:paddingVertical="@dimen/default_padding">
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:layout_marginStart="@dimen/default_padding"
+                android:layout_marginTop="@dimen/default_padding"
+                app:layout_constraintStart_toEndOf="@id/image_view"
+                app:layout_constraintTop_toTopOf="parent">
             </TextView>
-
+            <TextView
+                android:id="@+id/none_images_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/image"
+                app:layout_constraintStart_toStartOf="@id/image"
+                android:text="@string/none"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/profile_picture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingVertical = "@dimen/default_padding"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:orientation="horizontal" >
-                <Button
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="@string/add"
-                    android:onClick="onChangeClicked"/>
-            </LinearLayout>
-        </LinearLayout>
-        <!--TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:paddingVertical = "@dimen/default_padding"
-            android:text="@string/title_label">
-        </TextView>
-        <EditText
-            android:id="@+id/smp_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/title_default"
-            android:inputType="text"
-            android:minHeight="48dp"
-            android:maxLength="@integer/smp_title_max_length"
-            android:paddingVertical="@dimen/default_padding" /-->
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:paddingVertical = "@dimen/default_padding"
-            android:text="@string/textContent">
-        </TextView>
-        <EditText
-            android:id="@+id/smp_textContent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="top|start"
-            android:hint="@string/textContent_default"
-            android:maxLength="@integer/smp_textContent_max_length"
-            android:inputType="textMultiLine"
-            android:minHeight="250dp"
-            android:maxLines="10"
-            android:paddingVertical="@dimen/default_padding"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
+                app:layout_constraintTop_toBottomOf="@id/image"
+                app:layout_constraintStart_toStartOf="@id/image"/>
             <Button
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:backgroundTint="@color/bootstrap_blue"
+                android:textColor="@color/white"
                 android:layout_height="wrap_content"
-                android:text="@string/save_button"
-                android:layout_gravity="bottom"
-                android:id="@+id/smp_save_button"/>
-            <Button
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="@string/cancel_button"
-                android:layout_gravity="bottom"
-                android:layout_marginStart="@dimen/button_margin"
-                android:id="@+id/smp_cancel_button"/>
-        </LinearLayout>
-
+                android:layout_width="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/add"
+                android:onClick="onChangeClicked"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
-</ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <Button
+            android:backgroundTint="@color/bootstrap_green"
+            android:textColor="@color/white"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/save_button"
+            android:layout_gravity="bottom"
+            android:id="@+id/smp_save_button"/>
+        <Button
+            android:backgroundTint="@color/bootstrap_red"
+            android:textColor="@color/white"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel_button"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="@dimen/button_margin"
+            android:id="@+id/smp_cancel_button"/>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

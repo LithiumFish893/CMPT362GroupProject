@@ -10,8 +10,6 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.ViewModelProvider
-import androidx.paging.ExperimentalPagingApi
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restaurant_review.R
@@ -34,7 +32,6 @@ class SocialMediaPostAdapter(private var postList: MutableList<SocialMediaPostMo
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
      */
-    @OptIn(ExperimentalPagingApi::class)
     class PostViewHolder(view: View, val context: Context) : RecyclerView.ViewHolder(view) {
         companion object {
             // https://medium.com/swlh/paging3-recyclerview-pagination-made-easy-333c7dfa8797

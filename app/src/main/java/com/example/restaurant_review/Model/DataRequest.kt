@@ -29,7 +29,7 @@ class DataRequest {
                 return field
             }
             private set
-        private const val URL_RESTAURANT =
+        const val URL_RESTAURANT =
             "https://data.surrey.ca/api/3/action/package_show?id=restaurants"
         private const val URL_INSPECTION =
             "https://data.surrey.ca/api/3/action/package_show?id=fraser-health-restaurant-inspection-reports"

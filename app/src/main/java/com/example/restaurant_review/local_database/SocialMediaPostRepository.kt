@@ -1,9 +1,5 @@
 package com.example.restaurant_review.local_database
 
-import androidx.paging.ExperimentalPagingApi
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
 import com.example.restaurant_review.Util.Util
 import com.example.restaurant_review.local_database.*
 import com.google.firebase.auth.ktx.auth
@@ -15,9 +11,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.Flow
 
-@ExperimentalPagingApi
 class SocialMediaPostRepository(private val socialMediaPostDatabase: SocialMediaPostDatabase) {
     var socialMediaPostDao = socialMediaPostDatabase.socialMediaPostDao
+    var allPosts = socialMediaPostDao.getAllPosts()
     val allComments: Flow<List<CommentModel>> =  socialMediaPostDao.getAllComments()
     val allLikedPosts2 = socialMediaPostDao.getAllLikedPosts()
     var allLikedPosts = socialMediaPostDao.getLikedPosts(Util.getUserId())
@@ -29,19 +25,6 @@ class SocialMediaPostRepository(private val socialMediaPostDatabase: SocialMedia
     companion object {
         const val DEFAULT_PAGE_INDEX = 1
         const val DEFAULT_PAGE_SIZE = 20
-    }
-
-    fun letSocialMediaFlowDb (pagingConfig: PagingConfig = getDefaultPageConfig()): Flow<PagingData<SocialMediaPostModel>> {
-        val pagingSourceFactory = {socialMediaPostDao.getAllPosts()}
-        return Pager (
-            config = pagingConfig,
-            pagingSourceFactory = pagingSourceFactory,
-            remoteMediator = SocialMediaPostMediator(socialMediaPostDatabase)
-        ).flow
-    }
-
-    private fun getDefaultPageConfig(): PagingConfig {
-        return PagingConfig(pageSize = DEFAULT_PAGE_SIZE, enablePlaceholders = false)
     }
 
     fun insert (post: SocialMediaPostModel){

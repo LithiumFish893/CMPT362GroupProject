@@ -97,11 +97,9 @@ class TourNodeDialog(var listener: OnDialogSetListener?):  DialogFragment(), Dia
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        println("image selected2, $requestCode, $resultCode")
         // get the gallery image
         if (requestCode == GET_GALLERY_CODE && resultCode == AppCompatActivity.RESULT_OK)
         {
-            println("image selected")
             val targetUri: Uri? = data?.data
             uri = targetUri!!
             textView.text = uri.toFile().name

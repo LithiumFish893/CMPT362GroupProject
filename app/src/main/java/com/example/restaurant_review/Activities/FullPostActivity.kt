@@ -1,27 +1,27 @@
 package com.example.restaurant_review.Activities
 
 import android.graphics.Bitmap
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.view.Window
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.paging.ExperimentalPagingApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restaurant_review.R
-import com.example.restaurant_review.local_database.*
 import com.example.restaurant_review.Util.Util
 import com.example.restaurant_review.Views.CommentAdapter
 import com.example.restaurant_review.Views.HorizontalImageAdapter
+import com.example.restaurant_review.local_database.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import java.io.FileNotFoundException
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class FullPostActivity : AppCompatActivity() {
@@ -40,7 +40,6 @@ class FullPostActivity : AppCompatActivity() {
     private lateinit var array : ArrayList<CommentModel>
     private lateinit var comments: RecyclerView
 
-    @OptIn(ExperimentalPagingApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.sm_activity_post_full)
@@ -59,12 +58,11 @@ class FullPostActivity : AppCompatActivity() {
         commentPostButton = findViewById(R.id.postCommentButton)
         comments = findViewById(R.id.comment_list)
 
-
         val firebaseAuth = Firebase.auth
         val firebaseDatabase = Firebase.database
         val userRef = firebaseDatabase.reference.child("user").child(post.userId).child("username")
 
-        titleView.text = "Location: "//post.title.ifEmpty { "<No Title>" }
+        titleView.text = "Location: ${post.locationLat}, ${post.locationLong}"//post.title.ifEmpty { "<No Title>" }
 
         userRef.get().addOnCompleteListener() {
                 if (it.isSuccessful) {

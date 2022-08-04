@@ -28,4 +28,8 @@
     <color name="yellow_500">#FFFFC047</color>
     <color name="yellow_700">#FFE5A800</color>
 
+    <color name="bootstrap_blue">#007BFF</color>
+    <color name="bootstrap_green">#28A745</color>
+    <color name="bootstrap_red">#DC3545</color>
+
 </resources>

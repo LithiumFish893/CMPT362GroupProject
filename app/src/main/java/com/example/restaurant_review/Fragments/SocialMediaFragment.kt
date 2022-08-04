@@ -1,14 +1,20 @@
 package com.example.restaurant_review.Fragments
 
+import android.content.Intent
+import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.example.restaurant_review.Activities.SocialMediaPostActivity
 import com.example.restaurant_review.local_database.*
 import com.example.restaurant_review.Fragments.NearbyFeedFragment
 import com.example.restaurant_review.Fragments.RecommendedFeedFragment
@@ -16,6 +22,7 @@ import com.example.restaurant_review.Fragments.SubscribedFeedFragment
 import com.example.restaurant_review.R
 import com.example.restaurant_review.Util.Util
 import com.example.restaurant_review.Views.UiFragmentStateAdapter
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -63,6 +70,24 @@ class SocialMediaFragment : Fragment() {
         }
         tabLayoutMediator = TabLayoutMediator(tabLayout, viewPager, tabConfigurationStrategy)
         tabLayoutMediator.attach()
+
+        val database = SocialMediaPostDatabase.getInstance(requireContext())
+        val repository = SocialMediaPostRepository(database)
+        val factory = SocialMediaPostViewModelFactory(repository)
+        val viewModel = ViewModelProvider(this, factory).get(SocialMediaPostViewModel::class.java)
+        val start = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == SocialMediaPostActivity.RESULT_CODE && it.data != null){
+                val intent = it.data!!
+                val post = Util.bundleToPost(intent.extras!!)
+                viewModel.insert(post)
+            }
+        }
+        val button : FloatingActionButton = pView.findViewById(R.id.button)
+        button.setOnClickListener {
+            val intent = Intent(requireContext(), SocialMediaPostActivity::class.java)
+            start.launch(intent)
+            requireActivity().overridePendingTransition(R.anim.slide_from_bottom_right, androidx.appcompat.R.anim.abc_fade_out)
+        }
         return pView
     }
 
