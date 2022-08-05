@@ -25,18 +25,41 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <TextView    android:layout_margin="5dp"
-        android:id="@+id/smp_title"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/smp_location"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="normal"
-        android:textColor="@color/location"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@id/smp_time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/smp_imgs">
+        <ImageView
+            android:id="@+id/smp_location_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_location_on_24"
+            app:tint="@color/location"
+            android:layout_gravity="bottom"/>
+        <TextView
+            android:id="@+id/smp_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            android:textColor="@color/location"
+            android:layout_gravity="bottom"/>
+    </LinearLayout>
+
+    <Button
+        android:elevation="3dp"
+        android:id="@+id/smp_subscribe_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Subscribe"
+        android:backgroundTint="@color/yellow_500"
         app:layout_constraintTop_toBottomOf="@id/smp_imgs"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView    android:layout_margin="5dp"
         android:id="@+id/smp_time"
@@ -48,7 +71,7 @@
         app:layout_constraintBottom_toTopOf="@id/smp_textContent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/smp_title" />
+        app:layout_constraintTop_toBottomOf="@id/smp_subscribe_button" />
 
     <TextView    android:layout_margin="5dp"
         android:id="@+id/smp_textContent"
@@ -62,16 +85,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/smp_time" />
 
+    <View
+        android:id="@+id/dividing_bar"
+        android:layout_marginVertical="@dimen/default_padding"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"
+        app:layout_constraintTop_toTopOf="@id/replyTextView"
+        app:layout_constraintStart_toStartOf="parent"/>
+
     <TextView    android:layout_margin="5dp"
         android:id="@+id/replyTextView"
+        android:paddingTop="20dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/smp_textContent"
+        app:layout_constraintTop_toBottomOf="@id/dividing_bar"
         android:text="Replies: "/>
 
     <LinearLayout    android:layout_margin="5dp"
+        android:layout_marginTop="@dimen/default_padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -83,7 +117,6 @@
             android:gravity="top|start"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:height="80dp"
             android:hint="Write a comment..."
             android:layout_weight="0.8"
             android:maxLength="@integer/smp_textContent_max_length"
@@ -91,8 +124,10 @@
         <Button
             android:id="@+id/postCommentButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_weight="0.2"
+            android:background="@drawable/round_rectangle_blue"
+            android:textColor="@color/white"
             android:text="Post"/>
     </LinearLayout>
 

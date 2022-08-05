@@ -53,6 +53,7 @@ import org.json.JSONObject
 
 
 class SocialMediaPostActivity : AppCompatActivity() {
+    private var locationName: String = ""
     private var isLookingForLocation: Boolean = false
     private val MIN_TEXTCONTENT_LENGTH: Int = 5
     private var SHARED_PREF_FILE_NAME: String = "shared_pref"
@@ -87,6 +88,7 @@ class SocialMediaPostActivity : AppCompatActivity() {
         const val ID_KEY = "id key"
         const val LAT_KEY = "lat key"
         const val LONG_KEY = "long key"
+        const val LOCATION_NAME_KEY = "location name key"
         const val TITLE_KEY = "title key"
         const val USERID_KEY = "userid key"
         const val TEXT_CONTENT_KEY = "text content key"
@@ -235,19 +237,10 @@ class SocialMediaPostActivity : AppCompatActivity() {
                                 savedLongitude = minLong
                                 val minDistBusiness = businessArray.getJSONObject(minIndex)
                                 var name = minDistBusiness.getString("name")
+                                locationName = name
                                 var displayName = "Using "
                                 progressBar.visibility = View.GONE
                                 displayName += name
-                                /*var tol = 30
-                                var currLen = displayName.length
-                                for (string in name.split(" ")){
-                                    if (currLen > tol){
-                                        displayName += "\n"
-                                        currLen = 0
-                                    }
-                                    displayName += "$string "
-                                    currLen += string.length + 1
-                                }*/
                                 textView.text = displayName
                             }
                         },
@@ -325,9 +318,10 @@ class SocialMediaPostActivity : AppCompatActivity() {
 
         // put all the info into bundle
         val intent = Intent()
+        println("using $locationName")
         val post = SocialMediaPostModel(
             title = title, userId = auth.currentUser!!.uid, locationLat = savedLatitude, locationLong = savedLongitude,
-            textContent = textContent, timeStamp = timeStamp, imgList = viewModel.imgUris.value!!)
+            locationName = locationName, textContent = textContent, timeStamp = timeStamp, imgList = viewModel.imgUris.value!!)
         intent.putExtras(Util.postToBundle(post))
         setResult(RESULT_CODE, intent)
         finish()

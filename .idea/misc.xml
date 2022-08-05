@@ -6,6 +6,7 @@
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/drawable-v24/close_button.xml" value="0.1" />
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/drawable-v24/person.xml" value="0.308" />
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/drawable-v24/round_rectangle.xml" value="0.1" />
+        <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/drawable-v24/round_rectangle_blue.xml" value="0.1" />
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/drawable-v24/round_rectangle_transparent.xml" value="0.1" />
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/drawable-v24/thumbs_up_gray.xml" value="0.308" />
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/drawable/add_box.xml" value="0.1" />
@@ -26,7 +27,7 @@
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/layout/fragment_about.xml" value="0.146875" />
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/layout/fragment_maps.xml" value="0.14270833333333333" />
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/layout/nav_header_main.xml" value="0.28804347826086957" />
-        <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/layout/sm_activity_post_full.xml" value="0.28804347826086957" />
+        <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/layout/sm_activity_post_full.xml" value="0.24671052631578946" />
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/layout/sm_activity_social_media_post.xml" value="0.3333333333333333" />
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/layout/sm_fragment_dialog_text_field.xml" value="0.26856884057971014" />
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/layout/sm_fragment_nearby_feed.xml" value="0.14635416666666667" />

@@ -24,6 +24,7 @@ data class SocialMediaPostModel(
     val timeStamp: Long = 0,
     val locationLat: Double = 0.0,
     val locationLong: Double = 0.0,
+    val locationName: String = "",
     val likeCount: Int = 0,
     val title: String = "",
     val textContent: String = "",
@@ -37,6 +38,7 @@ data class SocialMediaPostModel(
         result = 31 * result + timeStamp.hashCode()
         result = 31 * result + locationLat.hashCode()
         result = 31 * result + locationLong.hashCode()
+        result = 31 * result + locationName.hashCode()
         result = 31 * result + title.hashCode()
         result = 31 * result + textContent.hashCode()
         result = 31 * result + imgList.hashCode()
@@ -54,6 +56,7 @@ data class SocialMediaPostModel(
         if (timeStamp != other.timeStamp) return false
         if (locationLat != other.locationLat) return false
         if (locationLong != other.locationLong) return false
+        if (locationName != other.locationName) return false
         if (title != other.title) return false
         if (textContent != other.textContent) return false
         if (imgList != other.imgList) return false

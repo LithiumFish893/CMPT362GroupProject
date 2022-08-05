@@ -138,11 +138,12 @@ object Util {
         val titleString = bundle.getString(SocialMediaPostActivity.TITLE_KEY)
         val userId = bundle.getString(SocialMediaPostActivity.USERID_KEY)!!
         val textContent = bundle.getString(SocialMediaPostActivity.TEXT_CONTENT_KEY)
+        val locationName = bundle.getString(SocialMediaPostActivity.LOCATION_NAME_KEY)
         val timeStamp = bundle.getLong(SocialMediaPostActivity.TIMESTAMP_KEY, 0L)
         val imageUris = bundle.getStringArrayList(SocialMediaPostActivity.IMAGE_URIS_KEY)
         return SocialMediaPostModel(
             id = id, locationLat = lat, locationLong = long, timeStamp = timeStamp, userId = userId, title = titleString!!,
-            textContent = textContent!!, imgList = imageUris!!)
+            locationName = locationName!!, textContent = textContent!!, imgList = imageUris!!)
     }
 
     fun postToBundle (post: SocialMediaPostModel) : Bundle {
@@ -155,6 +156,7 @@ object Util {
         bundle.putString(SocialMediaPostActivity.TITLE_KEY, post.title)
         bundle.putString(SocialMediaPostActivity.USERID_KEY, post.userId)
         bundle.putString(SocialMediaPostActivity.TEXT_CONTENT_KEY, post.textContent)
+        bundle.putString(SocialMediaPostActivity.LOCATION_NAME_KEY, post.locationName)
         bundle.putLong(SocialMediaPostActivity.TIMESTAMP_KEY, post.timeStamp)
         bundle.putStringArrayList(SocialMediaPostActivity.IMAGE_URIS_KEY, list)
         return bundle

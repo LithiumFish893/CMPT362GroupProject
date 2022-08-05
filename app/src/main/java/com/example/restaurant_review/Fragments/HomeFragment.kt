@@ -15,6 +15,7 @@ import androidx.navigation.Navigation.findNavController
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.example.restaurant_review.Activities.MainActivity
 import com.example.restaurant_review.Activities.RestaurantDetailActivity
+import com.example.restaurant_review.Activities.RestaurantReview
 import com.example.restaurant_review.Model.Restaurant
 import com.example.restaurant_review.Model.RestaurantManager
 import com.example.restaurant_review.R

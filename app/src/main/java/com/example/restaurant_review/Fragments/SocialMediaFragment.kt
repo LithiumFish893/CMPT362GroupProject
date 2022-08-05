@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import androidx.viewpager2.widget.ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
 import com.example.restaurant_review.Activities.SocialMediaPostActivity
 import com.example.restaurant_review.local_database.*
 import com.example.restaurant_review.Fragments.NearbyFeedFragment
@@ -60,6 +61,8 @@ class SocialMediaFragment : Fragment() {
         // Then add state adapter to view pager so it can show the fragments
         tabLayout = pView.findViewById(R.id.mainTabLayout)
         viewPager = pView.findViewById(R.id.mainViewPager)
+        // fix random crashes https://stackoverflow.com/questions/44571895/staggeredgridlayoutmanager-calculatecachedstart-indexoutofboundsexception
+        viewPager.offscreenPageLimit = 10
         uiFragmentStateAdapter = UiFragmentStateAdapter(requireActivity(), fragmentList)
         viewPager.adapter = uiFragmentStateAdapter
 
@@ -79,6 +82,7 @@ class SocialMediaFragment : Fragment() {
             if (it.resultCode == SocialMediaPostActivity.RESULT_CODE && it.data != null){
                 val intent = it.data!!
                 val post = Util.bundleToPost(intent.extras!!)
+                println("post=${post.locationName}")
                 viewModel.insert(post)
             }
         }

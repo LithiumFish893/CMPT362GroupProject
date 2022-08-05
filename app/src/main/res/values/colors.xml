@@ -25,6 +25,7 @@
     <color name="gray">#FFAAAAAA</color>
     <color name="social_media_feed_background_color">#FFFFFFFF</color>
     <color name="location">#007bff</color>
+    <color name="yellow_200">#FFFFF59D</color>
     <color name="yellow_500">#FFFFC047</color>
     <color name="yellow_700">#FFE5A800</color>
 

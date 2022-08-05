@@ -42,7 +42,7 @@ class SocialMediaPostRepository(private val socialMediaPostDatabase: SocialMedia
             postRef.child("likeCount").setValue(post.likeCount)
             postRef.child("locationLat").setValue(post.locationLat)
             postRef.child("locationLong").setValue(post.locationLong)
-
+            postRef.child("locationName").setValue(post.locationName)
 
         }
     }

@@ -47,11 +47,6 @@ class RecommendedFeedFragment : Fragment() {
         progressBar = pView.findViewById(R.id.sm_recommended_progress_bar)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        /*val button2 : Button = pView.findViewById(R.id.button_delete)
-        button2.setOnClickListener {
-            //viewModel.deleteAllEntries()
-            //viewModel.deleteAllComments()
-        }*/
         return pView
     }
 
@@ -103,6 +98,7 @@ class RecommendedFeedFragment : Fragment() {
                             timeStamp = (post["timeStamp"] as Long as Number).toLong(),
                             locationLat = (post["locationLat"] as Number).toDouble(),
                             locationLong = (post["locationLong"] as Number).toDouble(),
+                            locationName = if (post.containsKey("locationName")) post["locationName"] as String else "",
                             likeCount = (post["likeCount"] as Number).toInt(),
                             title = post["title"] as String,
                             textContent = post["content"] as String,

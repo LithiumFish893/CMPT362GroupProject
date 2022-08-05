@@ -130,6 +130,7 @@ class NearbyFeedFragment : Fragment() {
                             timeStamp = (post["timeStamp"] as Long as Number).toLong(),
                             locationLat = (post["locationLat"] as Number).toDouble(),
                             locationLong = (post["locationLong"] as Number).toDouble(),
+                            locationName = if (post.containsKey("locationName")) post["locationName"] as String else "",
                             likeCount = (post["likeCount"] as Number).toInt(),
                             title = post["title"] as String,
                             textContent = post["content"] as String,

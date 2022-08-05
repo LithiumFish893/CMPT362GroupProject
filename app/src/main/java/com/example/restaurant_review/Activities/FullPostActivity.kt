@@ -1,12 +1,10 @@
 package com.example.restaurant_review.Activities
 
 import android.graphics.Bitmap
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.view.Window
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -18,6 +16,9 @@ import com.example.restaurant_review.Views.CommentAdapter
 import com.example.restaurant_review.Views.HorizontalImageAdapter
 import com.example.restaurant_review.local_database.*
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import java.io.FileNotFoundException
@@ -25,7 +26,10 @@ import java.util.*
 
 
 class FullPostActivity : AppCompatActivity() {
-    private lateinit var titleView : TextView
+    private var subscribed: Boolean = false
+    private lateinit var locationImageView: ImageView
+    private lateinit var locationTextView : TextView
+    private lateinit var subscriptionButton: Button
     private lateinit var timeView : TextView
     private lateinit var contentView : TextView
     private lateinit var imagesView : ImageView //RecyclerView
@@ -45,7 +49,9 @@ class FullPostActivity : AppCompatActivity() {
         setContentView(R.layout.sm_activity_post_full)
         val bundle = intent.extras!!
         val post = Util.bundleToPost(bundle)
-        titleView = findViewById(R.id.smp_title)
+        locationImageView = findViewById(R.id.smp_location_image)
+        locationTextView = findViewById(R.id.smp_title)
+        subscriptionButton = findViewById(R.id.smp_subscribe_button)
         timeView = findViewById(R.id.smp_time)
         contentView = findViewById(R.id.smp_textContent)
         imagesView = findViewById(R.id.smp_imgs)
@@ -60,9 +66,16 @@ class FullPostActivity : AppCompatActivity() {
 
         val firebaseAuth = Firebase.auth
         val firebaseDatabase = Firebase.database
-        val userRef = firebaseDatabase.reference.child("user").child(post.userId).child("username")
+        val currentUser = firebaseAuth.currentUser!!.uid
+        val userRef = firebaseDatabase.reference.child("user").child(currentUser).child("username")
+        // get all the subscriptions from the currently logged in user
+        val subscriptionRef = firebaseDatabase.reference.child("subscriptions").child(currentUser)
 
-        titleView.text = "Location: ${post.locationLat}, ${post.locationLong}"//post.title.ifEmpty { "<No Title>" }
+        if (post.locationName.isEmpty()){
+            locationImageView.visibility = GONE
+            locationTextView.visibility = GONE
+        }
+        locationTextView.text = post.locationName
 
         userRef.get().addOnCompleteListener() {
                 if (it.isSuccessful) {
@@ -73,8 +86,35 @@ class FullPostActivity : AppCompatActivity() {
                 }
             }
 
+        subscriptionRef.get().addOnSuccessListener {
+            updateSubscriptions(it, post)
+        }
 
+        if (post.userId != currentUser) {
+            subscriptionRef.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    updateSubscriptions(snapshot, post)
+                }
 
+                override fun onCancelled(error: DatabaseError) { }
+
+            })
+
+            // subscribe/unsubscribe to post author
+            subscriptionButton.setOnClickListener {
+                if (!subscribed) {
+                    subscriptionRef.child(post.userId).setValue(Calendar.getInstance().timeInMillis)
+                    subscribed = true
+                } else {
+                    subscriptionRef.child(post.userId).removeValue()
+                    subscribed = false
+                }
+            }
+
+        }
+        else {
+            subscriptionButton.visibility = GONE
+        }
         contentView.text = post.textContent
         bitmaps = arrayListOf<Bitmap>()
         for (path: String in post.imgList) {
@@ -121,12 +161,43 @@ class FullPostActivity : AppCompatActivity() {
             val comment = CommentModel(
                 parentPostId = post.id,
                 parentPostUserId = post.userId,
-                userId = firebaseAuth.currentUser!!.uid,
+                userId = currentUser,
                 timeStamp = Calendar.getInstance().timeInMillis,
                 textContent = commentEditText.text.toString()
             )
             viewModel.insertComment(comment)
             commentEditText.text.clear()
+        }
+    }
+
+    fun updateSubscriptions(snapshot: DataSnapshot, post: SocialMediaPostModel){
+        snapshot.children.forEach {
+            println("listening in FullPostActivity")
+            // see if current user subscribed to whoever made the post
+            println("${it.key}, ${post.userId}")
+            if (it.key as String == post.userId) {
+                // make button green
+                subscribed = true
+                subscriptionButton.backgroundTintList = (
+                        resources.getColorStateList(
+                            R.color.bootstrap_green,
+                            null
+                        )
+                        )
+                subscriptionButton.text = "Subscribed"
+                subscriptionButton.setTextColor(resources.getColor(R.color.white, null))
+                return@forEach
+            } else {
+                subscribed = false
+                subscriptionButton.backgroundTintList = (
+                        resources.getColorStateList(
+                            R.color.yellow_500,
+                            null
+                        )
+                        )
+                subscriptionButton.text = "Subscribe"
+                subscriptionButton.setTextColor(resources.getColor(R.color.black, null))
+            }
         }
     }
 
@@ -147,15 +218,4 @@ class FullPostActivity : AppCompatActivity() {
         imagesCountView.visibility = GONE
     }
 
-    private fun getCurrentItem(): Int {
-        val res = (galleryView.layoutManager as LinearLayoutManager)
-            .findFirstCompletelyVisibleItemPosition()
-        if (res <= 0) {
-            return res //previousGoodValue
-        }
-        else {
-            //previousGoodValue = res
-            return res
-        }
-    }
 }
