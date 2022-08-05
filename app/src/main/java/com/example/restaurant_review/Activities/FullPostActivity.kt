@@ -171,10 +171,8 @@ class FullPostActivity : AppCompatActivity() {
     }
 
     fun updateSubscriptions(snapshot: DataSnapshot, post: SocialMediaPostModel){
-        snapshot.children.forEach {
-            println("listening in FullPostActivity")
+        for (it in snapshot.children) {
             // see if current user subscribed to whoever made the post
-            println("${it.key}, ${post.userId}")
             if (it.key as String == post.userId) {
                 // make button green
                 subscribed = true
@@ -186,18 +184,19 @@ class FullPostActivity : AppCompatActivity() {
                         )
                 subscriptionButton.text = "Subscribed"
                 subscriptionButton.setTextColor(resources.getColor(R.color.white, null))
-                return@forEach
-            } else {
-                subscribed = false
-                subscriptionButton.backgroundTintList = (
-                        resources.getColorStateList(
-                            R.color.yellow_500,
-                            null
-                        )
-                        )
-                subscriptionButton.text = "Subscribe"
-                subscriptionButton.setTextColor(resources.getColor(R.color.black, null))
+                break
             }
+        }
+        if (!subscribed) {
+            subscribed = false
+            subscriptionButton.backgroundTintList = (
+                    resources.getColorStateList(
+                        R.color.yellow_500,
+                        null
+                    )
+                    )
+            subscriptionButton.text = "Subscribe"
+            subscriptionButton.setTextColor(resources.getColor(R.color.black, null))
         }
     }
 
