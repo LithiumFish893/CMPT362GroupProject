@@ -18,7 +18,6 @@
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/drawable/add_plus_40.xml" value="0.1" />
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/drawable/arrow_down.xml" value="0.1" />
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/drawable/ic_baseline_image_24.xml" value="0.1" />
-        <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/drawable/ic_baseline_image_24_squished.xml" value="0.1" />
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/drawable/ic_menu_about.xml" value="0.223" />
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/drawable/ic_menu_social_media.xml" value="0.1" />
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/drawable/ic_vr_tour.xml" value="0.1" />
@@ -38,7 +37,6 @@
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/layout/sm_fragment_nearby_feed.xml" value="0.14635416666666667" />
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/layout/sm_fragment_recommended_feed.xml" value="0.22282608695652173" />
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/layout/sm_fragment_subscribed_feed.xml" value="0.28442028985507245" />
-        <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/layout/sm_image_view_social_media_post.xml" value="0.1" />
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/layout/sm_list_view.xml" value="0.26856884057971014" />
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/layout/sm_view_social_media_post.xml" value="0.14817629179331307" />
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project 2/CMPT362GroupProject/app/src/main/res/layouts/layout_social_media/layout/activity_create_vr_tour.xml" value="0.12395833333333334" />
@@ -56,9 +54,14 @@
         <entry key="..\:/SCHOOL STUFF/2022Su/CMPT362/Final Project Github/CMPT362GroupProject/app/src/main/res/layout/fragment_maps.xml" value="0.10891590678824721" />
         <entry key="app/src/main/res/drawable/side_nav_bar.xml" value="0.159" />
         <entry key="app/src/main/res/layout/activity_inspection_detail.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.2453125" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.24458312988281253" />
         <entry key="app/src/main/res/layout/activity_restaurant_detail.xml" value="0.2006340579710145" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.10891590678824721" />
         <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.10643115942028986" />
+        <entry key="app/src/main/res/layout/sm_activity_post_full.xml" value="0.2453125" />
+        <entry key="app/src/main/res/layout/sm_activity_social_media_post.xml" value="0.2453125" />
+        <entry key="app/src/main/res/layouts/layout_social_media/drawable/background_light_green.xml" value="0.1325" />
       </map>
     </option>
   </component>

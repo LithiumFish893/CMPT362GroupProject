@@ -41,6 +41,7 @@ class ProfileActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+        title = "Profile"
         auth = Firebase.auth
         userName = findViewById(R.id.username)
         userName.inputType = InputType.TYPE_NULL

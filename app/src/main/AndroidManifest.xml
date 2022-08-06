@@ -68,7 +68,7 @@
         <activity android:name=".Activities.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Activities.ProfileActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".Activities.RestaurantDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
