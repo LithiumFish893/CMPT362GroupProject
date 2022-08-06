@@ -60,7 +60,10 @@ object Util {
     fun checkCameraPermissions (activity: Activity?) : Boolean{
         val perm: Boolean =  ContextCompat.checkSelfPermission(activity!!, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED //&&
                 //ContextCompat.checkSelfPermission(activity!!, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-        if (!perm) ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA), 0)
+        if (!perm) {
+            println("need to get perms")
+            ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.CAMERA), 0)
+        }
         return perm
     }
 

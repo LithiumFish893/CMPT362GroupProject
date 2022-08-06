@@ -53,15 +53,12 @@
     <string name="inspection_type">inspection type: ROUTINE</string>
     <string name="inspection_critical">%1$d critical issues found</string>
     <string name="inspection_non_critical">%1$d non-critical issues found</string>
-    <string name="inspection_violations_history">Violation History</string>
     <string name="inspection_days">%1$d day(s) ago</string>
     <string name="inspection_hazard_list">hazard</string>
     <string name="inspection_critical_list"> critical issues found</string>
     <string name="inspection_noncritical_list"> non-critical issues found</string>
     <string name="days_ago">day(s) ago</string>
 
-    <!--    string value for violation-->
-    <string name="violationType" translatable="false">%1$s (%2$s):</string>
     <string name="hazardLevel">%1$s hazard</string>
 
     <!--  string value for launching intent -->
@@ -76,7 +73,6 @@
     <!--  string value for Home menu item-->
     <string name="menu_favorite_only">Favorite only</string>
     <string name="menu_filter_by_safety">Filter by safety</string>
-    <string name="menu_filter_by_violations">Filter by # violation</string>
     <string name="menu_check_update">Check update</string>
     <string name="safetyLevel_safe">Safe</string>
     <string name="safetyLevel_moderate">Moderate</string>
@@ -85,11 +81,6 @@
 
     <string name="filter_button">Filter</string>
     <string name="cancel_button">Cancel</string>
-
-    <string name="filter_by_violations_title">To filter restaurants with critical violations within last year</string>
-    <string name="filter_by_violations_less">Less and equal than</string>
-    <string name="filter_by_violations_great">Great and equal than</string>
-    <string name="filter_by_violations_hint">Please enter a positive number</string>
 
     <string name="faves_update_title">What\'s new on your favourite restaurants\' list</string>
     <string name="download_error">Unable to update the map without location permission!</string>

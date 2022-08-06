@@ -88,10 +88,6 @@ class InspectionListAdapter(
                 (now.time - mInspection.simpleDate?.time!!) / (24 * 60 * 60 * 1000)
             inspectionDate.text = days.toString() + " " + MyApplication.context?.getString(R.string.days_ago)
         }
-        inspectionCritical.text = mInspection.numCritical.toString() + " " + MyApplication.context
-                ?.getString(R.string.inspection_critical_list)
-        inspectionNonCritical.text = mInspection.numNonCritical.toString() + " " + MyApplication.context
-                ?.getString(R.string.inspection_noncritical_list)
         return viewInspection
     }
 

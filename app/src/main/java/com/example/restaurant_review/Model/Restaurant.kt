@@ -12,6 +12,7 @@ constructor(// files name in CSV file
     val address: String,
     val city: String,
     val type: String,
+    val imgUrl: String,
     val latitude: Double,
     val longitude: Double
 ) {

@@ -27,7 +27,7 @@ class FavesUpdateFragment : AppCompatDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         rootView = LayoutInflater.from(activity)
             .inflate(R.layout.dialog_faves_update, null)
-
+        println("getting view3")
         // set up the ListView
         populateListView()
         val listener: DialogInterface.OnClickListener = object : DialogInterface.OnClickListener {
@@ -59,6 +59,7 @@ class FavesUpdateFragment : AppCompatDialogFragment() {
                 }
             }
         }
+        println("getting view2")
         val restaurantListAdapter =
             RestaurantListAdapter(activity, R.layout.list_item_restaurant, filteredRestaurants)
         restaurantListView.adapter = restaurantListAdapter

@@ -2,24 +2,23 @@ package com.example.restaurant_review.Fragments
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.*
 import android.widget.Toast.LENGTH_SHORT
-import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import com.arlib.floatingsearchview.FloatingSearchView
-import com.example.restaurant_review.Activities.MainActivity
 import com.example.restaurant_review.Activities.RestaurantDetailActivity
-import com.example.restaurant_review.Activities.RestaurantReview
-import com.example.restaurant_review.Model.Restaurant
-import com.example.restaurant_review.Model.RestaurantManager
+import com.example.restaurant_review.Model.*
 import com.example.restaurant_review.R
 import com.example.restaurant_review.Views.RestaurantListAdapter
+
 
 /**
  * HomeFragment Class Implementation
@@ -27,31 +26,53 @@ import com.example.restaurant_review.Views.RestaurantListAdapter
  * To populate the restaurants ListView in main screen.
  */
 class HomeFragment : Fragment() {
+    private lateinit var constraintLayout: ConstraintLayout
+    private lateinit var yelpAPI: YelpAPI
+    private var progressBars = arrayListOf<ProgressBar>()
+    private lateinit var floatingSearchView: FloatingSearchView
+    companion object {
+        const val PAGE_SIZE=20
+        @SuppressLint("StaticFieldLeak")
+        var restaurantListView: ListView? = null
+        private var restaurantListAdapter: RestaurantListAdapter? = null
+        private var floatingSearchView: FloatingSearchView? = null
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        println("init1")
         val rootView: View = inflater.inflate(R.layout.fragment_home, container, false)
+        val progressBar = rootView.findViewById<ProgressBar>(R.id.home_progress_bar)
+        constraintLayout = rootView.findViewById(R.id.home_fragment_linear_layout)
+        // load from yelp
+        yelpAPI = YelpAPI(requireContext(), object: OnReadApiCompleteListener{
+            override fun onReadApiComplete() {
+                progressBar.visibility = View.GONE
+                // populate the ListView
+                populateListView()
+            }
+        })
+        yelpAPI.readRestaurantData(0, PAGE_SIZE)
+        //CoroutineScope(Dispatchers.IO).launch {  FraserHealthHtmlScraper().scrape("cafe") }
         // setup menu icon on toolbar
         setHasOptionsMenu(true)
         // init the ListView
         restaurantListView = rootView.findViewById(R.id.restaurant_listView)
-        // populate the ListView
-        populateListView()
+        floatingSearchView = requireActivity().findViewById(R.id.floating_search_bar)
         // Initialize the floating search bar
         initializeSearchBar()
         return rootView
     }
 
     private fun initializeSearchBar() {
-        val floatingSearchView: FloatingSearchView =
-            requireActivity().findViewById(R.id.floating_search_bar)
         // when switching views
         restaurantListAdapter?.getFilter()?.filter(floatingSearchView.query)
         // set text change listener
         floatingSearchView.setOnQueryChangeListener { _, newQuery ->
-            restaurantListAdapter?.getFilter()?.filter(newQuery)
+            println("query changed")
+            restaurantListAdapter?.filter!!.filter(newQuery)
         }
     }
 
@@ -78,6 +99,46 @@ class HomeFragment : Fragment() {
                 )
 
         restaurantListView!!.adapter = restaurantListAdapter
+
+        // read more data from api
+        restaurantListView!!.setOnScrollListener (object: AbsListView.OnScrollListener {
+            override fun onScrollStateChanged(view: AbsListView, scrollState: Int) {
+                // only update scroll of no query and no filter
+                if (floatingSearchView.query == "" && !MapsFragment.favesOnly &&
+                    scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE
+                    && restaurantListView!!.lastVisiblePosition - restaurantListView!!.headerViewsCount -
+                    restaurantListView!!.footerViewsCount >= restaurantListAdapter!!.count - 1
+                ) {
+                    val progressBar = ProgressBar(requireContext())
+                    progressBar.isIndeterminate = true
+                    progressBar.background = requireActivity().getDrawable(com.arlib.floatingsearchview.R.color.transparent)
+                    constraintLayout.addView(progressBar)
+                    progressBars.add(progressBar)
+                    progressBar.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                        startToStart = constraintLayout.id
+                        endToEnd = constraintLayout.id
+                        bottomToBottom = constraintLayout.id
+                    }
+                    yelpAPI.onReadApiCompleteListener = object: OnReadApiCompleteListener{
+                        override fun onReadApiComplete() {
+                            progressBars.forEach{constraintLayout.removeView(it)}
+                            progressBars = arrayListOf()
+                            // populate the ListView
+                            restaurantListAdapter!!.updateList(restaurantList)
+                        }
+                    }
+                    yelpAPI.readMoreRestaurantData(PAGE_SIZE)
+                }
+            }
+
+            override fun onScroll(
+                view: AbsListView,
+                firstVisibleItem: Int,
+                visibleItemCount: Int,
+                totalItemCount: Int
+            ) {
+            }
+        })
 
         // click the item to launch the Restaurant Detail Activity
         restaurantListView!!.setOnItemClickListener { parent, view, position, id ->
@@ -119,93 +180,10 @@ class HomeFragment : Fragment() {
                 restaurantListAdapter!!.getFilter().filter(floatingSearchView.query)
                 true
             }
-            R.id.menu_filter_by_safety -> {
-                showFilterBySafetyDialog()
-                true
-            }
-            R.id.menu_filter_by_violation -> {
-                showFilterByViolationDialog()
-                true
-            }
-            R.id.menu_check_update ->{
-                if((activity as MainActivity).isReadyToUpdate()){
-                    (activity as MainActivity).askUserUpdateNow()
-                    return true
-                }
-                else
-                    super.onOptionsItemSelected(item)
-            }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    private fun showFilterByViolationDialog() {
-        // Build an AlertDialog
-        val builder = AlertDialog.Builder(
-            requireContext()
-        )
-
-        // Create a the with custom layout
-        val dialogView: View = LayoutInflater.from(activity)
-            .inflate(R.layout.dialog_filter_by_violations, null)
-
-        // Define the variables
-        val num: TextView = dialogView.findViewById<View>(R.id.editTextNumberDecimal) as TextView
-        val less: RadioButton = dialogView.findViewById<View>(R.id.radioButton_less) as RadioButton
-        val great: RadioButton =
-            dialogView.findViewById<View>(R.id.radioButton_great) as RadioButton
-        val radioGrp: RadioGroup = dialogView.findViewById(R.id.radioGroup)
-
-        // Set values for weighs
-        num.text = (restaurantListAdapter?.numOfViolation?.let { Integer.toString(it) })
-        if(less.id == radioGrp.checkedRadioButtonId) {
-            less.isChecked = true
-            great.isChecked = false
-        }
-        else{
-            less.isChecked = false
-            great.isChecked = true
-        }
-
-        // Specify the dialog is cancelable
-        builder.setCancelable(true)
-
-        // Set a title for alert dialog
-        builder.setTitle(getString(R.string.menu_filter_by_violations))
-
-        // Set the positive/yes button click listener
-        builder.setPositiveButton(
-            getString(R.string.filter_button)
-        ) { _, _ ->
-            if (num.text.toString() == "") {
-                restaurantListAdapter?.filter?.setNumOfViolation(0)
-                restaurantListAdapter?.filter?.setGreatEqualThan(true)
-                restaurantListAdapter?.filter?.setLessEqualThan(false)
-            } else {
-                restaurantListAdapter?.filter?.setLessEqualThan(less.isChecked)
-                restaurantListAdapter?.filter?.setGreatEqualThan(great.isChecked)
-                restaurantListAdapter?.filter?.setNumOfViolation(num.text.toString().toInt())
-            }
-            if (floatingSearchView == null) {
-                floatingSearchView =
-                    requireActivity().findViewById<View>(R.id.floating_search_bar) as FloatingSearchView
-            }
-            restaurantListAdapter?.getFilter()?.filter(floatingSearchView!!.query)
-        }
-
-        // Set the neutral/cancel button click listener
-        builder.setNegativeButton(
-            getString(R.string.cancel_button),
-            object : DialogInterface.OnClickListener {
-                override fun onClick(dialog: DialogInterface, which: Int) {
-                    // Do something when click the neutral button
-                }
-            })
-        val dialog = builder.create()
-        // Display the alert dialog on interface
-        dialog.setView(dialogView)
-        dialog.show()
-    }
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
@@ -214,94 +192,6 @@ class HomeFragment : Fragment() {
                 initializeSearchBar()
             }
         }
-    }
-
-    // To build up the multiple-choice filter dialog when "Filter by safety" menu is clicked.
-    private fun showFilterBySafetyDialog() {
-        // String array for alert dialog multi choice items
-        val safetyRatings = arrayOf(
-            getString(R.string.safetyLevel_safe),
-            getString(R.string.safetyLevel_moderate),
-            getString(R.string.safetyLevel_unsafe),
-            getString(R.string.safetyLevel_unknown)
-        )
-
-        // Boolean array for initial selected items
-        val checkedSafetyRatings = restaurantListAdapter?.includeSafe?.let {
-            restaurantListAdapter?.includeModerate?.let { it1 ->
-                restaurantListAdapter?.includeUnsafe?.let { it2 ->
-                    restaurantListAdapter?.includeUnknown?.let { it3 ->
-                        booleanArrayOf(
-                            it,  // Safe
-                            it1,  // Moderate
-                            it2,  // Unsafe
-                            it3 // Unknown
-                        )
-                    }
-                }
-            }
-        }
-
-        // Build an AlertDialog
-        val builder = AlertDialog.Builder(
-            requireContext()
-        )
-
-        // Set multiple choice items for alert dialog
-        builder.setMultiChoiceItems(
-            safetyRatings,
-            checkedSafetyRatings
-        ) { _, which, isChecked -> // Update the current focused item's checked status
-            checkedSafetyRatings?.set(which, isChecked)
-        }
-
-        // Specify the dialog is cancelable
-        builder.setCancelable(true)
-
-        // Set a title for alert dialog
-        builder.setTitle(getString(R.string.menu_filter_by_safety))
-
-        // Set the positive/yes button click listener
-        builder.setPositiveButton(
-            getString(R.string.filter_button),
-            object : DialogInterface.OnClickListener {
-                override fun onClick(dialog: DialogInterface, which: Int) {
-                    // Do something when click positive button
-                    checkedSafetyRatings?.get(0)?.let {
-                        restaurantListAdapter?.filter?.setIncludeSafe(
-                            it
-                        )
-                    }
-                    checkedSafetyRatings?.get(1)?.let {
-                        restaurantListAdapter?.filter?.setIncludeModerate(
-                            it
-                        )
-                    }
-                    checkedSafetyRatings?.get(2)?.let {
-                        restaurantListAdapter?.filter?.setIncludeUnsafe(
-                            it
-                        )
-                    }
-                    checkedSafetyRatings?.get(3)?.let {
-                        restaurantListAdapter?.filter?.setIncludeUnsafe(
-                            it
-                        )
-                    }
-                    restaurantListAdapter!!.filter.filter(floatingSearchView!!.query)
-                }
-            })
-
-        // Set the neutral/cancel button click listener
-        builder.setNegativeButton(
-            getString(R.string.cancel_button),
-            object : DialogInterface.OnClickListener {
-                override fun onClick(dialog: DialogInterface, which: Int) {
-                    // Do something when click the neutral button
-                }
-            })
-        val dialog = builder.create()
-        // Display the alert dialog on interface
-        dialog.show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -320,12 +210,5 @@ class HomeFragment : Fragment() {
                 navController.navigate(R.id.nav_maps, bundle)
             }
         }
-    }
-
-    companion object {
-        @SuppressLint("StaticFieldLeak")
-        var restaurantListView: ListView? = null
-        private var restaurantListAdapter: RestaurantListAdapter? = null
-        private var floatingSearchView: FloatingSearchView? = null
     }
 }

@@ -64,7 +64,6 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
     protected var includeUnknown = true
     private var lessEqualThan = false
     private var greatEqualThan = true
-    private var numOfViolation = 0
     override fun onHiddenChanged(hidden: Boolean) {
         println("onHiddenChanged")
         super.onHiddenChanged(hidden)
@@ -163,28 +162,6 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
                 }
             }
         }
-        val filteredByViolation = ArrayList<String>()
-        if (numOfViolation != 0) {
-            val criticalViolations: HashMap<String?, Int>? =
-                InspectionManager.instance?.getNumOfCritical()
-            if (lessEqualThan) {
-                for (s in criticalViolations?.keys!!) {
-                    if (criticalViolations[s]!! <= numOfViolation) {
-                        if (s != null) {
-                            filteredByViolation.add(s)
-                        }
-                    }
-                }
-            } else {
-                for (s in criticalViolations?.keys!!) {
-                    if (criticalViolations[s]!! >= numOfViolation) {
-                        if (s != null) {
-                            filteredByViolation.add(s)
-                        }
-                    }
-                }
-            }
-        }
         for (i in mSearchList) {
             if (i.title?.trim { it <= ' ' }?.replace(" ", "")?.lowercase(Locale.getDefault())
                     ?.contains(floatingSearchView!!.query.trim { it <= ' ' }
@@ -211,18 +188,6 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
-        // Apply the filter by number of critical violations
-        if (numOfViolation != 0) {
-            val finalFilteredList: ArrayList<MarkerOptions?> = ArrayList<MarkerOptions?>()
-            for (i in mFilteredList) {
-                val id: String? = i?.snippet?.split("\\|")?.toTypedArray()?.get(0)
-                if (filteredByViolation.contains(id)) {
-                    finalFilteredList.add(i)
-                }
-            }
-            mFilteredList.clear()
-            mFilteredList = finalFilteredList
-        }
         for (i in mFilteredList) {
             val marker = i?.let { CustomClusterItem(it) }
             mClusterManager?.addItem(marker)
@@ -287,22 +252,6 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
                 // set the filter
                 initializeSearchBar()
                 return true
-            }
-            R.id.menu_filter_by_safety -> {
-                showFilterBySafetyDialog()
-                return true
-            }
-            R.id.menu_filter_by_violation -> {
-                showFilterByViolationDialog()
-                return true
-            }
-            R.id.menu_check_update ->{
-                if((activity as MainActivity).isReadyToUpdate()){
-                    (activity as MainActivity).askUserUpdateNow()
-                    return true
-                }
-                else
-                    super.onOptionsItemSelected(item)
             }
         }
         return false
@@ -373,7 +322,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
             initClusterManager()
             // add restaurants marker
             // Takes 3 seconds!!!
-            //updateMarkersOnMaps()
+            updateMarkersOnMaps()
             // initialize the floating search bar
             initializeSearchBar()
         }
@@ -543,132 +492,6 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
                 Log.d("TAG", "onRequestPermissionsResult: permission granted")
             }
         }
-    }
-
-    // To build up the multiple-choice filter dialog when "Filter by safety" menu is clicked.
-    private fun showFilterBySafetyDialog() {
-        // String array for alert dialog multi choice items
-        val safetyRatings = arrayOf(
-            getString(R.string.safetyLevel_safe),
-            getString(R.string.safetyLevel_moderate),
-            getString(R.string.safetyLevel_unsafe),
-            getString(R.string.safetyLevel_unknown)
-        )
-
-        // Boolean array for initial selected items
-        val checkedSafetyRatings = booleanArrayOf(
-            includeSafe,
-            includeModerate,
-            includeUnsafe,
-            includeUnknown
-        )
-
-        // Build an AlertDialog
-        val builder = AlertDialog.Builder(
-            requireContext()
-        )
-
-        // Set multiple choice items for alert dialog
-        builder.setMultiChoiceItems(
-            safetyRatings,
-            checkedSafetyRatings
-        ) { _, which, isChecked -> // Update the current focused item's checked status
-            checkedSafetyRatings[which] = isChecked
-        }
-
-        // Specify the dialog is cancelable
-        builder.setCancelable(true)
-
-        // Set a title for alert dialog
-        builder.setTitle(getString(R.string.menu_filter_by_safety))
-
-        // Set the positive/yes button click listener
-        builder.setPositiveButton(
-            getString(R.string.filter_button),
-            object : DialogInterface.OnClickListener {
-                override fun onClick(dialog: DialogInterface, which: Int) {
-                    // Do something when click positive button
-                    includeSafe = checkedSafetyRatings[0]
-                    includeModerate = checkedSafetyRatings[1]
-                    includeUnsafe = checkedSafetyRatings[2]
-                    includeUnknown = checkedSafetyRatings[3]
-                    initializeSearchBar()
-                }
-            })
-
-        // Set the neutral/cancel button click listener
-        builder.setNegativeButton(
-            getString(R.string.cancel_button),
-            object : DialogInterface.OnClickListener {
-                override fun onClick(dialog: DialogInterface, which: Int) {
-                    // Do something when click the neutral button
-                }
-            })
-        val dialog = builder.create()
-        // Display the alert dialog on interface
-        dialog.show()
-    }
-
-    private fun showFilterByViolationDialog() {
-        // Build an AlertDialog
-        val builder = AlertDialog.Builder(
-            requireContext()
-        )
-
-        // Create a the with custom layout
-        val dialogView: View = LayoutInflater.from(activity)
-            .inflate(R.layout.dialog_filter_by_violations, null)
-
-        // Define the variables
-        val num: TextView = dialogView.findViewById<View>(R.id.editTextNumberDecimal) as TextView
-        val radioGrp: RadioGroup = dialogView.findViewById(R.id.radioGroup)
-        val less: RadioButton = dialogView.findViewById<View>(R.id.radioButton_less) as RadioButton
-        val great: RadioButton =
-            dialogView.findViewById<View>(R.id.radioButton_great) as RadioButton
-
-        // Set values for weighs
-        num.text = numOfViolation.toString()
-        if(less.id == radioGrp.checkedRadioButtonId) {
-            less.isChecked = true
-            great.isChecked = false
-        }
-        else{
-            less.isChecked = false
-            great.isChecked = true
-        }
-
-        // Specify the dialog is cancelable
-        builder.setCancelable(true)
-
-        // Set a title for alert dialog
-        builder.setTitle(getString(R.string.menu_filter_by_violations))
-
-        // Set the positive/yes button click listener
-        builder.setPositiveButton(
-            getString(R.string.filter_button)
-        ) { _, _ ->
-            if (num.text.toString() == "") {
-                numOfViolation = 0
-                greatEqualThan = true
-                lessEqualThan = false
-            } else {
-                lessEqualThan = less.isChecked
-                greatEqualThan = great.isChecked
-                numOfViolation = num.text.toString().toInt()
-            }
-            initializeSearchBar()
-        }
-
-        // Set the neutral/cancel button click listener
-        builder.setNegativeButton(
-            getString(R.string.cancel_button)
-        ) { dialog, which ->
-            // Do something when click the neutral button
-        }
-        val dialog = builder.create()
-        // Display the alert dialog on interface
-        dialog.setView(dialogView)
-        dialog.show()
     }
 
     companion object {

@@ -13,7 +13,6 @@ import java.util.*
 class InspectionManager private constructor() {
     val inspections: ArrayList<Inspection> = ArrayList()
     val safetyLevels = HashMap<String, String?>()
-    private val NumOfCritical = HashMap<String?, Int>()
     fun addInspection(i: Inspection) {
         inspections.add(i)
     }
@@ -34,33 +33,6 @@ class InspectionManager private constructor() {
             safetyLevels[ID] = "Unknown"
         }
         return retArrayList
-    }
-
-    fun getNumOfCritical(): HashMap<String?, Int> {
-
-        // filter by number of critical violation
-        val df: DateFormat = SimpleDateFormat("yyyyMMdd")
-        val cal = Calendar.getInstance()
-        cal.add(Calendar.YEAR, -1)
-        val currentTime = df.format(cal.time)
-        // Log.d("TAG",currentTime);
-
-        // if the inspection within last year
-        if (inspections.size > 0) {
-            for (i in inspections) {
-                if (i.date != "" && i.date.toInt() > currentTime.toInt()) {
-                    var numCritical = 0
-                    numCritical = if (NumOfCritical.containsKey(i.id)) (
-                        // update exist data
-                        NumOfCritical[i.id]?.plus(i.numCritical)
-                    )!! else {
-                        i.numCritical
-                    }
-                    NumOfCritical[i.id] = numCritical
-                }
-            }
-        }
-        return NumOfCritical
     }
 
     fun clear() {
