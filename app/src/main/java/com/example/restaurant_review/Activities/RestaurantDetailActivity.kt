@@ -142,7 +142,6 @@ class RestaurantDetailActivity : AppCompatActivity() {
         val name: TextView = findViewById<TextView>(R.id.restaurant_name)
         val address: TextView = findViewById<TextView>(R.id.restaurant_address)
         val gps: TextView = findViewById<TextView>(R.id.restaurant_gps)
-        val writeReview = findViewById<Button>(R.id.button6)
         name.text = mRestaurant?.name
         address.text = getString(R.string.restaurant_address, mRestaurant?.address, mRestaurant?.city)
 
@@ -160,13 +159,6 @@ class RestaurantDetailActivity : AppCompatActivity() {
             setResult(Activity.RESULT_OK, i)
             finish()
         })
-        writeReview.setOnClickListener(){
-            val bundle = Bundle()
-            bundle.putString("ID",ID)
-            val intent = Intent(this, RestaurantReviewsActivity::class.java)
-            intent.putExtras(bundle)
-            startActivity(intent)
-        }
     }
 
 

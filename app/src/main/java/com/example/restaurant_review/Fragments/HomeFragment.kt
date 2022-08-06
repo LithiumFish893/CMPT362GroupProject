@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.example.restaurant_review.Activities.RestaurantDetailActivity
+import com.example.restaurant_review.Activities.RestaurantReview
 import com.example.restaurant_review.Model.*
 import com.example.restaurant_review.R
 import com.example.restaurant_review.Views.RestaurantListAdapter
@@ -142,7 +143,7 @@ class HomeFragment : Fragment() {
 
         // click the item to launch the Restaurant Detail Activity
         restaurantListView!!.setOnItemClickListener { parent, view, position, id ->
-            val intent: Intent = RestaurantDetailActivity.makeLaunchIntent(
+            val intent: Intent = RestaurantReview.makeLaunchIntent(
                 activity,
                 restaurantList.get(position).id,
                 position
