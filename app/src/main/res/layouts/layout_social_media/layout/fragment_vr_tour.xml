@@ -63,6 +63,8 @@
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/vr_glass_cartoon" />
+        app:srcCompat="@drawable/vr_glass_cartoon"
+        android:scaleX="0.7"
+        android:scaleY="0.7"/>
 
 </LinearLayout>
