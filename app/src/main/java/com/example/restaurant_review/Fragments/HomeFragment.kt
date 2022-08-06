@@ -81,7 +81,7 @@ class HomeFragment : Fragment() {
 
         // click the item to launch the Restaurant Detail Activity
         restaurantListView!!.setOnItemClickListener { parent, view, position, id ->
-            val intent: Intent = RestaurantReview.makeLaunchIntent(
+            val intent: Intent = RestaurantDetailActivity.makeLaunchIntent(
                 activity,
                 restaurantList.get(position).id,
                 position

@@ -64,7 +64,6 @@
             android:id="@+id/health_level"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Health"
             android:textAlignment="textEnd"
             android:layout_weight="1"/>
 
