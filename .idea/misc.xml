@@ -51,14 +51,17 @@
         <entry key="app/src/main/res/drawable/side_nav_bar.xml" value="0.159" />
         <entry key="app/src/main/res/layout/activity_inspection_detail.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2453125" />
-        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.24458312988281253" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.19855957031250002" />
         <entry key="app/src/main/res/layout/activity_restaurant_detail.xml" value="0.2006340579710145" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.10891590678824721" />
         <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.10643115942028986" />
         <entry key="app/src/main/res/layout/sm_activity_post_full.xml" value="0.2453125" />
         <entry key="app/src/main/res/layout/sm_activity_social_media_post.xml" value="0.2453125" />
         <entry key="app/src/main/res/layouts/layout_social_media/drawable/background_light_green.xml" value="0.1325" />
+        <entry key="app/src/main/res/layouts/layout_social_media/drawable/vr_button_background.xml" value="0.1325" />
+        <entry key="app/src/main/res/layouts/layout_social_media/layout/activity_create_vr_tour.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layouts/layout_social_media/layout/activity_vrview.xml" value="0.2453125" />
+        <entry key="app/src/main/res/layouts/layout_social_media/layout/fragment_vr_tour.xml" value="0.19610507246376813" />
       </map>
     </option>
   </component>
