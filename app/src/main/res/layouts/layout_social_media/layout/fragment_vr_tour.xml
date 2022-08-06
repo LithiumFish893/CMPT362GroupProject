@@ -18,14 +18,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_padding"
         android:text="View a VR tour for these restaurants"
-        android:textSize="20sp" />
+        android:textSize="16sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_padding"
         android:text="Or submit your own VR Tour"
-        android:textSize="20sp" />
+        android:textSize="16sp" />
 
 
     <LinearLayout
