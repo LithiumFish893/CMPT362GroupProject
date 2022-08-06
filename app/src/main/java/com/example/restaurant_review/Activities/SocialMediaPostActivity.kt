@@ -46,10 +46,15 @@ import com.example.restaurant_review.local_database.SocialMediaPostModel
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageException
+import com.google.firebase.storage.StorageReference
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
 import org.json.JSONObject
+import kotlin.collections.ArrayList
 
 
 class SocialMediaPostActivity : AppCompatActivity() {
@@ -147,8 +152,15 @@ class SocialMediaPostActivity : AppCompatActivity() {
                 saveImg(bitmap)
             }
         }
+        // onclicklistener for each item: remove it
         adapter = HorizontalImageAdapter(arrayListOf()){
-            adapter.removeItem(it)
+            val tempImgs = ((viewModel.imgs.value as ArrayList<Bitmap>).toMutableList())
+            val tempUris = ((viewModel.imgUris.value as ArrayList<String>).toMutableList())
+            tempImgs.removeAt(it)
+            tempUris.removeAt(it)
+            viewModel.imgs.value = tempImgs
+            viewModel.imgUris.value = tempUris
+            adapter.notifyItemRemoved(it)
         }
         imgView.adapter = adapter
         imgView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -316,12 +328,30 @@ class SocialMediaPostActivity : AppCompatActivity() {
         editor.putString(TEXT_CONTENT_KEY, textContent)
         editor.commit()
 
+        val bmps: ArrayList<Bitmap> = (viewModel.imgs.value as ArrayList<Bitmap>?)!!
+        val storage = FirebaseStorage.getInstance()
+        val storageRef = storage.reference
+        val imgRefs = arrayListOf<StorageReference>()
+        val uris = viewModel.imgUris.value!!
+        uris.forEach {
+            imgRefs.add(storageRef.child(Util.filePathToName(it)))
+        }
+        imgRefs.forEachIndexed { index, storageReference ->
+            var uploadTask = storageReference.putBytes(Util.bitmapToByteArray(bmps[index]))
+            uploadTask.addOnFailureListener {
+                // Handle unsuccessful uploads
+            }.addOnSuccessListener { taskSnapshot ->
+                // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
+                // ...
+            }
+        }
+
         // put all the info into bundle
         val intent = Intent()
         println("using $locationName")
         val post = SocialMediaPostModel(
             title = title, userId = auth.currentUser!!.uid, locationLat = savedLatitude, locationLong = savedLongitude,
-            locationName = locationName, textContent = textContent, timeStamp = timeStamp, imgList = viewModel.imgUris.value!!)
+            locationName = locationName, textContent = textContent, timeStamp = timeStamp, imgList = uris)
         intent.putExtras(Util.postToBundle(post))
         setResult(RESULT_CODE, intent)
         finish()
@@ -374,7 +404,9 @@ class SocialMediaPostActivity : AppCompatActivity() {
         val fileOutputStream = FileOutputStream(file2)
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
 
-        viewModel.imgs.value = viewModel.imgs.value?.plus(bitmap)
-        viewModel.imgUris.value = viewModel.imgUris.value?.plus(file2.path)
+        viewModel.imgs.value = viewModel.imgs.value!!.plus(bitmap)
+        viewModel.imgUris.value = viewModel.imgUris.value!!.plus(file2.path)
+        println(file2.path)
+        println(viewModel.imgs.value!!.size)
     }
 }

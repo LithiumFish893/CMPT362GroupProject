@@ -10,7 +10,7 @@ import java.util.*
  *
  * To store single inspection data.
  */
-class Inspection(// files name in CVS file
+class Inspection(// files name in CSV file
     val id: String,
     val date: String,
     type: String,

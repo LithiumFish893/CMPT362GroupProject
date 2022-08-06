@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import java.io.FileNotFoundException
 import java.util.*
 
@@ -117,17 +118,40 @@ class FullPostActivity : AppCompatActivity() {
         }
         contentView.text = post.textContent
         bitmaps = arrayListOf<Bitmap>()
+        val storageRef = Firebase.storage.reference
         for (path: String in post.imgList) {
-            // TODO: Change when we get cloud storage
+            // first see if image is available locally
             try {
+                println("checking locally")
                 bitmaps.add(Util.filePathToBitmap(this, path))
             }
-            catch (e: FileNotFoundException){}
+            // if it's not then try the cloud
+            catch (e: FileNotFoundException){
+                println("gotta access the cloud...")
+                val fileName = Util.filePathToName(path)
+                // store the image in local storage for easy retrieval
+                storageRef.child(fileName).getFile(Util.filePathToUri(this, path)).addOnCompleteListener {
+                    // try accessing local storage again
+                    try {
+                        bitmaps.add(Util.filePathToBitmap(this, path))
+                        println("$path vs. ${post.imgList.last()}")
+                        imagesView.setImageBitmap(bitmaps[0])
+                    }
+                    catch (e: FileNotFoundException) {
+                        println("couldn't upload ...")
+                    }
+                }
+            }
+        }
+        for (path in post.imgList){
+            val fileName = Util.filePathToName(path)
         }
         if (bitmaps.isNotEmpty()) imagesView.setImageBitmap(bitmaps[0])
         imagesView.setOnClickListener {
             viewImageGallery(0)
         }
+        //if (post.imgList.isNotEmpty()) Glide.with(this).load(storageRef.child(Util.filePathToName(post.imgList[0]))).into(imagesView)
+        //else imagesView.visibility = GONE
         val adapter = HorizontalImageAdapter(bitmaps, 0){}
         closeButton.setOnClickListener {
             unFadeBackground()

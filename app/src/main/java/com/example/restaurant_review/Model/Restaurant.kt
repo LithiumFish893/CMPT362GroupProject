@@ -6,7 +6,7 @@ package com.example.restaurant_review.Model
  * To store single restaurant data.
  */
 class Restaurant     // constructor
-constructor(// files name in CVS file
+constructor(// files name in CSV file
     val id: String,
     val name: String,
     val address: String,

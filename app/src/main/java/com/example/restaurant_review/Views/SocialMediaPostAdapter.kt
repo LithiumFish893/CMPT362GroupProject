@@ -19,6 +19,7 @@ import com.example.restaurant_review.Activities.FullPostActivity
 import com.example.restaurant_review.Util.Util.getUsernameFromUserId
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import java.io.FileNotFoundException
 
 class SocialMediaPostAdapter(private var postList: MutableList<SocialMediaPostModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -56,13 +57,30 @@ class SocialMediaPostAdapter(private var postList: MutableList<SocialMediaPostMo
             if (post.textContent.length > MAX_CONTENT_LENGTH -3) {
                 content.text =  content.text.toString() + "..."
             }
+            val storage = FirebaseStorage.getInstance()
+            val storageRef = storage.reference
             if (len > 0){
-                // TODO: Change when we implement cloud data storage
+                val path = post.imgList[0]
+                // first see if image is available locally
                 try {
-                    val img = Util.filePathToBitmap(context, post.imgList[0])
+                    val img = Util.filePathToBitmap(context, path)
                     thumbnail.setImageBitmap(img)
                 }
-                catch (e: FileNotFoundException){}
+                // if it's not then try the cloud
+                catch (e: FileNotFoundException){
+                    val fileName = Util.filePathToName(path)
+                    // store the image in local storage for easy retrieval
+                    storageRef.child(fileName).getFile(Util.filePathToUri(context, path)).addOnCompleteListener {
+                        // try accessing local storage again
+                        try {
+                            val img = Util.filePathToBitmap(context, path)
+                            thumbnail.setImageBitmap(img)
+                        }
+                        catch (e: FileNotFoundException) {
+                            println("couldn't upload ...")
+                        }
+                    }
+                }
             }
             thumbnail.setOnClickListener {
                 val intent = Intent((context as AppCompatActivity), FullPostActivity::class.java)

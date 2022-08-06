@@ -110,7 +110,7 @@ object Util {
     fun bitmapToByteArray (bmp: Bitmap) : ByteArray {
         val res: ByteArray
         val stream = ByteArrayOutputStream()
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, stream)
         bmp.recycle()
         res = stream.toByteArray()
         stream.close()
@@ -121,9 +121,13 @@ object Util {
          return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
     }
 
-    fun filePathToBitmap (context: Context, path: String) : Bitmap {
+    fun filePathToUri (context: Context, path: String): Uri {
         val f = filePathToName(path)
-        return getBitmap(context, Uri.fromFile(File(context.getExternalFilesDir(DIRECTORY_PICTURES), f)))
+        return Uri.fromFile(File(context.getExternalFilesDir(DIRECTORY_PICTURES), f))
+    }
+
+    fun filePathToBitmap (context: Context, path: String) : Bitmap {
+        return getBitmap(context, filePathToUri(context, path))
     }
 
     fun filePathToName (path: String) : String {

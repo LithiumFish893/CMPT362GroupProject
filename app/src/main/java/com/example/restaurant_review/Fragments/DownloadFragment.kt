@@ -21,7 +21,7 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.app.ActivityCompat
 import com.example.restaurant_review.Model.DataRequest
 import com.example.restaurant_review.Model.MyApplication
-import com.example.restaurant_review.Model.ReadCVS
+import com.example.restaurant_review.Model.ReadCSV
 import com.example.restaurant_review.R
 import java.io.BufferedInputStream
 import java.io.BufferedOutputStream
@@ -113,7 +113,7 @@ class DownloadFragment : AppCompatDialogFragment() {
 //                publishProgress(PROGRESS_MAX, contentLen)
 //                progress.max = contentLen
                 // Generating the file path and file name
-                filePath = activity!!.getExternalFilesDir("cvs")!!.absolutePath
+                filePath = activity!!.getExternalFilesDir("csv")!!.absolutePath
                 fileName = url.file
                 fileName = fileName.substring(fileName.lastIndexOf("/") + 1)
                 fileName = System.currentTimeMillis().toString() + "_" + fileName
@@ -179,7 +179,7 @@ class DownloadFragment : AppCompatDialogFragment() {
 
                 // two download task finished:
                 // 1. now load new data to ListView
-                ReadCVS.LoadLocalData()
+                ReadCSV().LoadLocalData()
                 // 2. Refresh Map Activity
                 val permissions = arrayOf<String>(
                     Manifest.permission.ACCESS_FINE_LOCATION,

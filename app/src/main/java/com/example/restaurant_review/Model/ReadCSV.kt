@@ -10,12 +10,11 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 /**
- * ReadCVS Class Implementation
+ * ReadCSV Class Implementation
  *
- * Read restaurant data from file and store in the objects.
  * Read inspection data from file and store in the objects.
  */
-object ReadCVS {
+class ReadCSV (private val onReadCSVCompleteListener: onReadCSVCompleteListener? = null) {
     private fun readRestaurantData(`is`: InputStream?) {
         // Read CSV Resource File: Android Programming - Brian Fraser
         // Reference: https://www.youtube.com/watch?v=i-TqNzUryn8&ab_channel=BrianFraser
@@ -174,7 +173,7 @@ object ReadCVS {
             }
         }
 
-        // load data form the CVS files
+        // load data form the CSV files
         if (!RestaurantManager.Companion.instance?.isEmpty!!) {
             // clear the array list before adding new
             RestaurantManager.Companion.instance?.clear()
@@ -185,5 +184,10 @@ object ReadCVS {
         }
         readRestaurantData(restaurantInputStream)
         readInspectionData(inspectionInputStream)
+
     }
+}
+
+interface onReadCSVCompleteListener {
+    fun onReadCSVComplete()
 }

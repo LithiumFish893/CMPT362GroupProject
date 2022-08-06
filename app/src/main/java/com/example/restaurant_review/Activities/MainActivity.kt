@@ -25,13 +25,16 @@ import com.arlib.floatingsearchview.util.Util
 import com.example.restaurant_review.Fragments.DownloadFragment
 import com.example.restaurant_review.Fragments.MapsFragment
 import com.example.restaurant_review.Model.DataRequest
-import com.example.restaurant_review.Model.ReadCVS
+import com.example.restaurant_review.Model.ReadCSV
 import com.example.restaurant_review.Nav.KeepStateNavigator
 import com.example.restaurant_review.R
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -49,14 +52,17 @@ class MainActivity : AppCompatActivity() {
 
         auth = Firebase.auth
         // setup toolbar and navigation
+        val t0 = Calendar.getInstance().timeInMillis
         setupUI()
 
+        val t1 = Calendar.getInstance().timeInMillis
         // per-load the get request
         DataRequest.instance
-
-        // load local database
-        ReadCVS.LoadLocalData()
-
+        val t2 = Calendar.getInstance().timeInMillis
+        // load local database - takes 3000 ms!!!
+        CoroutineScope(Dispatchers.IO).launch{ ReadCSV().LoadLocalData() }
+        val t3 = Calendar.getInstance().timeInMillis
+        println("Setup UI took ${t1-t0} ms, Data request took ${t2-t1} ms, readcsv took ${t3-t2} ms")
         // set a timer for check update task.
         val timer = Timer()
         timer.schedule(
