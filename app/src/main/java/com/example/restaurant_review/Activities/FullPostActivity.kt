@@ -67,7 +67,7 @@ class FullPostActivity : AppCompatActivity() {
         val firebaseAuth = Firebase.auth
         val firebaseDatabase = Firebase.database
         val currentUser = firebaseAuth.currentUser!!.uid
-        val userRef = firebaseDatabase.reference.child("user").child(currentUser).child("username")
+        val userRef = firebaseDatabase.reference.child("user").child(post.userId).child("username")
         // get all the subscriptions from the currently logged in user
         val subscriptionRef = firebaseDatabase.reference.child("subscriptions").child(currentUser)
 
