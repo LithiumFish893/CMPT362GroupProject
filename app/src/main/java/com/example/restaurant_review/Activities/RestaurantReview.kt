@@ -17,7 +17,7 @@ class RestaurantReview : AppCompatActivity() {
         val imageSlider = findViewById<ImageSlider>(R.id.restaurant_image)
         val imageList = ArrayList<SlideModel>()
 
-        //imageList.add(SlideModel("https://media-cdn.tripadvisor.com/media/photo-s/0e/f0/e6/28/breathtaking-views-of.jpg"))
+        imageList.add(SlideModel("https://media-cdn.tripadvisor.com/media/photo-s/0e/f0/e6/28/breathtaking-views-of.jpg"))
         imageList.add(SlideModel("https://www.tourismnorthbay.com/wp-content/uploads/2020/06/Dairy-Queen-DQ-North-Bay-Blizzards.jpg"))
 
         imageSlider.setImageList(imageList, ScaleTypes.FIT)
