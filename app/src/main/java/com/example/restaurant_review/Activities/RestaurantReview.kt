@@ -73,8 +73,7 @@ class RestaurantReview : AppCompatActivity(), DialogInterface.OnClickListener {
         address.text = getString(R.string.restaurant_address, mRestaurant?.address, mRestaurant?.city)
 
 
-        imageList.add(SlideModel("https://media-cdn.tripadvisor.com/media/photo-s/0e/f0/e6/28/breathtaking-views-of.jpg"))
-        imageList.add(SlideModel("https://www.tourismnorthbay.com/wp-content/uploads/2020/06/Dairy-Queen-DQ-North-Bay-Blizzards.jpg"))
+        imageList.add(SlideModel(mRestaurant?.imgUrl))
 
         imageSlider.setImageList(imageList, ScaleTypes.FIT)
 

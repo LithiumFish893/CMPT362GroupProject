@@ -15,12 +15,11 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.restaurant_review.Fragments.HomeFragment
-import com.example.restaurant_review.Model.Inspection
-import com.example.restaurant_review.Model.InspectionManager
-import com.example.restaurant_review.Model.Restaurant
-import com.example.restaurant_review.Model.RestaurantManager
+import com.example.restaurant_review.Model.*
 import com.example.restaurant_review.R
 import com.example.restaurant_review.Views.InspectionListAdapter
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * RestaurantDetailActivity Class Implementation
@@ -30,17 +29,27 @@ import com.example.restaurant_review.Views.InspectionListAdapter
  */
 class RestaurantDetailActivity : AppCompatActivity() {
     var inspectionListView: ListView? = null
+    private var mRestaurant: Restaurant? = null
     private lateinit var mPrefs: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_restaurant_detail)
+
+        ID = intent.getStringExtra(java.lang.String.valueOf(R.string.intent_extra_id))
+        mRestaurant = RestaurantManager.instance?.getRestaurant(ID)
 
         // setup the textViews to display basic info of restaurant.
         setupUI()
 
         // setup ListView to display the inspections
         inspectionListView = findViewById(R.id.inspection_history_listView)
-        populateListListView()
+
+        HealthInspectionHtmlScraper(object: OnReadApiCompleteListener{
+            override fun onReadApiComplete() {
+                populateListListView()
+            }
+        }).scrape(mRestaurant!!.name.lowercase(Locale.getDefault()).removePrefix("the ").removeSuffix(" restaurant"),
+            ID!!)
     }
 
 
@@ -137,8 +146,7 @@ class RestaurantDetailActivity : AppCompatActivity() {
 //        Objects.requireNonNull(supportActionBar)?.setDisplayHomeAsUpEnabled(true)
 
         // setup UI Views
-        ID = intent.getStringExtra(java.lang.String.valueOf(R.string.intent_extra_id))
-        val mRestaurant: Restaurant? = RestaurantManager.instance?.getRestaurant(ID)
+        val mInspections: ArrayList<Inspection> = InspectionManager.instance?.getInspections(ID!!)!!
         val name: TextView = findViewById<TextView>(R.id.restaurant_name)
         val address: TextView = findViewById<TextView>(R.id.restaurant_address)
         val gps: TextView = findViewById<TextView>(R.id.restaurant_gps)
@@ -151,14 +159,14 @@ class RestaurantDetailActivity : AppCompatActivity() {
         val lat: Double = (mRestaurant?.latitude ?: 0) as Double
         val lng: Double = (mRestaurant?.longitude ?: 0) as Double
         val id: String = mRestaurant?.id ?: ""
-        gps.setOnClickListener(View.OnClickListener {
+        gps.setOnClickListener {
             val i = Intent()
             i.putExtra("Latitude", lat)
             i.putExtra("Longitude", lng)
             i.putExtra("ID", id)
             setResult(Activity.RESULT_OK, i)
             finish()
-        })
+        }
     }
 
 
@@ -173,11 +181,11 @@ class RestaurantDetailActivity : AppCompatActivity() {
 
         //TODO: set up onclick for item in adapter
         // click the item to launch the Restaurant Detail Activity
-        inspectionListView!!.setOnItemClickListener { _, view, position, _ ->
+        /*inspectionListView!!.setOnItemClickListener { _, view, position, _ ->
             val intent: Intent? =
                 InspectionDetailActivity().makeLaunchIntent(applicationContext, ID, position)
             startActivity(intent)
-        }
+        }*/
     }
 
     fun DDtoDMS(d: Double): String {

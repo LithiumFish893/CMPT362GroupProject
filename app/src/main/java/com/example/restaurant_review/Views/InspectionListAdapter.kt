@@ -36,10 +36,6 @@ class InspectionListAdapter(
             viewInspection.findViewById<ImageView>(R.id.list_inspection_hazard_icon)
         val inspectionDate: TextView =
             viewInspection.findViewById<TextView>(R.id.list_inspection_date)
-        val inspectionCritical: TextView =
-            viewInspection.findViewById<TextView>(R.id.list_inspection_critical_issues)
-        val inspectionNonCritical: TextView =
-            viewInspection.findViewById<TextView>(R.id.list_inspection_non_critical_issues)
         val inspectionHazard: TextView =
             viewInspection.findViewById<TextView>(R.id.list_inspection_hazard)
         when (mInspection.hazard) {
@@ -62,7 +58,10 @@ class InspectionListAdapter(
                         ?.getString(R.string.inspection_hazard_list)
                 inspectionHazard.setTextColor(context.getColor(R.color.colorHighHazard))
             }
-            else -> inspectionHazardIcon.setImageResource(R.drawable.ic_hazard_unknown)
+            else -> {
+                println("other ${mInspection.hazard}")
+                inspectionHazardIcon.setImageResource(R.drawable.ic_hazard_unknown)
+            }
         }
 
         // setup date format

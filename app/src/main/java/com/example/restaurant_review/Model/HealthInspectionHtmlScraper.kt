@@ -3,12 +3,21 @@ package com.example.restaurant_review.Model
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import java.lang.Exception
 import java.util.*
 
 
-class FraserHealthHtmlScraper {
+class HealthInspectionHtmlScraper (var onReadApiCompleteListener: OnReadApiCompleteListener? = null) {
     private val inspectionManager = InspectionManager.instance
     fun scrape(query: String, restaurantId: String){
+        println("query=$query")
+        try {
+            scrapeFraserHealth(query, restaurantId)
+        } catch (e: Exception){
+            onReadApiCompleteListener?.onReadApiComplete()
+        }
+    }
+    fun scrapeFraserHealth (query: String, restaurantId: String){
         val queue = Volley.newRequestQueue(MyApplication.context)
         val url = "https://www.healthspace.ca/Clients/FHA/FHA_Website.nsf/Food-List-ByName?SearchView"
         val restaurantsRequest: StringRequest = object : StringRequest(
@@ -18,6 +27,11 @@ class FraserHealthHtmlScraper {
                     val searchString = "/Clients/FHA/FHA_Website.nsf/Food-FacilityHistory?OpenView&RestrictToCategory="
                     val start = response.indexOf(searchString)
                     val end = response.indexOf('>', start)
+                    if (start == -1) {
+                        println("something bad happened...")
+                        onReadApiCompleteListener?.onReadApiComplete()
+                        return@Listener
+                    }
                     val getQuery = response.slice(start until end)
                     println("response: ${response.slice(start until end)}")
                     val url2 = "https://www.healthspace.ca$getQuery"
@@ -41,7 +55,7 @@ class FraserHealthHtmlScraper {
                                     id = restaurantId,
                                     date = date,
                                     hazard = hazard
-                                        )
+                                )
                                 inspectionManager?.addInspection(inspection)
                                 /*val resLink = getInspectionLinkFromTr(tr).removeSurrounding("\"")
                                 val url3 = "https://www.healthspace.ca$resLink"
@@ -55,6 +69,7 @@ class FraserHealthHtmlScraper {
                                 queue.add(violationRequest)*/
                                 searchIndex = response.indexOf(toFind, trEnd)
                             }
+                            onReadApiCompleteListener?.onReadApiComplete()
                         },
                         Response.ErrorListener { } ) { }
                     queue.add(restaurantRequest)
@@ -103,7 +118,9 @@ class FraserHealthHtmlScraper {
         val levelStart = preLevelIndex + preLevelString.length + 6 + 1
         val postLevelIndex = trString.indexOf(postLevelString)
         val levelEnd = postLevelIndex
-        val hazardLevel = trString.slice(levelStart until levelEnd)
+        var hazardLevel = trString.slice(levelStart until levelEnd)
+        // high has bold
+        hazardLevel = hazardLevel.removePrefix("<B>").removeSuffix("</B>")
         return hazardLevel
     }
 }

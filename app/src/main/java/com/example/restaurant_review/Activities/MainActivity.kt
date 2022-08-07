@@ -16,16 +16,12 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.util.Util
-import com.example.restaurant_review.Model.FraserHealthHtmlScraper
 import com.example.restaurant_review.Nav.KeepStateNavigator
 import com.example.restaurant_review.R
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
