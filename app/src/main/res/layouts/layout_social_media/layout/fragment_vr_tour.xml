@@ -10,13 +10,6 @@
         android:background="#FFFFFF"
         android:orientation="vertical">
         <TextView
-            android:layout_marginStart="@dimen/default_padding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="34sp"
-            android:textStyle="bold"
-            android:text="VR Restaurant Tours" />
-        <TextView
             android:background="@color/colorSecondary"
             android:gravity="center"
             android:maxLines="1"
@@ -72,7 +65,7 @@
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="200dp"
             app:srcCompat="@drawable/vr_glass_cartoon"
             android:scaleX="0.7"
             android:scaleY="0.7"/>
