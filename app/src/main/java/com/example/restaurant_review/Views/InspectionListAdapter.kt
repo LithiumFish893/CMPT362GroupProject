@@ -36,10 +36,6 @@ class InspectionListAdapter(
             viewInspection.findViewById<ImageView>(R.id.list_inspection_hazard_icon)
         val inspectionDate: TextView =
             viewInspection.findViewById<TextView>(R.id.list_inspection_date)
-        val inspectionCritical: TextView =
-            viewInspection.findViewById<TextView>(R.id.list_inspection_critical_issues)
-        val inspectionNonCritical: TextView =
-            viewInspection.findViewById<TextView>(R.id.list_inspection_non_critical_issues)
         val inspectionHazard: TextView =
             viewInspection.findViewById<TextView>(R.id.list_inspection_hazard)
         when (mInspection.hazard) {

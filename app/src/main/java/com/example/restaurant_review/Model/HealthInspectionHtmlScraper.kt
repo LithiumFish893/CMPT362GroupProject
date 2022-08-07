@@ -47,6 +47,7 @@ class HealthInspectionHtmlScraper (var onReadApiCompleteListener: OnReadApiCompl
                                 // find <tr valign="top">
                                 val trStart = response.indexOf(toFind, searchIndex)
                                 val trEnd = response.indexOf("</tr>", trStart)
+                                if (trStart == -1) break
                                 val tr = response.slice(trStart until trEnd)
                                 val date = getDateFromTr(tr)
                                 val hazard = getHazardLevelFromTr(tr)
