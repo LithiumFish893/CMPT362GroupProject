@@ -72,16 +72,19 @@ class RestaurantListAdapter(
         restaurantHazardIcon.setImageResource(R.drawable.ic_baseline_star_rate_24)
         val database = Firebase.database
         database.reference.child("restaurants")
-            .child(mRestaurant.id).child("avgRating").get().addOnCompleteListener() {
-                if (it.isSuccessful) {
-                    if (it.result.value == null)
+            .child(mRestaurant.id).child("avgRating").addValueEventListener(object: ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.value == null)
                         restaurantHazard.text = "0"
                     else
-                        restaurantHazard.text = it.result.value.toString()
-                }else {
-                    restaurantHazard.text = "0"
+                        restaurantHazard.text = snapshot.value.toString()
                 }
-            }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
         restaurantIssues.text = mRestaurant.address
         restaurantDate.text = mRestaurant.type
         return viewRestaurant
