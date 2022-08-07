@@ -96,7 +96,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
         if (!isLocationPermissionGranted) {
             Toast.makeText(context, R.string.location_permission, Toast.LENGTH_SHORT).show()
         }
-        if (isWriteFilePermissionGranted) {
+        if (!isWriteFilePermissionGranted) {
             Toast.makeText(context, R.string.file_permission, Toast.LENGTH_LONG).show()
         }
 
@@ -224,7 +224,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {println("onCreateOptionsMenu")
-        Toast.makeText(requireActivity(),"List Activity", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(requireActivity(),"List Activity", Toast.LENGTH_SHORT).show()
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_maps_fragment, menu)
         inflater.inflate(R.menu.menu_main_activity, menu);
@@ -233,7 +233,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {println("onOptionsItemSelected")
-        Toast.makeText(requireActivity(),"item selected", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(requireActivity(),"item selected", Toast.LENGTH_SHORT).show()
         when (item.itemId) {
             R.id.list_view -> {
                 val navController: NavController =

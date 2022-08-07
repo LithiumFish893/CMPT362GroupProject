@@ -40,17 +40,17 @@
             </group>
         </menu>
     </item>
-    <item android:title="User Options">
+    <item android:title="@string/user_options">
         <menu>
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/profile"
                     android:icon="@drawable/baseline_account_circle_black_48"
-                    android:title="Profile" />
+                    android:title="@string/profile" />
                 <item
                     android:id="@+id/log_out"
                     android:icon="@drawable/baseline_logout_black_48"
-                    android:title="Logout" />
+                    android:title="@string/logout" />
             </group>
         </menu>
     </item>

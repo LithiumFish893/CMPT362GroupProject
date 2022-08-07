@@ -78,7 +78,7 @@ class HomeFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        Toast.makeText(requireActivity(),"List Activity", LENGTH_SHORT).show()
+        //Toast.makeText(requireActivity(),"List Activity", LENGTH_SHORT).show()
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_home_fragment, menu);
 
@@ -155,7 +155,7 @@ class HomeFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection
-        Toast.makeText(requireActivity(),"item selected", LENGTH_SHORT).show()
+        //Toast.makeText(requireActivity(),"item selected", LENGTH_SHORT).show()
         return when (item.itemId) {
             R.id.map_view -> {
 

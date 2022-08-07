@@ -6,15 +6,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Filter
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import com.bumptech.glide.Glide
 import com.example.restaurant_review.Model.Inspection
 import com.example.restaurant_review.Model.InspectionManager
 import com.example.restaurant_review.Model.Restaurant
 import com.example.restaurant_review.R
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -68,7 +70,18 @@ class RestaurantListAdapter(
 
         restaurantName.text = mRestaurant.name
         restaurantHazardIcon.setImageResource(R.drawable.ic_baseline_star_rate_24)
-        restaurantHazard.text = "5"
+        val database = Firebase.database
+        database.reference.child("restaurants")
+            .child(mRestaurant.id).child("avgRating").get().addOnCompleteListener() {
+                if (it.isSuccessful) {
+                    if (it.result.value == null)
+                        restaurantHazard.text = "0"
+                    else
+                        restaurantHazard.text = it.result.value.toString()
+                }else {
+                    restaurantHazard.text = "0"
+                }
+            }
         restaurantIssues.text = mRestaurant.address
         restaurantDate.text = mRestaurant.type
         return viewRestaurant

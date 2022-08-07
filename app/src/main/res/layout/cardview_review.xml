@@ -22,17 +22,33 @@
         android:padding="10dp"
         >
 
-        <TextView
-            android:id="@+id/review_card_title"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="1dp"
-            android:paddingTop="1dp"
-            android:paddingBottom="1dp"
-            android:text="sample title"
-            android:textColor="@color/black"
-            android:textSize="22sp" />
+            android:orientation="horizontal"
+            android:weightSum="1">
+            <TextView
+                android:id="@+id/review_card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="1dp"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
+                android:text="sample title"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                android:layout_weight="1"
+                />
 
+            <TextView
+                android:id="@+id/delete_review"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="delete"
+                android:textColor="@color/bootstrap_red"
+                android:gravity="end"
+                />
+        </LinearLayout>
         <RatingBar
             android:id="@+id/review_card_rating"
             android:layout_width="wrap_content"

@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.restaurant_review.Data.Review
 import com.example.restaurant_review.R
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import org.w3c.dom.Text
@@ -30,11 +31,21 @@ class ReviewHistoryAdapter(private val context: Context, private var reviewList:
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        var database = Firebase.database
+        val auth = Firebase.auth
+        val database = Firebase.database
         val review = reviewList[position]
         holder.titleView.text = review.title
         holder.commentView.text = review.comment
         holder.ratingView.rating = review.rating
+        holder.deleteText.visibility = View.INVISIBLE
+        if (review.author == auth.currentUser!!.uid){
+            holder.deleteText.visibility = View.VISIBLE
+            holder.deleteText.setOnClickListener(){
+                database.reference.child("reviews").child(review.id).removeValue()
+                database.reference.child("user").child(auth.currentUser!!.uid).child("history")
+                    .child(review.id).removeValue()
+            }
+        }
         database.reference.child("user")
             .child(review.author).child("username").get().addOnCompleteListener() {
                 if (it.isSuccessful) {
@@ -49,6 +60,7 @@ class ReviewHistoryAdapter(private val context: Context, private var reviewList:
     }
 
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
+        val deleteText: TextView = itemView.findViewById(R.id.delete_review)
         val titleView: TextView = itemView.findViewById(R.id.review_card_title)
         val commentView: TextView = itemView.findViewById(R.id.review_card_comment)
         val ratingView: RatingBar = itemView.findViewById(R.id.review_card_rating)

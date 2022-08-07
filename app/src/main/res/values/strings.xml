@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Restaurant Review</string>
 
-    <string name="nav_header_title">Restaurant Health Inspection</string>
-    <string name="nav_header_subtitle">Restaurant Health Inspection</string>
+    <string name="nav_header_title">WeReview</string>
+    <string name="nav_header_subtitle">Restaurant Reviews, Health Inspections and Social Media</string>
     <string name="toolbar_restaurant_detail">Details of selected restaurant</string>
     <string name="toolbar_inspection_detail">Details of selected inspection</string>
 
