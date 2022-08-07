@@ -31,6 +31,7 @@ class RestaurantDetailActivity : AppCompatActivity() {
     var inspectionListView: ListView? = null
     private var mRestaurant: Restaurant? = null
     private lateinit var mPrefs: SharedPreferences
+    private lateinit var tv: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_restaurant_detail)
@@ -43,6 +44,7 @@ class RestaurantDetailActivity : AppCompatActivity() {
 
         // setup ListView to display the inspections
         inspectionListView = findViewById(R.id.inspection_history_listView)
+        tv = this.findViewById<TextView>(R.id.no_inspections_in_db_tv)
 
         HealthInspectionHtmlScraper(object: OnReadApiCompleteListener{
             override fun onReadApiComplete() {
@@ -174,6 +176,9 @@ class RestaurantDetailActivity : AppCompatActivity() {
         // setup InspectionListList
         val InspectionList: ArrayList<Inspection>? =
             ID?.let { InspectionManager.instance?.getInspections(it) }
+        if (InspectionList == null || InspectionList.isEmpty()){
+            tv.visibility = View.VISIBLE
+        }
         // setup ListView
         val inspectionListAdapter =
             InspectionList?.let { InspectionListAdapter(this, R.layout.list_item_inspection, it) }
