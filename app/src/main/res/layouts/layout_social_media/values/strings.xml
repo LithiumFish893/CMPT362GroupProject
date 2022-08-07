@@ -3,4 +3,7 @@
     <string name="location">Location</string>
     <string name="find">Find</string>
     <string name="none">None</string>
+    <string name="profile">Profile</string>
+    <string name="logout">Logout</string>
+    <string name="user_options">User Options</string>
 </resources>

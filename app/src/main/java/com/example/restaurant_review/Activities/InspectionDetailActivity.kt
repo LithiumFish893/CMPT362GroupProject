@@ -4,27 +4,18 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
-import android.widget.AdapterView.OnItemClickListener
 import android.widget.ImageView
-import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.restaurant_review.Model.Inspection
 import com.example.restaurant_review.Model.InspectionManager
-import com.example.restaurant_review.Model.Violation
 import com.example.restaurant_review.R
-import com.example.restaurant_review.Views.ViolationListAdapter
-import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.*
 
 class InspectionDetailActivity: AppCompatActivity(){
-    var violationDetailListView: ListView? = null
-    var violationsList: ArrayList<Violation>? = null
-    var violationListAdapter: ViolationListAdapter? = null
     var mInspection: Inspection? = null
     var ID: String? = null
     var INDEX = 0
@@ -44,10 +35,6 @@ class InspectionDetailActivity: AppCompatActivity(){
 
         // setup UI
         setupUI()
-
-        // setup ListView to display the inspections
-        violationDetailListView = findViewById<ListView>(R.id.violation_history_listView)
-        populateListView()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -82,15 +69,7 @@ class InspectionDetailActivity: AppCompatActivity(){
 
         // Set values
         date.text = simpleDate
-        type.text = (mInspection?.type)
         val typeIcon: ImageView = findViewById<ImageView>(R.id.inspection_type_icon)
-        if (mInspection?.type.equals("Follow-Up")) {
-            typeIcon.setImageResource(R.drawable.ic_inspection_follow_up)
-        } else {
-            typeIcon.setImageResource(R.drawable.ic_inspection_routine)
-        }
-        critical.text = getString(R.string.inspection_critical, mInspection?.numCritical)
-        non_critical.text = getString(R.string.inspection_non_critical, mInspection?.numNonCritical)
         when (mInspection?.hazard) {
             "Low" -> {
                 hazardIcon.setImageResource(R.drawable.ic_hazard_low)
@@ -111,26 +90,5 @@ class InspectionDetailActivity: AppCompatActivity(){
         }
     }
 
-    private fun populateListView() {
-        violationsList = mInspection?.getViolationsList()
-        // setup ListView
-        if (violationsList != null) {
-            violationListAdapter = ViolationListAdapter(this, violationsList)
-            violationDetailListView!!.adapter = violationListAdapter
-        }
-
-        // click the item to launch the Restaurant Detail Activity
-        violationDetailListView!!.onItemClickListener =
-            OnItemClickListener { parent, view, position, id -> // snack bar to display the full details
-                Snackbar.make(
-                    view,
-                    (violationsList!![position]).violationDetail,
-                    Snackbar.LENGTH_SHORT
-                )
-                    .setAction(R.string.OK, View.OnClickListener {
-                    })
-                    .show()
-            }
-    }
 
 }

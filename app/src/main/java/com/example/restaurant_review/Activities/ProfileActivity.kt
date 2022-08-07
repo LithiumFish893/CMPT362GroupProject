@@ -23,15 +23,21 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.core.view.Change
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 class ProfileActivity: AppCompatActivity() {
+    private enum class State {
+        Change, Save
+    }
     private lateinit var auth: FirebaseAuth
     private lateinit var userName: EditText
     private lateinit var commentHistory: RecyclerView
     private lateinit var database: FirebaseDatabase
     private lateinit var loggedUser: FirebaseUser
+    private lateinit var state: State
+
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var myAdapter: ReviewHistoryAdapter
@@ -57,13 +63,25 @@ class ProfileActivity: AppCompatActivity() {
         myAdapter = ReviewHistoryAdapter(this,list)
         recyclerView.adapter = myAdapter
 
-
+        state = State.Change
 
         changeUsername.setOnClickListener() {
-            userName.inputType = InputType.TYPE_CLASS_TEXT
-            userName.requestFocus()
-            userName.setSelection(userName.length())
-            imm.showSoftInput(userName, 0)
+            if(state == State.Change) {
+                userName.inputType = InputType.TYPE_CLASS_TEXT
+                userName.requestFocus()
+                userName.setSelection(userName.length())
+                changeUsername.text = "Save Username"
+                imm.showSoftInput(userName, 0)
+                state = State.Save
+            } else {
+                database.reference.child("user").child(loggedUser.uid).child("username")
+                    .setValue(userName.text.toString())
+                userName.inputType = InputType.TYPE_NULL
+                userName.clearFocus()
+                changeUsername.text = "Change Username"
+                imm.hideSoftInputFromWindow(userName.windowToken, 0)
+                state = State.Change
+            }
         }
 
         userName.setOnKeyListener(){ view, keycode, event ->
@@ -86,6 +104,8 @@ class ProfileActivity: AppCompatActivity() {
                     if (review["Author"]==loggedUser.uid) {
                         println("Debug: review" + review)
                         val newReview = Review()
+                        newReview.id = review["ID"].toString()
+                        newReview.author = review["Author"].toString()
                         newReview.title = review["Title"].toString()
                         val rate = review["Rating"]
                         if (rate != null){

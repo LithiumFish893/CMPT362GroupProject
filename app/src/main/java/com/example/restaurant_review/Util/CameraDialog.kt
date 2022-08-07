@@ -66,6 +66,7 @@ class CameraDialog: DialogFragment(), AdapterView.OnItemClickListener {
         when (position){
             // get the current activity (SocialMediaPostActivity) and use the appropriate methods
             0 -> {
+                Util.checkCameraPermissions(requireActivity())
                 if (Util.checkCameraPermissions(requireActivity())) {
                     (requireActivity() as SocialMediaPostActivity).launchCamera()
                 }

@@ -72,6 +72,7 @@ dependencies {
     implementation 'com.google.maps.android:android-maps-utils:2.0.3'
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
     implementation 'com.google.android.gms:play-services-location:20.0.0'
+    implementation 'com.google.firebase:firebase-storage-ktx:20.0.1'
 
     // HTTP library
     implementation 'com.android.volley:volley:1.2.1'
@@ -93,6 +94,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-storage-ktx:20.0.1'
+    implementation 'com.firebaseui:firebase-ui-storage:8.0.1'
+
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
     // room
     implementation "androidx.room:room-ktx:2.4.2"
@@ -107,4 +112,7 @@ dependencies {
 
     // dependency for slider view
     implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
+
+    // htmlunit
+    implementation 'net.sourceforge.htmlunit:htmlunit-android:2.63.0'
 }

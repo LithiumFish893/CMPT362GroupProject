@@ -36,10 +36,6 @@ class InspectionListAdapter(
             viewInspection.findViewById<ImageView>(R.id.list_inspection_hazard_icon)
         val inspectionDate: TextView =
             viewInspection.findViewById<TextView>(R.id.list_inspection_date)
-        val inspectionCritical: TextView =
-            viewInspection.findViewById<TextView>(R.id.list_inspection_critical_issues)
-        val inspectionNonCritical: TextView =
-            viewInspection.findViewById<TextView>(R.id.list_inspection_non_critical_issues)
         val inspectionHazard: TextView =
             viewInspection.findViewById<TextView>(R.id.list_inspection_hazard)
         when (mInspection.hazard) {
@@ -88,10 +84,6 @@ class InspectionListAdapter(
                 (now.time - mInspection.simpleDate?.time!!) / (24 * 60 * 60 * 1000)
             inspectionDate.text = days.toString() + " " + MyApplication.context?.getString(R.string.days_ago)
         }
-        inspectionCritical.text = mInspection.numCritical.toString() + " " + MyApplication.context
-                ?.getString(R.string.inspection_critical_list)
-        inspectionNonCritical.text = mInspection.numNonCritical.toString() + " " + MyApplication.context
-                ?.getString(R.string.inspection_noncritical_list)
         return viewInspection
     }
 

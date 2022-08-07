@@ -7,22 +7,4 @@
         android:title="@string/menu_favorite_only"
         android:checkable="true"
         app:showAsAction="never" />
-
-    <item
-        android:id="@+id/menu_filter_by_safety"
-        android:orderInCategory="100"
-        android:title="@string/menu_filter_by_safety"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/menu_filter_by_violation"
-        android:orderInCategory="100"
-        android:title="@string/menu_filter_by_violations"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/menu_check_update"
-        android:orderInCategory="100"
-        android:title="@string/menu_check_update"
-        app:showAsAction="never" />
 </menu>

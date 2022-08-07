@@ -50,6 +50,8 @@ class SocialMediaPostRepository(private val socialMediaPostDatabase: SocialMedia
     fun delete (id: Int){
         CoroutineScope(Dispatchers.IO).launch {
             socialMediaPostDao.deletePost(id)
+            firebaseMediaRef.child("users").child(auth.currentUser!!.uid)
+                .child("posts").child(id.toString()).removeValue()
         }
     }
 
