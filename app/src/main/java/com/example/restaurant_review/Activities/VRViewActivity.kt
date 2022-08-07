@@ -13,13 +13,18 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import com.example.restaurant_review.Activities.CreateVRTourActivity.Companion.MAX_GRID_SIZE
+import com.example.restaurant_review.Activities.CreateVRTourActivity.Companion.NAME_KEY
+import com.example.restaurant_review.Activities.CreateVRTourActivity.Companion.PREVIEW_KEY
 import com.example.restaurant_review.Activities.CreateVRTourActivity.Companion.TOUR_KEY
 import com.example.restaurant_review.Model.RestaurantTour
 import com.example.restaurant_review.Model.TourNode
 import com.example.restaurant_review.R
 import com.example.restaurant_review.Util.Util
+import com.google.firebase.storage.FirebaseStorage
 import com.google.vr.sdk.widgets.pano.VrPanoramaEventListener
 import com.google.vr.sdk.widgets.pano.VrPanoramaView
+import java.io.File
+import java.io.FileNotFoundException
 import java.io.IOException
 
 class VRViewActivity : AppCompatActivity() {
@@ -59,11 +64,15 @@ class VRViewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vrview)
         val tour1 = intent.getParcelableExtra<RestaurantTour>(TOUR_KEY)
+        var restaurantName = "Restaurant"
         tour = if (intent != null && tour1 != null){
-            preview = true
             intent.getParcelableExtra(TOUR_KEY)!!
         } else {
-            createTour()
+            RestaurantTour(TourNode("a","a"),0)//createTour()
+        }
+        if (intent != null){
+            preview = intent.getBooleanExtra(PREVIEW_KEY, false)
+            restaurantName = intent.getStringExtra(NAME_KEY) ?: "Restaurant"
         }
 
         // Make the source link clickable.
@@ -79,13 +88,12 @@ class VRViewActivity : AppCompatActivity() {
         downArrow = findViewById(R.id.arrow_down)
         moveTextView = findViewById(R.id.move_info)
 
-        val restaurantName = "Restaurant"
         if (preview) {
             restaurantNameView.text = "Preview"
             exitPreviewButton.visibility = View.VISIBLE
             exitPreviewButton.setOnClickListener { finish() }
         }
-        else restaurantNameView.text = "VR Tour of $restaurantName"
+        else restaurantNameView.text = "VR Tour by $restaurantName"
 
         updateArrowStates(tour)
 
@@ -120,34 +128,45 @@ class VRViewActivity : AppCompatActivity() {
         handleNewImage(tour.currNode!!.image!!)
     }
 
-    private fun createTour(): RestaurantTour {
-        val entrance = TourNode("Entrance", Util.getUriFromDrawable(this, R.drawable.entrance))
-        val lobby = TourNode("Lobby", Util.getUriFromDrawable(this, R.drawable.lobby_entrance))
-        val mainDining = TourNode("Dining Room", Util.getUriFromDrawable(this, R.drawable.main_dining_room))
-        val lounge = TourNode("Lounge", Util.getUriFromDrawable(this, R.drawable.lounge))
-        val side = TourNode("Reserved Dining Room", Util.getUriFromDrawable(this, R.drawable.side_room))
-        val res = RestaurantTour(entrance, MAX_GRID_SIZE)
-        res.addTop(entrance, lobby)
-        res.addTop(lobby, mainDining)
-        res.addLeft(lobby, lounge)
-        res.addRight(lobby, side)
-        return res
-    }
-
-
     /**
      * Load custom images based on the Intent or load the default image. See the Javadoc for this
      * class for information on generating a custom intent via adb.
      */
-    private fun handleNewImage(imageUri: Uri) {
-        fileUri = imageUri
-        panoOptions.inputType = VrPanoramaView.Options.TYPE_MONO
+    private fun handleNewImage(imageName: String) {
+        val uri = Util.filePathToUri(this, imageName)
+        val storage = FirebaseStorage.getInstance()
+        val storageRef = storage.reference
+        if (!File(uri.path!!).exists()){
+            println("gotta access the cloud...")
+            val fileName = Util.filePathToName(imageName)
+            // store the image in local storage for easy retrieval
+            storageRef.child(fileName).getFile(uri).addOnCompleteListener {
+                // try accessing local storage again
+                try {
+                    fileUri = uri
+                    panoOptions.inputType = VrPanoramaView.Options.TYPE_MONO
 
-        // Load the bitmap in a background thread to avoid blocking the UI thread. This operation can
-        // take 100s of milliseconds.
-        backgroundImageLoaderTask?.cancel(true)
-        backgroundImageLoaderTask = ImageLoaderTask()
-        backgroundImageLoaderTask!!.execute(Pair.create(fileUri, panoOptions))
+                    // Load the bitmap in a background thread to avoid blocking the UI thread. This operation can
+                    // take 100s of milliseconds.
+                    backgroundImageLoaderTask?.cancel(true)
+                    backgroundImageLoaderTask = ImageLoaderTask()
+                    backgroundImageLoaderTask!!.execute(Pair.create(fileUri, panoOptions))
+                }
+                catch (e: FileNotFoundException) {
+                    println("couldn't upload ...")
+                }
+            }
+        }
+        else {
+            fileUri = uri
+            panoOptions.inputType = VrPanoramaView.Options.TYPE_MONO
+
+            // Load the bitmap in a background thread to avoid blocking the UI thread. This operation can
+            // take 100s of milliseconds.
+            backgroundImageLoaderTask?.cancel(true)
+            backgroundImageLoaderTask = ImageLoaderTask()
+            backgroundImageLoaderTask!!.execute(Pair.create(fileUri, panoOptions))
+        }
     }
 
     override fun onPause() {

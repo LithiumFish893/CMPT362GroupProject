@@ -1,96 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#82B0E3">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dip">
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/vr_restaurant_name"
-                android:textSize="24sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#F4F3F3"
+                android:textSize="30sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
                 android:id="@+id/exit_preview_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Exit Preview"
                 android:visibility="gone"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
+                android:id="@+id/place_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/place_description"
-                android:textSize="30sp"
+                android:layout_marginTop="100dp"
                 android:text="test"
-                android:gravity="center"
-                app:layout_constraintTop_toBottomOf="@id/vr_restaurant_name"
+                android:textAlignment="textStart"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/vr_restaurant_name" />
+
             <com.google.vr.sdk.widgets.pano.VrPanoramaView
                 android:id="@+id/pano_view"
                 android:layout_width="match_parent"
-                android:scrollbars="none"
                 android:layout_height="250dip"
-                app:layout_constraintTop_toBottomOf="@id/place_description"
-                app:layout_constraintStart_toStartOf="parent"
+                android:scrollbars="none"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-            <ImageButton android:background="?attr/selectableItemBackground"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/place_description" />
+
+            <ImageButton
                 android:id="@+id/arrow_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
                 android:src="@drawable/arrow_up"
-                app:layout_constraintTop_toBottomOf="@id/place_description"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                />
-            <ImageButton android:background="?attr/selectableItemBackground"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/place_description" />
+
+            <ImageButton
                 android:id="@+id/arrow_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
                 android:src="@drawable/arrow_left"
-                app:layout_constraintTop_toTopOf="@id/pano_view"
                 app:layout_constraintBottom_toBottomOf="@+id/pano_view"
                 app:layout_constraintStart_toStartOf="parent"
-                />
-            <ImageButton android:background="?attr/selectableItemBackground"
+                app:layout_constraintTop_toTopOf="@id/pano_view" />
+
+            <ImageButton
                 android:id="@+id/arrow_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
                 android:src="@drawable/arrow_right"
-                app:layout_constraintTop_toTopOf="@id/pano_view"
                 app:layout_constraintBottom_toBottomOf="@id/pano_view"
                 app:layout_constraintEnd_toEndOf="parent"
-                />
-            <ImageButton android:background="?attr/selectableItemBackground"
+                app:layout_constraintTop_toTopOf="@id/pano_view" />
+
+            <ImageButton
                 android:id="@+id/arrow_down"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
                 android:src="@drawable/arrow_down"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                />
+                app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <TextView
             android:id="@+id/move_info"
-            android:layout_marginTop="@dimen/default_padding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/pano_view"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/default_padding"
+            android:text="Click the arrow keys to move"
+            android:textColor="#F4F3F3"
             android:textStyle="italic"
-            android:text="Click the arrow keys to move"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pano_view" />
     </LinearLayout>
 </ScrollView>

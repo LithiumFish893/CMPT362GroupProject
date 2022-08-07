@@ -35,7 +35,7 @@ class TourNodeDialog(var listener: OnDialogSetListener?):  DialogFragment(), Dia
     private lateinit var textView: TextView
     private val GET_GALLERY_CODE = 102
     private lateinit var file: File
-    private lateinit var uri: Uri
+    private var uri: Uri? = null
     private lateinit var res: ActivityResultLauncher<Intent>
 
     interface OnDialogSetListener {
@@ -82,7 +82,8 @@ class TourNodeDialog(var listener: OnDialogSetListener?):  DialogFragment(), Dia
 
     override fun onClick(dialog: DialogInterface?, item: Int) {
         if (item == DialogInterface.BUTTON_POSITIVE){
-            listener?.onDialogSet(editText.text.toString(), uri)
+            if (uri != null) listener?.onDialogSet(editText.text.toString(), uri!!)
+            else Toast.makeText(requireContext(), "Please upload an image first!", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -102,7 +103,7 @@ class TourNodeDialog(var listener: OnDialogSetListener?):  DialogFragment(), Dia
         {
             val targetUri: Uri? = data?.data
             uri = targetUri!!
-            textView.text = uri.toFile().name
+            textView.text = uri!!.toFile().name
         }
     }
 

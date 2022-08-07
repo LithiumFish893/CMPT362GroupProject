@@ -29,6 +29,13 @@ class RestaurantTour : Parcelable{
         tourGrid.put(currPoint, root)
     }
 
+    constructor(inTourGrid: Array<Array<TourNode?>>) {
+        tourGrid = inTourGrid
+        size = tourGrid.size
+        currPoint = Point(size/2, size/2)
+        root = tourGrid.index(currPoint)!!
+    }
+
     // some utility extension fns
     fun Point.top (): Point { return Point(this.x-1, this.y) }
     fun Point.bottom (): Point { return Point(this.x+1, this.y) }
@@ -53,6 +60,17 @@ class RestaurantTour : Parcelable{
     }
     val currNode get(): TourNode? {
         return tourGrid.index(currPoint)
+    }
+
+    fun getArrayList(): ArrayList<ArrayList<String>>{
+        val res = arrayListOf<ArrayList<String>>()
+        for (i in tourGrid.indices){
+            res.add(arrayListOf())
+            for (e in tourGrid[i]){
+                res[i].add(e?.toString() ?: "null")
+            }
+        }
+        return res
     }
 
 
@@ -115,16 +133,16 @@ class RestaurantTour : Parcelable{
     }
 }
 
-data class TourNode (var name: String, var image: Uri?): Parcelable {
+data class TourNode (var name: String, var image: String?): Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
-        parcel.readParcelable(Uri::class.java.classLoader)
+        parcel.readString()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)
-        parcel.writeParcelable(image, flags)
+        parcel.writeString(image)
     }
 
     override fun describeContents(): Int {
@@ -140,4 +158,11 @@ data class TourNode (var name: String, var image: Uri?): Parcelable {
             return arrayOfNulls(size)
         }
     }
+
+    override fun toString(): String {
+        val split = "~"
+        val name2 = name.replace(split, "")
+        return "name=$name${split}image=$image"
+    }
+
 }
