@@ -79,8 +79,7 @@ class RestaurantReview : AppCompatActivity(), DialogInterface.OnClickListener {
         println("debug: position $position, ID $ID")
 
         val restaurantName = findViewById<TextView>(R.id.restaurant_title)
-        val imageSlider = findViewById<ImageSlider>(R.id.restaurant_image)
-        val imageList = ArrayList<SlideModel>()
+        val image = findViewById<ImageView>(R.id.restaurant_image)
         val mRestaurant: Restaurant? = RestaurantManager.instance?.getRestaurant(
             ID
         )
@@ -96,6 +95,7 @@ class RestaurantReview : AppCompatActivity(), DialogInterface.OnClickListener {
                         mRestaurant.latitude, mRestaurant.longitude, distance)
                     distanceText.text = ((distance[0]/10).roundToInt()/100.0).toString() + "KM"
                 }
+            Glide.with(this).load(mRestaurant.imgUrl).placeholder(R.drawable.ic_restaurant).into(image)
         } else {
             println("debug: mRest is null")
         }
@@ -104,10 +104,7 @@ class RestaurantReview : AppCompatActivity(), DialogInterface.OnClickListener {
         averageRating = findViewById(R.id.restaurant_rating)
         address.text = getString(R.string.restaurant_address, mRestaurant?.address, mRestaurant?.city)
 
-        imageList.add(SlideModel("https://media-cdn.tripadvisor.com/media/photo-s/0e/f0/e6/28/breathtaking-views-of.jpg"))
-        imageList.add(SlideModel("https://www.tourismnorthbay.com/wp-content/uploads/2020/06/Dairy-Queen-DQ-North-Bay-Blizzards.jpg"))
-
-        imageSlider.setImageList(imageList, ScaleTypes.FIT)
+        
 
         val healthButton = findViewById<TextView>(R.id.health_level)
         healthButton.setOnClickListener(){
