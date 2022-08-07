@@ -17,6 +17,14 @@ import com.example.restaurant_review.Model.TourNode
 import com.example.restaurant_review.R
 import com.example.restaurant_review.Util.TourNodeDialog
 import com.example.restaurant_review.Util.Util
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class CreateVRTourActivity: AppCompatActivity() {
     private lateinit var buttonList: ArrayList<ImageButton>
@@ -25,11 +33,16 @@ class CreateVRTourActivity: AppCompatActivity() {
     private lateinit var infoButton: ImageButton
     private lateinit var briefDesc: TextView
     private lateinit var previewButton: Button
+    private lateinit var submitButton: Button
+    private lateinit var cancelButton: Button
     private var tour: RestaurantTour? = null
     private val grid: Array<Array<TourNode?>> = Array(MAX_GRID_SIZE) {Array(MAX_GRID_SIZE) {null} }
+    private lateinit var imgNameToUris: HashMap<String, Uri>
 
     companion object {
         const val TOUR_KEY = "tour key"
+        const val PREVIEW_KEY = "preview key"
+        const val NAME_KEY = "name key"
         const val MAX_GRID_SIZE = 20
     }
 
@@ -43,6 +56,10 @@ class CreateVRTourActivity: AppCompatActivity() {
         infoButton = findViewById(R.id.vr_info_button)
         briefDesc = findViewById(R.id.vr_brief_desc)
         previewButton = findViewById(R.id.vr_preview)
+        submitButton = findViewById(R.id.vr_submit)
+        cancelButton = findViewById(R.id.vr_cancel)
+
+        imgNameToUris = HashMap()
 
         infoButton.setOnClickListener {
             val v = briefDesc.visibility
@@ -53,11 +70,39 @@ class CreateVRTourActivity: AppCompatActivity() {
             if (tour != null) {
                 val intent = Intent(this, VRViewActivity::class.java)
                 intent.putExtra(TOUR_KEY, tour)
+                intent.putExtra(PREVIEW_KEY, true)
                 startActivity(intent)
             }
             else {
                 Toast.makeText(this, "There is nothing to preview!", Toast.LENGTH_SHORT).show()
             }
+        }
+        submitButton.setOnClickListener {
+            if (tour != null){
+                val storage = FirebaseStorage.getInstance()
+                val storageRef = storage.reference
+                // save the images
+                for (pair in imgNameToUris){
+                    val name = pair.component1()
+                    val uri = pair.component2()
+                    val imgRef = storageRef.child(name)
+                    imgRef.putFile(uri)
+                }
+                val firebaseAuth = Firebase.auth
+                val currentUser = firebaseAuth.currentUser!!.uid
+                val database = Firebase.database.reference
+                val tourRef = database.child("tours")
+
+                val a = tour!!.getArrayList()
+                tourRef.child(currentUser).setValue(a)
+                finish()
+            }
+            else {
+                Toast.makeText(this, "There is nothing to submit!", Toast.LENGTH_SHORT).show()
+            }
+        }
+        cancelButton.setOnClickListener {
+            finish()
         }
         briefDesc.text = """
             Click on the center + icon to start
@@ -75,7 +120,9 @@ class CreateVRTourActivity: AppCompatActivity() {
         val dialog = TourNodeDialog(
             object : TourNodeDialog.OnDialogSetListener {
                 override fun onDialogSet(text: String, imageUri: Uri) {
-                    val node = TourNode(text, imageUri)
+                    val imgName = Calendar.getInstance().timeInMillis.toString()
+                    imgNameToUris[imgName] = imageUri
+                    val node = TourNode(text, imgName)
                     val leftCol = col-1
                     val rightCol = col+1
                     val topRow = row-1
