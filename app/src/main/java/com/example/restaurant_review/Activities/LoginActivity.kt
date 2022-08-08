@@ -96,6 +96,10 @@ class LoginActivity:AppCompatActivity() {
 
     }
 
+    override fun onBackPressed() {
+        finishAffinity()
+    }
+
 
     private fun loginWithGoogle(account: GoogleSignInAccount?) {
         val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
