@@ -82,7 +82,6 @@ class SocialMediaFragment : Fragment() {
             if (it.resultCode == SocialMediaPostActivity.RESULT_CODE && it.data != null){
                 val intent = it.data!!
                 val post = Util.bundleToPost(intent.extras!!)
-                println("post=${post.locationName}")
                 viewModel.insert(post)
             }
         }
