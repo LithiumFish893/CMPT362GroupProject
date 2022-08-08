@@ -83,9 +83,8 @@ class FullPostActivity : AppCompatActivity() {
         userRef.get().addOnCompleteListener() {
                 if (it.isSuccessful) {
                     timeView.text = "Posted on " + Util.toDateString(post.timeStamp) + ", by " + it.result.value.toString()
-                    println("Debug: Success comment username, ${it.result.value.toString()}")
                 } else {
-                    println("Debug: Failed comment username")
+
                 }
             }
 
@@ -124,23 +123,19 @@ class FullPostActivity : AppCompatActivity() {
         for (path: String in post.imgList) {
             // first see if image is available locally
             try {
-                println("checking locally")
                 bitmaps.add(Util.filePathToBitmap(this, path))
             }
             // if it's not then try the cloud
             catch (e: FileNotFoundException){
-                println("gotta access the cloud...")
                 val fileName = Util.filePathToName(path)
                 // store the image in local storage for easy retrieval
                 storageRef.child(fileName).getFile(Util.filePathToUri(this, path)).addOnCompleteListener {
                     // try accessing local storage again
                     try {
                         bitmaps.add(Util.filePathToBitmap(this, path))
-                        println("$path vs. ${post.imgList.last()}")
                         imagesView.setImageBitmap(bitmaps[0])
                     }
                     catch (e: FileNotFoundException) {
-                        println("couldn't upload ...")
                     }
                 }
             }
@@ -202,7 +197,7 @@ class FullPostActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+
             }
 
         })

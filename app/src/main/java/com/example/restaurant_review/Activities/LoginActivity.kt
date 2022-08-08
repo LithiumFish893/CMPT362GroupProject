@@ -74,7 +74,6 @@ class LoginActivity:AppCompatActivity() {
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
 
         googleSignInButton.setOnClickListener{
-            println("debug: google login")
             val intent = googleSignInClient.signInIntent
             startActivityForResult(intent, 100)
         }
