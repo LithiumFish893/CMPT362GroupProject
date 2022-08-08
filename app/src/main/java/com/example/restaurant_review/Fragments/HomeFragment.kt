@@ -31,7 +31,7 @@ class HomeFragment : Fragment() {
     private var progressBars = arrayListOf<ProgressBar>()
     private lateinit var floatingSearchView: FloatingSearchView
     companion object {
-        const val PAGE_SIZE=50
+        const val PAGE_SIZE=15
         @SuppressLint("StaticFieldLeak")
         var restaurantListView: ListView? = null
         private var restaurantListAdapter: RestaurantListAdapter? = null
@@ -41,7 +41,6 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        println("init1")
         val rootView: View = inflater.inflate(R.layout.fragment_home, container, false)
         val progressBar = rootView.findViewById<ProgressBar>(R.id.home_progress_bar)
         constraintLayout = rootView.findViewById(R.id.home_fragment_linear_layout)
@@ -69,7 +68,6 @@ class HomeFragment : Fragment() {
         restaurantListAdapter?.getFilter()?.filter(floatingSearchView.query)
         // set text change listener
         floatingSearchView.setOnQueryChangeListener { _, newQuery ->
-            println("query changed")
             restaurantListAdapter?.filter!!.filter(newQuery)
         }
     }
@@ -232,7 +230,6 @@ class HomeFragment : Fragment() {
             getString(R.string.filter_button),
             object : DialogInterface.OnClickListener {
                 override fun onClick(dialog: DialogInterface, which: Int) {
-                    println(InspectionManager.instance?.safetyLevels)
                     // Do something when click positive button
                     checkedSafetyRatings?.get(0)?.let {
                         restaurantListAdapter?.filter?.setIncludeSafe(
