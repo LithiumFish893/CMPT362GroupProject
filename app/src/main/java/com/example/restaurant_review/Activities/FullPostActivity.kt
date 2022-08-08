@@ -20,9 +20,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.io.FileNotFoundException
+import java.lang.Exception
 import java.util.*
 
 
@@ -174,9 +176,36 @@ class FullPostActivity : AppCompatActivity() {
         val viewModel = ViewModelProvider(this, factory).get(SocialMediaPostViewModel::class.java)
 
 
-        viewModel.getAllCommentsWithId(post.id).observe(this) {
+        /*viewModel.getAllCommentsWithId(post.id).observe(this) {
             commentAdapter.updateList(it)
-        }
+        }*/
+        val commentRef = firebaseDatabase.reference.child("socialMediaPost").child("users")
+            .child(post.userId).child("posts").child(post.id.toString()).child("comment")
+        commentRef.addValueEventListener(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                array = arrayListOf()
+                for (commentId in snapshot.children){
+                    try{
+                        val commentModel = CommentModel(
+                            id = commentId.key!!.toInt(),
+                            parentPostId = post.id,
+                            parentPostUserId = post.userId,
+                            userId = commentId.child("userId").value as String,
+                            timeStamp = (commentId.child("timeStamp").value as Number).toLong(),
+                            textContent = commentId.child("textContent").value as String
+                        )
+                        array.add(commentModel)
+                    }
+                    catch (e: Exception) {}
+                    commentAdapter.updateList(array)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
         commentPostButton.setOnClickListener {
             if (commentEditText.text.toString().isEmpty()){
                 Toast.makeText(this, "Comment must not be empty", Toast.LENGTH_SHORT).show()

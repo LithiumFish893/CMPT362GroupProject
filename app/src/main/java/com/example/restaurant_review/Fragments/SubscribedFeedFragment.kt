@@ -38,6 +38,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -139,19 +140,22 @@ class SubscribedFeedFragment : Fragment() {
                                 list.add(e)
                             }
                         }
-                        val postUpdate: SocialMediaPostModel = SocialMediaPostModel(
-                            id = postIdVal,
-                            userId = userId.key!!,
-                            timeStamp = (post["timeStamp"] as Long as Number).toLong(),
-                            locationLat = (post["locationLat"] as Number).toDouble(),
-                            locationLong = (post["locationLong"] as Number).toDouble(),
-                            locationName = if (post.containsKey("locationName")) post["locationName"] as String else "",
-                            likeCount = (post["likeCount"] as Number).toInt(),
-                            title = post["title"] as String,
-                            textContent = post["content"] as String,
-                            imgList = list
-                        )
-                        postList.add(postUpdate)
+                        try {
+                            val postUpdate: SocialMediaPostModel = SocialMediaPostModel(
+                                id = postIdVal,
+                                userId = userId.key!!,
+                                timeStamp = (post["timeStamp"] as Long as Number).toLong(),
+                                locationLat = (post["locationLat"] as Number).toDouble(),
+                                locationLong = (post["locationLong"] as Number).toDouble(),
+                                locationName = if (post.containsKey("locationName")) post["locationName"] as String else "",
+                                likeCount = (post["likeCount"] as Number).toInt(),
+                                title = post["title"] as String,
+                                textContent = post["content"] as String,
+                                imgList = list
+                            )
+                            postList.add(postUpdate)
+                        }
+                        catch (e: Exception){}
                     }
                 }
             }
