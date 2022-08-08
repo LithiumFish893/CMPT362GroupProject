@@ -10,7 +10,6 @@ import java.util.*
 class HealthInspectionHtmlScraper (var onReadApiCompleteListener: OnReadApiCompleteListener? = null) {
     private val inspectionManager = InspectionManager.instance
     fun scrape(query: String, restaurantId: String){
-        println("query=$query")
         try {
             scrapeFraserHealth(query, restaurantId)
         } catch (e: Exception){
@@ -28,12 +27,10 @@ class HealthInspectionHtmlScraper (var onReadApiCompleteListener: OnReadApiCompl
                     val start = response.indexOf(searchString)
                     val end = response.indexOf('>', start)
                     if (start == -1) {
-                        println("something bad happened...")
                         onReadApiCompleteListener?.onReadApiComplete()
                         return@Listener
                     }
                     val getQuery = response.slice(start until end)
-                    println("response: ${response.slice(start until end)}")
                     val url2 = "https://www.healthspace.ca$getQuery"
                     val restaurantRequest: StringRequest = object : StringRequest (
                         Method.GET, url2,

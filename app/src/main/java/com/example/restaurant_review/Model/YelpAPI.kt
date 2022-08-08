@@ -43,7 +43,6 @@ class YelpAPI (val context: Context, var onReadApiCompleteListener: OnReadApiCom
 
     fun readRestaurantData(start: Int, size: Int) {
         if (start == 0){
-            println("clear!!!")
             offset = size
             RestaurantManager.instance?.clear()
         }
@@ -62,9 +61,7 @@ class YelpAPI (val context: Context, var onReadApiCompleteListener: OnReadApiCom
                     val queue = Volley.newRequestQueue(MyApplication.context)
                     val latitude = it.latitude
                     val longitude = it.longitude
-                    println("lat=$latitude, long=$longitude")
                     val url = "https://api.yelp.com/v3/businesses/search?term=res&latitude=$latitude&longitude=$longitude&limit=$size&offset=$start"
-                    println("offset=$start, size=$size")
                     val restaurantsRequest: StringRequest = object : StringRequest(
                         Method.GET, url,
                         Response.Listener { response ->
