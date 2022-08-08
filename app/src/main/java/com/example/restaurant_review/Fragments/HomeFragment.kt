@@ -148,6 +148,7 @@ class HomeFragment : Fragment() {
                 restaurantList.get(position).id,
                 position
             )
+            intent.putExtra(java.lang.String.valueOf(R.string.intent_extra_id), restaurantList.get(position).id)
 //            startActivity(intent)
           startActivityForResult(intent, 0)
         }
@@ -178,7 +179,7 @@ class HomeFragment : Fragment() {
                 // set the filter
                 val floatingSearchView : FloatingSearchView=
                     requireActivity().findViewById(R.id.floating_search_bar)
-                restaurantListAdapter!!.getFilter().filter(floatingSearchView.query)
+                restaurantListAdapter!!.filter.filter(floatingSearchView.query)
                 true
             }
             else -> super.onOptionsItemSelected(item)

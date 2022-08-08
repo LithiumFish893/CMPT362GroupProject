@@ -40,45 +40,56 @@
         <activity
             android:name=".Activities.SocialMediaPostActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:exported="true">
+            android:exported="true"
+            android:configChanges="orientation|screenSize">
         </activity>
         <activity
             android:name=".Activities.VRViewActivity"
             android:theme="@style/AppTheme"
-            android:exported="true">
+            android:exported="true"
+            android:configChanges="orientation|screenSize">
         </activity>
         <activity
             android:name=".Activities.CreateVRTourActivity"
             android:theme="@style/AppTheme"
-            android:exported="true">
+            android:exported="true"
+            android:configChanges="orientation|screenSize">
         </activity>
         <activity
             android:name=".Activities.FullPostActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:exported="true">
+            android:exported="true"
+            android:configChanges="orientation|screenSize">
         </activity>
-        <activity android:name=".Activities.RestaurantReviewsActivity"/>
+        <activity android:name=".Activities.RestaurantReviewsActivity"
+            android:configChanges="orientation|screenSize"/>
         <activity android:name=".Activities.RestaurantReview"
             android:theme="@style/AppTheme"
-            />
+            android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".Activities.InspectionDetailActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|screenSize"/>
 
         <activity android:name=".Activities.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|screenSize"/>
         <activity android:name=".Activities.RegisterActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|screenSize"/>
         <activity android:name=".Activities.ProfileActivity"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme"
+            android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".Activities.RestaurantDetailActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".Activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
-            android:exported="true">
+            android:exported="true"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

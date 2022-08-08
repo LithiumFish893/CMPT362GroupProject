@@ -240,12 +240,12 @@ class RestaurantReview : AppCompatActivity(), DialogInterface.OnClickListener {
             }
             R.id.favourite -> {
                 if (item.icon.constantState == getDrawable(R.drawable.ic_menu_unmark_favorite)!!.constantState) {
-                    addFave(RestaurantDetailActivity.ID)
+                    addFave(ID)
                     item.setIcon(R.drawable.ic_menu_mark_favorite)
                     Toast.makeText(this, "Added to Favorites", Toast.LENGTH_SHORT).show()
                     setViewListIcon(R.drawable.ic_menu_mark_favorite)
                 } else {
-                    removeFave(RestaurantDetailActivity.ID)
+                    removeFave(ID)
                     item.setIcon(R.drawable.ic_menu_unmark_favorite)
                     Toast.makeText(this, "Removed from Favorites", Toast.LENGTH_SHORT).show()
                     setViewListIcon(R.drawable.ic_menu_unmark_favorite)

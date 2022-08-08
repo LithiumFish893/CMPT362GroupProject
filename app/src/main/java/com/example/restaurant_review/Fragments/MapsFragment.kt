@@ -64,6 +64,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
     protected var includeUnknown = true
     private var lessEqualThan = false
     private var greatEqualThan = true
+    private var yelpAPI: YelpAPI? = null
     override fun onHiddenChanged(hidden: Boolean) {
         println("onHiddenChanged")
         super.onHiddenChanged(hidden)
@@ -84,6 +85,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
         println("onCreateView")
         mPrefs = requireActivity().getSharedPreferences("mPrefs", AppCompatActivity.MODE_PRIVATE)
         rootView = inflater.inflate(R.layout.fragment_maps, container, false)
+        mMap = null
         // setup menu
         this.setHasOptionsMenu(true)
         return rootView
@@ -322,7 +324,12 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
             initClusterManager()
             // add restaurants marker
             // Takes 3 seconds!!!
-            updateMarkersOnMaps()
+            yelpAPI = YelpAPI(requireContext(), object: OnReadApiCompleteListener{
+                override fun onReadApiComplete() {
+                    updateMarkersOnMaps()
+                }
+            })
+            yelpAPI!!.readRestaurantData(0, HomeFragment.PAGE_SIZE)
             // initialize the floating search bar
             initializeSearchBar()
         }
