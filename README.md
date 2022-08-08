@@ -28,7 +28,33 @@
 * Video:  
 [![Project Pitch](http://img.youtube.com/vi/H5655FbNSE8/0.jpg)](https://www.youtube.com/watch?v=H5655FbNSE8 "Show and Tell 2")
 
+## Final Presentation
+*https://docs.google.com/presentation/d/1vWy5M3iH1h0D8PUQC7ZKARVhMqJYufv3el_a3rectvM/edit#slide=id.g13a2e38c383_7_2430
+* Video:  
+
 ## APK Releases
 
 ### Show and Tell 2 APK
 * https://github.com/LithiumFish893/CMPT362GroupProject/releases/tag/show_and_tell_2
+
+### Final APK
+* https://github.com/LithiumFish893/CMPT362GroupProject/releases/tag/show_and_tell_2
+
+## MVVM Diagram
+![alt text](https://cdn.discordapp.com/attachments/990729392441405513/996991599974285362/unknown.png)
+
+## Threaded Design  Diagram
+![alt text](https://cdn.discordapp.com/attachments/990729392441405513/1006341942088585266/unknown.png)
+
+
+## Who Did What?
+* Social media posts. (Andy)
+* Login functionality (Andrew)
+* Review database and functions. (Andrew, Denson)
+* UI design  (Denson)
+* VR Tour functions (Andy)
+* Testing (Jason)
+* Web page and GitHub maintenance (Jason)
+* Code refactoring: Stability and bug fixing in the existing code (Jasmeen, Jason)
+
+## Souce Code
