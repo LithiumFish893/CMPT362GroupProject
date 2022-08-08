@@ -348,7 +348,6 @@ class SocialMediaPostActivity : AppCompatActivity() {
 
         // put all the info into bundle
         val intent = Intent()
-        println("using $locationName")
         val post = SocialMediaPostModel(
             title = title, userId = auth.currentUser!!.uid, locationLat = savedLatitude, locationLong = savedLongitude,
             locationName = locationName, textContent = textContent, timeStamp = timeStamp, imgList = uris)
@@ -406,7 +405,5 @@ class SocialMediaPostActivity : AppCompatActivity() {
 
         viewModel.imgs.value = viewModel.imgs.value!!.plus(bitmap)
         viewModel.imgUris.value = viewModel.imgUris.value!!.plus(file2.path)
-        println(file2.path)
-        println(viewModel.imgs.value!!.size)
     }
 }

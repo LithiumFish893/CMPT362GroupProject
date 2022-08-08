@@ -77,7 +77,6 @@ class RestaurantReview : AppCompatActivity(), DialogInterface.OnClickListener {
         ID = intent.getStringExtra(java.lang.String.valueOf(R.string.intent_extra_id))
         position = intent.getIntExtra("position", -1)
 
-        println("debug: position $position, ID $ID")
 
         val restaurantName = findViewById<TextView>(R.id.restaurant_title)
         val image = findViewById<ImageView>(R.id.restaurant_image)
@@ -98,7 +97,7 @@ class RestaurantReview : AppCompatActivity(), DialogInterface.OnClickListener {
                 }
             Glide.with(this).load(mRestaurant.imgUrl).placeholder(R.drawable.ic_restaurant).into(image)
         } else {
-            println("debug: mRest is null")
+
         }
         val address = findViewById<TextView>(R.id.restaurant_review_address)
         val writeReview = findViewById<View>(R.id.write_review)
@@ -148,9 +147,7 @@ class RestaurantReview : AppCompatActivity(), DialogInterface.OnClickListener {
                 var restaurantID = ""
                 for (data in snapshot.children) {
                     val review:HashMap<String,Any> = data.value as HashMap<String, Any>
-                    println("Debug: RestaurantID: ${review["Restaurant"]}, id: $ID")
                     if (review["Restaurant"]==ID) {
-                        println("Debug: review" + review)
                         val newReview = Review()
                         newReview.id = review["ID"].toString()
                         newReview.title = review["Title"].toString()
@@ -198,7 +195,7 @@ class RestaurantReview : AppCompatActivity(), DialogInterface.OnClickListener {
                 reviewRef.child(key).child("Rating").setValue(reviewRating.rating)
                 reviewRef.child(key).child("Comment").setValue(reviewComment.text.toString())
             } else if (which == DialogInterface.BUTTON_NEGATIVE) {
-                println("debug: negative pressed")
+
             }
         }
     }

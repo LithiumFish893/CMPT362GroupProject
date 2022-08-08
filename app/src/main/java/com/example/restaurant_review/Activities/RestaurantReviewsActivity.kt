@@ -77,9 +77,7 @@ class RestaurantReviewsActivity: AppCompatActivity(), DialogInterface.OnClickLis
                 list.clear()
                 for (data in snapshot.children) {
                     val review:HashMap<String,Any> = data.value as HashMap<String, Any>
-                    println("Debug: RestaurantID: ${review["Restaurant"]}, id: $id")
                     if (review["Restaurant"]==id) {
-                        println("Debug: review" + review)
                         val newReview = Review()
                         newReview.title = review["Title"].toString()
                         val rate = review["Rating"]
@@ -115,7 +113,7 @@ class RestaurantReviewsActivity: AppCompatActivity(), DialogInterface.OnClickLis
                 reviewRef.child(key).child("Rating").setValue(reviewRating.rating)
                 reviewRef.child(key).child("Comment").setValue(reviewComment.text.toString())
             } else if (which == DialogInterface.BUTTON_NEGATIVE) {
-                println("debug: negative pressed")
+
             }
         }
     }

@@ -96,7 +96,6 @@ class NearbyFeedFragment : Fragment() {
         socialMediaPosts.addValueEventListener(
             object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    println("listening")
                     updateFirebaseDb()
                 }
 

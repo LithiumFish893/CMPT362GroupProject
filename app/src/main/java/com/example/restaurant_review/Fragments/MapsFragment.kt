@@ -60,7 +60,6 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
     protected var includeUnknown = true
     private var yelpAPI: YelpAPI? = null
     override fun onHiddenChanged(hidden: Boolean) {
-        println("onHiddenChanged")
         super.onHiddenChanged(hidden)
         if (!hidden) {
             // 1.Check location permission
@@ -76,7 +75,6 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        println("onCreateView")
         mPrefs = requireActivity().getSharedPreferences("mPrefs", AppCompatActivity.MODE_PRIVATE)
         rootView = inflater.inflate(R.layout.fragment_maps, container, false)
         mMap = null
@@ -87,7 +85,6 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        println("onViewCreated")
         // location permission check
         if (!isLocationPermissionGranted) {
             Toast.makeText(context, R.string.location_permission, Toast.LENGTH_SHORT).show()
@@ -109,7 +106,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    private fun initializeSearchBar() {println("initializeSearchBar")
+    private fun initializeSearchBar() {
         floatingSearchView =
             requireActivity().findViewById<View>(R.id.floating_search_bar) as FloatingSearchView
         // when switching views
@@ -223,7 +220,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
 
 
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {println("onCreateOptionsMenu")
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_maps_fragment, menu)
         inflater.inflate(R.menu.menu_main_activity, menu);
@@ -231,7 +228,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
         menu.getItem(0).isChecked = favesOnly
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {println("onOptionsItemSelected")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         //Toast.makeText(requireActivity(),"item selected", Toast.LENGTH_SHORT).show()
         when (item.itemId) {
             R.id.list_view -> {
@@ -323,7 +320,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
         dialog.show()
     }
     private val favorites: ArrayList<String?>
-        get() {println("getFavorites")
+        get() {
             val faveRestaurants: String? = mPrefs.getString("fave_restaurants", "")
             return if (faveRestaurants?.isNotEmpty() == true) {
                 if (faveRestaurants.contains(",")) {
@@ -346,7 +343,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
-    override fun onMapReady(googleMap: GoogleMap) {println("onMapReady")
+    override fun onMapReady(googleMap: GoogleMap) {
         // init mMaps
         if (mMap == null) {
             mMap = googleMap
@@ -407,7 +404,6 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
             // move camera
             mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEEP_ZOOM))
             // pop-up info windows
-            // TODO: BUG: marker always null
             val clusterItem: CustomClusterItem? = mClusterItemList[id]
             val marker: Marker = mRenderer.getMarker(clusterItem)
             marker.showInfoWindow()
@@ -415,11 +411,11 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
             // I don't have the coordinates, move to my location.
             val t1 = Calendar.getInstance().timeInMillis
             addCurrentLocationMarker()
-            println("AddcurrentLocationMarker takes ${t1-Calendar.getInstance().timeInMillis}ms")
+
         }
     }
 
-    private fun initClusterManager() {println("initClusterManager")
+    private fun initClusterManager() {
         //init
         mClusterManager = ClusterManager<CustomClusterItem>(context, mMap)
         mRenderer = CustomClusterRenderer(context, mMap,  ClusterManager<CustomClusterItem?>(context, mMap))
@@ -453,7 +449,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
         mMap?.setOnInfoWindowClickListener(mClusterManager)
     }
 
-    private fun addCurrentLocationMarker() {println("addCurrentLocationMarker")
+    private fun addCurrentLocationMarker() {
         // init the mFusedLocationProviderClient
         val mFusedLocationProviderClient: FusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(
@@ -507,7 +503,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
 
     // permissions OK, initialize the map.
     private val isLocationPermissionGranted: Boolean
-        get() {println("isLocationPermissionGranted")
+        get() {
             val permissions =
                 arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
             return if (ActivityCompat.checkSelfPermission(
@@ -579,7 +575,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
             favesOnly = b
         }
 
-        fun updateMarkersOnMaps() {println("updateMarkersOnMaps CO")
+        fun updateMarkersOnMaps() {
             // update Markers On Maps
             var mHazard: String
             var mHazardIcon: BitmapDescriptor? = null
@@ -673,7 +669,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
             }
         }
 
-        private fun getBitmapDescriptor(id: Int, color: Int): BitmapDescriptor {println("getBitmapDescriptor")
+        private fun getBitmapDescriptor(id: Int, color: Int): BitmapDescriptor {
             // Learn from: lbarbosa's answer under VectorDrawable with GoogleMap BitmapDescriptor
             // https://stackoverflow.com/questions/33548447/vectordrawable-with-googlemap-bitmapdescriptor
             val vectorDrawable =
@@ -690,7 +686,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
             return BitmapDescriptorFactory.fromBitmap(bitmap)
         }
 
-        fun isLocationEnabled(context: Context?): Boolean {println("isLocationEnabled")
+        fun isLocationEnabled(context: Context?): Boolean {
             val lm: LocationManager =
                 context!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
             return lm.isLocationEnabled

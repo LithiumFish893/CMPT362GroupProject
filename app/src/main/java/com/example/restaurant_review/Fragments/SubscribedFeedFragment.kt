@@ -97,7 +97,6 @@ class SubscribedFeedFragment : Fragment() {
     }
 
     fun updateSubscriptions (snapshot: DataSnapshot){
-        println("Listening to data change on SubscribedFeedFragment")
         subscribedList = arrayListOf()
         snapshot.children.forEach {
             subscribedList.add(it.key!!)
@@ -110,7 +109,6 @@ class SubscribedFeedFragment : Fragment() {
         socialMediaPosts.addValueEventListener(
             object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    println("listening")
                     updateFirebaseDb()
                 }
 

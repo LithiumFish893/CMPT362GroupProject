@@ -137,7 +137,6 @@ class VRViewActivity : AppCompatActivity() {
         val storage = FirebaseStorage.getInstance()
         val storageRef = storage.reference
         if (!File(uri.path!!).exists()){
-            println("gotta access the cloud...")
             val fileName = Util.filePathToName(imageName)
             // store the image in local storage for easy retrieval
             storageRef.child(fileName).getFile(uri).addOnCompleteListener {
@@ -153,7 +152,6 @@ class VRViewActivity : AppCompatActivity() {
                     backgroundImageLoaderTask!!.execute(Pair.create(fileUri, panoOptions))
                 }
                 catch (e: FileNotFoundException) {
-                    println("couldn't upload ...")
                 }
             }
         }

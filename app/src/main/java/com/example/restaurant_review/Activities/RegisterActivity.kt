@@ -73,7 +73,6 @@ class RegisterActivity:AppCompatActivity() {
         }else{
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this){
                 if(it.isSuccessful){
-                    println("debug: User created: ${it.result.user.toString()}")
                     database.reference.child("user").child(it.result.user?.uid!!).child("username").setValue(
                         it.result.user!!.email)
                     Toast.makeText(this,"Successes!", Toast.LENGTH_SHORT).show()

@@ -104,7 +104,6 @@ class ProfileActivity: AppCompatActivity() {
                 for (data in snapshot.children) {
                     val review:HashMap<String,Any> = data.value as HashMap<String, Any>
                     if (review["Author"]==loggedUser.uid) {
-                        println("Debug: review" + review)
                         val newReview = Review()
                         newReview.id = review["ID"].toString()
                         newReview.author = review["Author"].toString()
@@ -132,10 +131,8 @@ class ProfileActivity: AppCompatActivity() {
         super.onStart()
         val currentUser = auth.currentUser
         if(currentUser == null){
-            println("Debug: Current user == null")
             startActivity(Intent(this, LoginActivity::class.java))
         }else{
-            println("Debug: Current user exist")
             loggedUser = currentUser
             database.reference.child("user")
                 .child(loggedUser.uid).child("username").get().addOnCompleteListener() {

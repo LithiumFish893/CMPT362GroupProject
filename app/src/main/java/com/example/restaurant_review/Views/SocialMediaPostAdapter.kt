@@ -77,14 +77,13 @@ class SocialMediaPostAdapter(private var postList: MutableList<SocialMediaPostMo
                             thumbnail.setImageBitmap(img)
                         }
                         catch (e: FileNotFoundException) {
-                            println("couldn't upload ...")
                         }
                     }
                 }
             }
             thumbnail.setOnClickListener {
                 val intent = Intent((context as AppCompatActivity), FullPostActivity::class.java)
-                println(post)
+
                 intent.putExtras(Util.postToBundle(post))
                 context.startActivity(intent)
             }
@@ -96,7 +95,6 @@ class SocialMediaPostAdapter(private var postList: MutableList<SocialMediaPostMo
                     if (it.isSuccessful) {
                         user.text = it.result.value.toString()
                     } else {
-                        println("Debug: Failed username")
                         user.text = "Unknown User"
                     }
                 }

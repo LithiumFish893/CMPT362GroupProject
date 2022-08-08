@@ -55,10 +55,8 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         val currentUser = auth.currentUser
         if(currentUser == null){
-            println("Debug: Current user == null")
             startActivity(Intent(this, LoginActivity::class.java))
         }else{
-            println("Debug: Current user exist")
             val username = auth.currentUser?.email.toString()
         }
     }

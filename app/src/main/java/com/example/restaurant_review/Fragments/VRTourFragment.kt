@@ -112,11 +112,11 @@ class VRTourFragment : Fragment() {
             val userRef = database.child("user").child(uid!!).child("username")
 
             userRef.get().addOnCompleteListener { getUName ->
-                println("${index}, ${snapshot.children.toList().size}")
+
                 if (getUName.isSuccessful) {
                     tourArrayList.add(Pair(getUName.result.value.toString(), RestaurantTour(tourGrid)))
                 } else {
-                    println("Debug: Failed comment username")
+
                 }
                 // hacky way to see if we're at the last item
                 if (index == snapshot.children.toList().size-1){
