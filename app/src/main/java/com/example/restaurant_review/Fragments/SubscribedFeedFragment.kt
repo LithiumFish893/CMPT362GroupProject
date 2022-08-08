@@ -48,6 +48,7 @@ class SubscribedFeedFragment : Fragment() {
     private lateinit var postList: ArrayList<SocialMediaPostModel>
     private lateinit var adapter: SocialMediaPostAdapter
     private lateinit var progressBar: LinearLayout
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,7 +59,7 @@ class SubscribedFeedFragment : Fragment() {
         postList = arrayListOf()
         subscribedList = arrayListOf()
         val pView = inflater.inflate(R.layout.sm_fragment_recommended_feed, container)
-        val recyclerView : RecyclerView = pView.findViewById(R.id.testRV)
+        recyclerView = pView.findViewById(R.id.testRV)
         adapter = SocialMediaPostAdapter(postList)
         progressBar = pView.findViewById(R.id.sm_recommended_progress_bar)
         recyclerView.adapter = adapter
@@ -157,6 +158,7 @@ class SubscribedFeedFragment : Fragment() {
             progressBar.visibility = View.GONE
             postList = postList.filter { subscribedList.contains(it.userId) } as ArrayList<SocialMediaPostModel>
             adapter.updateList(postList)
+            recyclerView.adapter = adapter
         }
     }
 

@@ -48,6 +48,7 @@ class NearbyFeedFragment : Fragment() {
     private lateinit var postList: ArrayList<SocialMediaPostModel>
     private lateinit var adapter: SocialMediaPostAdapter
     private lateinit var progressBar: LinearLayout
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,7 +58,7 @@ class NearbyFeedFragment : Fragment() {
         super.onCreate(savedInstanceState)
         postList = arrayListOf()
         val pView = inflater.inflate(R.layout.sm_fragment_recommended_feed, container)
-        val recyclerView : RecyclerView = pView.findViewById(R.id.testRV)
+        recyclerView = pView.findViewById(R.id.testRV)
         adapter = SocialMediaPostAdapter(postList)
         progressBar = pView.findViewById(R.id.sm_recommended_progress_bar)
         recyclerView.adapter = adapter
@@ -146,6 +147,7 @@ class NearbyFeedFragment : Fragment() {
                 compare(it)
             }
             adapter.updateList(postList)
+            recyclerView.adapter = adapter
         }
     }
 
