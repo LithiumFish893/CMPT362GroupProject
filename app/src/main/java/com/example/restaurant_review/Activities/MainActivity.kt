@@ -19,6 +19,9 @@ import com.arlib.floatingsearchview.util.Util
 import com.example.restaurant_review.Model.HealthInspectionHtmlScraper
 import com.example.restaurant_review.Nav.KeepStateNavigator
 import com.example.restaurant_review.R
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -32,11 +35,18 @@ class MainActivity : AppCompatActivity() {
     private var mFragmentManager: FragmentManager? = null
     private var mAppBarConfiguration: AppBarConfiguration? = null
     private lateinit var auth: FirebaseAuth
+    private lateinit var googleSignInClient: GoogleSignInClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         auth = Firebase.auth
+        val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
+
         // setup toolbar and navigation
         setupUI()
     }
@@ -104,6 +114,7 @@ class MainActivity : AppCompatActivity() {
 
         logoutButton.setOnMenuItemClickListener(){
             auth.signOut()
+            googleSignInClient.signOut()
             startActivity(Intent(this, LoginActivity::class.java))
             true
         }
