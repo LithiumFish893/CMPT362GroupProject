@@ -13,6 +13,16 @@
 * Jasmeen Kaur
 * Denson Zhong
 
+## Known Issues
+* May crash if scroll too fast in list of restaurant caused by yelp API.
+* Changing username will only shown to be changed in review detailed after refreshing.
+ 
+## Acknowledgment
+* This project was developed based on a group member's CMPT 276 project, the original project was written in Java. 
+* Consensus has been sought from the original group members for further development of the project.
+* original gitpage:https://csil-git1.cs.surrey.sfu.ca/pinw/group4-p1
+* send email to cla420@sfu.ca to get permission for access it.
+
 ## Project Pitch
 * https://docs.google.com/presentation/d/1PW60eODVg4fkimNwjGRQCn7IQHIoQK0vO8PW-_hfFdQ/edit?usp=sharing
 * Video:  
