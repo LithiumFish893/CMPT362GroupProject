@@ -83,19 +83,21 @@ class ProfileActivity: AppCompatActivity() {
                 state = State.Change
             }
         }
-
+        
         userName.setOnKeyListener(){ view, keycode, event ->
             if ((event.action == KeyEvent.ACTION_DOWN) && (keycode == KeyEvent.KEYCODE_ENTER)) {
                 database.reference.child("user").child(loggedUser.uid).child("username")
                     .setValue(userName.text.toString())
                 userName.inputType = InputType.TYPE_NULL
                 userName.clearFocus()
+                changeUsername.text = "Change Username"
                 imm.hideSoftInputFromWindow(userName.windowToken, 0)
+                state = State.Change
                 return@setOnKeyListener true
             }
             return@setOnKeyListener false
         }
-
+        
         database.reference.child("reviews").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot){
                 list.clear()
