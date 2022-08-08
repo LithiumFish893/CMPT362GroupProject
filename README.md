@@ -15,7 +15,7 @@
 
 ## Known Issues
 * May crash if scroll too fast in list of restaurant caused by yelp API.
-* Changing username will only shown to be changed in review detailed after refreshing.
+* Changing username will only shown to be changed in review details after refreshing.
  
 ## Acknowledgment
 * This project was developed based on a group member's CMPT 276 project, the original project was written in Java. 
