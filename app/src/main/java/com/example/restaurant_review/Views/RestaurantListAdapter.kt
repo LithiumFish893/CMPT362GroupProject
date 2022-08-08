@@ -105,13 +105,20 @@ class RestaurantListAdapter(
 
     var favesOnly = false
         protected set
+    var includeSafe = true
+        protected set
+    var includeModerate = true
+        protected set
+    var includeUnsafe = true
+        protected set
+    var includeUnknown = true
+        protected set
 
     // Implementation of Filter
     inner class RestaurantsFilter : Filter() {
         override fun performFiltering(constraint: CharSequence): FilterResults {
             val results = FilterResults()
-            println(originalRestaurantsList.size)
-            if (constraint === "" && !favesOnly) {
+            if (constraint === "" && !favesOnly && includeSafe && includeModerate && includeUnsafe && includeUnknown ) {
                 // No constraint made, apply the original array list.
                 results.values = originalRestaurantsList
                 results.count = originalRestaurantsList.size
@@ -123,7 +130,43 @@ class RestaurantListAdapter(
                 if (favesOnly) {
                     filteredByFaves = favorites
                 }
-
+                // Filter by Safety Part
+                if (!includeSafe || !includeModerate || !includeUnknown || !includeUnknown) {
+                    val safeties: HashMap<String, String?>? =
+                        InspectionManager.instance?.safetyLevels
+                    //If low selected
+                    if (includeSafe) {
+                        for (s in safeties!!.keys) {
+                            if (safeties[s] == "Low") {
+                                filteredBySafety.add(s)
+                            }
+                        }
+                    }
+                    //If mid selected
+                    if (includeModerate) {
+                        for (s in safeties?.keys!!) {
+                            if (safeties[s] == "Moderate") {
+                                filteredBySafety.add(s)
+                            }
+                        }
+                    }
+                    //If high selected
+                    if (includeUnsafe) {
+                        for (s in safeties?.keys!!) {
+                            if (safeties[s] == "High") {
+                                filteredBySafety.add(s)
+                            }
+                        }
+                    }
+                    //If unknown selected
+                    if (includeUnknown) {
+                        for (s in safeties?.keys!!) {
+                            if (safeties[s] == "Unknown") {
+                                filteredBySafety.add(s)
+                            }
+                        }
+                    }
+                }
 
                 // Looking at single restaurant one by one
                 for (r in originalRestaurantsList) {
@@ -135,10 +178,18 @@ class RestaurantListAdapter(
                                 )
                             )
                     ) {
-                        // Log.d("TAG",r.getName());
                         // Add to the filtered list
-                        if (favesOnly) {
-                            if (filteredByFaves.contains(r.id)){
+                        if (favesOnly || !includeSafe || !includeModerate || !includeUnsafe || !includeUnknown) {
+                            if (favesOnly && filteredByFaves.contains(r.id)) {
+                                // combine with faves and keywords and certain hazard level
+                                if (!includeSafe || !includeModerate || !includeUnsafe || !includeUnknown) {
+                                    if (filteredBySafety.contains(r.id)) {
+                                        filteredRestaurants.add(r)
+                                    }
+                                } else {
+                                    filteredRestaurants.add(r)
+                                }
+                            } else if (!favesOnly && filteredBySafety.contains(r.id)) {
                                 filteredRestaurants.add(r)
                             }
                         } else {
@@ -147,22 +198,21 @@ class RestaurantListAdapter(
                         }
                     }
                 }
+
+                // Apply the filtered ArrayList
                 results.values = filteredRestaurants
                 results.count = filteredRestaurants.size
             }
-            println("2: ${originalRestaurantsList.size}")
             return results
         }
 
         override fun publishResults(constraint: CharSequence, results: FilterResults) {
             // To notice the adapter about the new filtered list
-
-            if (results.count == 0) {println("emptied")
+            if (results.count == 0) {
                 // Update ListView
                 mRestaurantsList.clear()
                 notifyDataSetChanged()
             } else {
-                println("published")
                 // Update ListView
                 mRestaurantsList.clear()
                 mRestaurantsList.addAll((results.values as ArrayList<Restaurant>))
@@ -170,6 +220,21 @@ class RestaurantListAdapter(
             }
         }
 
+        fun setIncludeSafe(includeSafe: Boolean) {
+            this@RestaurantListAdapter.includeSafe = includeSafe
+        }
+
+        fun setIncludeModerate(includeModerate: Boolean) {
+            this@RestaurantListAdapter.includeModerate = includeModerate
+        }
+
+        fun setIncludeUnsafe(includeUnsafe: Boolean) {
+            this@RestaurantListAdapter.includeUnsafe = includeUnsafe
+        }
+
+        fun setIncludeUnknown(includeUnknown: Boolean) {
+            this@RestaurantListAdapter.includeUnknown = includeUnknown
+        }
 
         fun setFavoriteOnly(favoriteOnly: Boolean) {
             favesOnly = favoriteOnly

@@ -14,9 +14,6 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -28,7 +25,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import com.arlib.floatingsearchview.FloatingSearchView
-import com.example.restaurant_review.Activities.MainActivity
 import com.example.restaurant_review.Activities.RestaurantDetailActivity
 import com.example.restaurant_review.Cluster.CustomClusterItem
 import com.example.restaurant_review.Cluster.CustomClusterRenderer
@@ -62,8 +58,6 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
     protected var includeModerate = true
     protected var includeUnsafe = true
     protected var includeUnknown = true
-    private var lessEqualThan = false
-    private var greatEqualThan = true
     private var yelpAPI: YelpAPI? = null
     override fun onHiddenChanged(hidden: Boolean) {
         println("onHiddenChanged")
@@ -169,7 +163,9 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
                     ?.contains(floatingSearchView!!.query.trim { it <= ' ' }
                         .replace(" ", "").lowercase(Locale.getDefault())) == true
             ) {
-                val id: String ?= i.snippet?.split("\\|")?.toTypedArray()?.get(0)
+                val list: List<String> ?= (i.snippet?.split("|"))
+                val id = list?.get(0)
+                Log.e("TAG", "initializeSearchBar: $id", )
                 if (favesOnly || !includeSafe || !includeModerate || !includeUnsafe || !includeUnknown) {
                     if (favesOnly && filteredByFaves.contains(id)) {
                         // combine with faves and keywords and certain hazard level
@@ -204,6 +200,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
             // create a list that contains the query
             val mFilteredList: ArrayList<MarkerOptions> = ArrayList<MarkerOptions>()
             for (i in mSearchList) {
+
                 if (i.title?.trim { it <= ' ' }?.replace(" ", "")
                         ?.lowercase(Locale.getDefault())
                         ?.contains(
@@ -214,6 +211,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
                     mFilteredList.add(i)
                 }
             }
+
             for (i in mFilteredList) {
                 val marker = CustomClusterItem(i)
                 mClusterManager?.addItem(marker)
@@ -226,7 +224,6 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {println("onCreateOptionsMenu")
-        //Toast.makeText(requireActivity(),"List Activity", Toast.LENGTH_SHORT).show()
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_maps_fragment, menu)
         inflater.inflate(R.menu.menu_main_activity, menu);
@@ -255,10 +252,76 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
                 initializeSearchBar()
                 return true
             }
+            R.id.menu_filter_by_safety -> {
+                showFilterBySafetyDialog()
+                return true
+            }
         }
         return false
     }
+    // To build up the multiple-choice filter dialog when "Filter by safety" menu is clicked.
+    private fun showFilterBySafetyDialog() {
+        // String array for alert dialog multi choice items
+        val safetyRatings = arrayOf(
+            getString(R.string.safetyLevel_safe),
+            getString(R.string.safetyLevel_moderate),
+            getString(R.string.safetyLevel_unsafe),
+            getString(R.string.safetyLevel_unknown)
+        )
 
+        // Boolean array for initial selected items
+        val checkedSafetyRatings = booleanArrayOf(
+            includeSafe,
+            includeModerate,
+            includeUnsafe,
+            includeUnknown
+        )
+
+        // Build an AlertDialog
+        val builder = AlertDialog.Builder(
+            requireContext()
+        )
+
+        // Set multiple choice items for alert dialog
+        builder.setMultiChoiceItems(
+            safetyRatings,
+            checkedSafetyRatings
+        ) { _, which, isChecked -> // Update the current focused item's checked status
+            checkedSafetyRatings[which] = isChecked
+        }
+
+        // Specify the dialog is cancelable
+        builder.setCancelable(true)
+
+        // Set a title for alert dialog
+        builder.setTitle(getString(R.string.menu_filter_by_safety))
+
+        // Set the positive/yes button click listener
+        builder.setPositiveButton(
+            getString(R.string.filter_button),
+            object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface, which: Int) {
+                    // Do something when click positive button
+                    includeSafe = checkedSafetyRatings[0]
+                    includeModerate = checkedSafetyRatings[1]
+                    includeUnsafe = checkedSafetyRatings[2]
+                    includeUnknown = checkedSafetyRatings[3]
+                    initializeSearchBar()
+                }
+            })
+
+        // Set the neutral/cancel button click listener
+        builder.setNegativeButton(
+            getString(R.string.cancel_button),
+            object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface, which: Int) {
+                    // Do something when click the neutral button
+                }
+            })
+        val dialog = builder.create()
+        // Display the alert dialog on interface
+        dialog.show()
+    }
     private val favorites: ArrayList<String?>
         get() {println("getFavorites")
             val faveRestaurants: String? = mPrefs.getString("fave_restaurants", "")
@@ -410,7 +473,6 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
         ) {
             // Request Permissions
             ActivityCompat.requestPermissions(requireActivity(), permissions, REQUEST_CODE)
-            //addCurrentLocationMarker();
             return
         }
         // get last location

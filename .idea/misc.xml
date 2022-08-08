@@ -69,6 +69,11 @@
         <entry key="app/src/main/res/layouts/layout_social_media/layout/activity_create_vr_tour.xml" value="0.19610507246376813" />
         <entry key="app/src/main/res/layouts/layout_social_media/layout/activity_vrview.xml" value="0.2453125" />
         <entry key="app/src/main/res/layouts/layout_social_media/layout/fragment_vr_tour.xml" value="0.19610507246376813" />
+        <entry key="app/src/main/res/menu/drawer_main_activity.xml" value="0.20989583333333334" />
+        <entry key="app/src/main/res/menu/menu_home_fragment.xml" value="0.20989583333333334" />
+        <entry key="app/src/main/res/menu/menu_main_activity.xml" value="0.20989583333333334" />
+        <entry key="app/src/main/res/menu/menu_maps_fragment.xml" value="0.20989583333333334" />
+        <entry key="app/src/main/res/menu/menu_restaurant_detail.xml" value="0.20989583333333334" />
       </map>
     </option>
   </component>

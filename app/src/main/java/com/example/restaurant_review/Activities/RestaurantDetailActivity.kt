@@ -80,20 +80,6 @@ class RestaurantDetailActivity : AppCompatActivity() {
                 finish()
                 true
             }
-            R.id.favourite -> {
-                if (item.icon.constantState == getDrawable(R.drawable.ic_menu_unmark_favorite)!!.constantState) {
-                    addFave(ID)
-                    item.setIcon(R.drawable.ic_menu_mark_favorite)
-                    Toast.makeText(this, "Added to Favorites", Toast.LENGTH_SHORT).show()
-                    setViewListIcon(R.drawable.ic_menu_mark_favorite)
-                } else {
-                    removeFave(ID)
-                    item.setIcon(R.drawable.ic_menu_unmark_favorite)
-                    Toast.makeText(this, "Removed from Favorites", Toast.LENGTH_SHORT).show()
-                    setViewListIcon(R.drawable.ic_menu_unmark_favorite)
-                }
-                true
-            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -107,32 +93,6 @@ class RestaurantDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun removeFave(id: String?) {
-        var faveRestaurants: String ?= mPrefs.getString("fave_restaurants", "")
-        // Log.d("TAG","before remove: " + faveRestaurants);
-        if (faveRestaurants != null) {
-            if (faveRestaurants.contains("$id,")) {
-                faveRestaurants = faveRestaurants.replace("$id,", "")
-            } else if (faveRestaurants.contains(",$id")) {
-                faveRestaurants = faveRestaurants.replace(",$id", "")
-            } else if (faveRestaurants.contains(id!!)) {
-                faveRestaurants = faveRestaurants.replace(id, "")
-            }
-        }
-        mPrefs.edit().putString("fave_restaurants", faveRestaurants).apply()
-        //Log.d("TAG","after remove: " + faveRestaurants);
-    }
-
-    private fun addFave(id: String?) {
-        val faveRestaurants: String ?= mPrefs.getString("fave_restaurants", "")
-        if (faveRestaurants != null) {
-            if (faveRestaurants.length == 0) {
-                mPrefs.edit().putString("fave_restaurants", id).apply()
-            } else {
-                mPrefs.edit().putString("fave_restaurants", "$faveRestaurants,$id").apply()
-            }
-        }
-    }
 
     private fun setupUI() {
 

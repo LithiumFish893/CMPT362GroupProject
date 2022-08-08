@@ -2,19 +2,18 @@ package com.example.restaurant_review.Fragments
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.*
-import android.widget.Toast.LENGTH_SHORT
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import com.arlib.floatingsearchview.FloatingSearchView
-import com.example.restaurant_review.Activities.RestaurantDetailActivity
 import com.example.restaurant_review.Activities.RestaurantReview
 import com.example.restaurant_review.Model.*
 import com.example.restaurant_review.R
@@ -32,11 +31,10 @@ class HomeFragment : Fragment() {
     private var progressBars = arrayListOf<ProgressBar>()
     private lateinit var floatingSearchView: FloatingSearchView
     companion object {
-        const val PAGE_SIZE=20
+        const val PAGE_SIZE=30
         @SuppressLint("StaticFieldLeak")
         var restaurantListView: ListView? = null
         private var restaurantListAdapter: RestaurantListAdapter? = null
-        private var floatingSearchView: FloatingSearchView? = null
     }
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,7 +54,6 @@ class HomeFragment : Fragment() {
             }
         })
         yelpAPI.readRestaurantData(0, PAGE_SIZE)
-        //CoroutineScope(Dispatchers.IO).launch {  FraserHealthHtmlScraper().scrape("cafe") }
         // setup menu icon on toolbar
         setHasOptionsMenu(true)
         // init the ListView
@@ -78,14 +75,11 @@ class HomeFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        //Toast.makeText(requireActivity(),"List Activity", LENGTH_SHORT).show()
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.menu_home_fragment, menu);
-
        inflater.inflate(R.menu.menu_main_activity, menu)
 
         menu.getItem(0).isChecked = restaurantListAdapter?.favesOnly == true
-//        return super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun populateListView() {
@@ -145,18 +139,16 @@ class HomeFragment : Fragment() {
         restaurantListView!!.setOnItemClickListener { parent, view, position, id ->
             val intent: Intent = RestaurantReview.makeLaunchIntent(
                 activity,
-                restaurantList.get(position).id,
+                restaurantList[position].id,
                 position
             )
             intent.putExtra(java.lang.String.valueOf(R.string.intent_extra_id), restaurantList.get(position).id)
-//            startActivity(intent)
           startActivityForResult(intent, 0)
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle item selection
-        //Toast.makeText(requireActivity(),"item selected", LENGTH_SHORT).show()
         return when (item.itemId) {
             R.id.map_view -> {
 
@@ -182,8 +174,100 @@ class HomeFragment : Fragment() {
                 restaurantListAdapter!!.filter.filter(floatingSearchView.query)
                 true
             }
+            R.id.menu_filter_by_safety -> {
+                showFilterBySafetyDialog()
+                true
+            }
+
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun showFilterBySafetyDialog() {
+        // String array for alert dialog multi choice items
+        val safetyRatings = arrayOf(
+            getString(R.string.safetyLevel_safe),
+            getString(R.string.safetyLevel_moderate),
+            getString(R.string.safetyLevel_unsafe),
+            getString(R.string.safetyLevel_unknown)
+        )
+
+        // Boolean array for initial selected items
+        val checkedSafetyRatings = restaurantListAdapter?.includeSafe?.let {
+            restaurantListAdapter?.includeModerate?.let { it1 ->
+                restaurantListAdapter?.includeUnsafe?.let { it2 ->
+                    restaurantListAdapter?.includeUnknown?.let { it3 ->
+                        booleanArrayOf(
+                            it,  // Safe
+                            it1,  // Moderate
+                            it2,  // Unsafe
+                            it3 // Unknown
+                        )
+                    }
+                }
+            }
+        }
+
+        // Build an AlertDialog
+        val builder = AlertDialog.Builder(
+            requireContext()
+        )
+
+        // Set multiple choice items for alert dialog
+        builder.setMultiChoiceItems(
+            safetyRatings,
+            checkedSafetyRatings
+        ) { _, which, isChecked -> // Update the current focused item's checked status
+            checkedSafetyRatings?.set(which, isChecked)
+        }
+
+        // Specify the dialog is cancelable
+        builder.setCancelable(true)
+
+        // Set a title for alert dialog
+        builder.setTitle(getString(R.string.menu_filter_by_safety))
+
+        // Set the positive/yes button click listener
+        builder.setPositiveButton(
+            getString(R.string.filter_button),
+            object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface, which: Int) {
+                    // Do something when click positive button
+                    checkedSafetyRatings?.get(0)?.let {
+                        restaurantListAdapter?.filter?.setIncludeSafe(
+                            it
+                        )
+                    }
+                    checkedSafetyRatings?.get(1)?.let {
+                        restaurantListAdapter?.filter?.setIncludeModerate(
+                            it
+                        )
+                    }
+                    checkedSafetyRatings?.get(2)?.let {
+                        restaurantListAdapter?.filter?.setIncludeUnsafe(
+                            it
+                        )
+                    }
+                    checkedSafetyRatings?.get(3)?.let {
+                        restaurantListAdapter?.filter?.setIncludeUnknown(
+                            it
+                        )
+                    }
+                    restaurantListAdapter!!.filter.filter(floatingSearchView.query)
+                }
+            })
+
+        // Set the neutral/cancel button click listener
+        builder.setNegativeButton(
+            getString(R.string.cancel_button),
+            object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface, which: Int) {
+                    // Do something when click the neutral button
+                }
+            })
+        val dialog = builder.create()
+        // Display the alert dialog on interface
+        dialog.show()
     }
 
 
@@ -202,7 +286,6 @@ class HomeFragment : Fragment() {
                 val lng: Double = (data?.getDoubleExtra("Longitude", 0.0) ?: 0) as Double
                 val lat: Double = (data?.getDoubleExtra("Latitude", 0.0) ?: 0) as Double
                 val id: String = (data?.getStringExtra("ID") ?: "")
-                // Log.d("TAG","\n" + id + "\n" + lat + "\n" + lng);
                 val bundle = Bundle()
                 bundle.putDouble("Latitude", lat)
                 bundle.putDouble("Longitude", lng)
