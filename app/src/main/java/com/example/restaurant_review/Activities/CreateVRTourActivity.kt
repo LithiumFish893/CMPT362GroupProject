@@ -9,6 +9,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.setMargins
 import androidx.core.view.updateLayoutParams
@@ -17,10 +18,13 @@ import com.example.restaurant_review.Model.TourNode
 import com.example.restaurant_review.R
 import com.example.restaurant_review.Util.TourNodeDialog
 import com.example.restaurant_review.Util.Util
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
 import java.util.*
 import kotlin.collections.ArrayList
@@ -69,9 +73,45 @@ class CreateVRTourActivity: AppCompatActivity() {
         previewButton.setOnClickListener {
             if (tour != null) {
                 val intent = Intent(this, VRViewActivity::class.java)
-                intent.putExtra(TOUR_KEY, tour)
-                intent.putExtra(PREVIEW_KEY, true)
-                startActivity(intent)
+                val storage = FirebaseStorage.getInstance()
+                val storageRef = storage.reference
+                val sz = imgNameToUris.size
+                val progressBar = ProgressBar(this)
+                val textView = TextView(this)
+                progressBar.id = View.generateViewId()
+                textView.id = View.generateViewId()
+                root.addView(progressBar)
+                root.addView(textView)
+                textView.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                    endToEnd = root.id
+                    topToBottom = previewButton.id
+                }
+                progressBar.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                    endToStart = textView.id
+                    topToBottom = previewButton.id
+                    width = com.arlib.floatingsearchview.util.Util.dpToPx(24)
+                    height = com.arlib.floatingsearchview.util.Util.dpToPx(24)
+                }
+                progressBar.isIndeterminate = true
+                textView.text = "Loading the preview..."
+                imgNameToUris.onEachIndexed{ i, pair ->
+                    val name = pair.component1()
+                    val uri = pair.component2()
+                    val imgRef = storageRef.child(name)
+                    imgRef.putFile(uri).addOnCompleteListener(object : OnCompleteListener<UploadTask.TaskSnapshot>{
+                        override fun onComplete(p0: Task<UploadTask.TaskSnapshot>) {
+                            if (i == sz-1){
+                                root.removeView(progressBar)
+                                root.removeView(textView)
+                                intent.putExtra(TOUR_KEY, tour)
+                                intent.putExtra(PREVIEW_KEY, true)
+                                startActivity(intent)
+                            }
+                        }
+
+                    })
+                }
+                imgNameToUris = hashMapOf()
             }
             else {
                 Toast.makeText(this, "There is nothing to preview!", Toast.LENGTH_SHORT).show()
