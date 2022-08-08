@@ -99,7 +99,7 @@ class HomeFragment : Fragment() {
         restaurantListView!!.setOnScrollListener (object: AbsListView.OnScrollListener {
             override fun onScrollStateChanged(view: AbsListView, scrollState: Int) {
                 // only update scroll of no query and no filter
-                if (floatingSearchView.query == "" && !MapsFragment.favesOnly &&
+                if (floatingSearchView.query == "" && !MapsFragment.favesOnly && !restaurantListAdapter!!.filter.anyFiltered() &&
                     scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE
                     && restaurantListView!!.lastVisiblePosition - restaurantListView!!.headerViewsCount -
                     restaurantListView!!.footerViewsCount >= restaurantListAdapter!!.count - 1
@@ -232,6 +232,7 @@ class HomeFragment : Fragment() {
             getString(R.string.filter_button),
             object : DialogInterface.OnClickListener {
                 override fun onClick(dialog: DialogInterface, which: Int) {
+                    println(InspectionManager.instance?.safetyLevels)
                     // Do something when click positive button
                     checkedSafetyRatings?.get(0)?.let {
                         restaurantListAdapter?.filter?.setIncludeSafe(

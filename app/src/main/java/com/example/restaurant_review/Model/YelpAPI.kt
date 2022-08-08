@@ -92,6 +92,22 @@ class YelpAPI (val context: Context, var onReadApiCompleteListener: OnReadApiCom
                                     )
                                     manager!!.addRestaurant(mRestaurant)
 
+                                    // wipe all prev inspection data
+                                    val inspections = ArrayList(InspectionManager.instance?.inspections!!)
+                                    for (inspection in inspections){
+                                        if (inspection.id == id){
+                                            InspectionManager.instance?.inspections!!.remove(inspection)
+                                        }
+                                    }
+                                    HealthInspectionHtmlScraper(object: OnReadApiCompleteListener{
+                                        override fun onReadApiComplete() {
+                                            // refresh the safety levels
+                                            InspectionManager.instance?.getInspections(id)
+                                        }
+
+                                    }).scrape(mRestaurant!!.name.lowercase(Locale.getDefault()).removePrefix("the ").removeSuffix(" restaurant"),
+                                        id)
+
                                 }
                                 onReadApiCompleteListener?.onReadApiComplete()
                             }

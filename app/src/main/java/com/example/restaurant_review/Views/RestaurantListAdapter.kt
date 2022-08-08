@@ -236,6 +236,11 @@ class RestaurantListAdapter(
             this@RestaurantListAdapter.includeUnknown = includeUnknown
         }
 
+        fun anyFiltered(): Boolean{
+            // returns true if any filters are enabled, false otherwise
+            return !(includeSafe && includeModerate && includeUnsafe && includeUnknown)
+        }
+
         fun setFavoriteOnly(favoriteOnly: Boolean) {
             favesOnly = favoriteOnly
         }

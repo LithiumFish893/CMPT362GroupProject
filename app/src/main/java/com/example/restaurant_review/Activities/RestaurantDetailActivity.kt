@@ -46,12 +46,13 @@ class RestaurantDetailActivity : AppCompatActivity() {
         inspectionListView = findViewById(R.id.inspection_history_listView)
         tv = this.findViewById<TextView>(R.id.no_inspections_in_db_tv)
 
-        HealthInspectionHtmlScraper(object: OnReadApiCompleteListener{
+        /*HealthInspectionHtmlScraper(object: OnReadApiCompleteListener{
             override fun onReadApiComplete() {
                 populateListListView()
             }
         }).scrape(mRestaurant!!.name.lowercase(Locale.getDefault()).removePrefix("the ").removeSuffix(" restaurant"),
-            ID!!)
+            ID!!)*/
+        populateListListView()
     }
 
 
