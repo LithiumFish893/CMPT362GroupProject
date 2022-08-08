@@ -31,7 +31,7 @@ class HomeFragment : Fragment() {
     private var progressBars = arrayListOf<ProgressBar>()
     private lateinit var floatingSearchView: FloatingSearchView
     companion object {
-        const val PAGE_SIZE=30
+        const val PAGE_SIZE=50
         @SuppressLint("StaticFieldLeak")
         var restaurantListView: ListView? = null
         private var restaurantListAdapter: RestaurantListAdapter? = null

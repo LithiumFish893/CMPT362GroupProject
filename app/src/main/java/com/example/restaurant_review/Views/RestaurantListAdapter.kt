@@ -131,7 +131,7 @@ class RestaurantListAdapter(
                     filteredByFaves = favorites
                 }
                 // Filter by Safety Part
-                if (!includeSafe || !includeModerate || !includeUnknown || !includeUnknown) {
+                if (!includeSafe || !includeModerate || !includeUnsafe|| !includeUnknown) {
                     val safeties: HashMap<String, String?>? =
                         InspectionManager.instance?.safetyLevels
                     //If low selected

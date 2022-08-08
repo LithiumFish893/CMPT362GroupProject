@@ -122,7 +122,7 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
             filteredByFaves = favorites
         }
         val filteredBySafety = ArrayList<String>()
-        if (!includeSafe || !includeModerate || !includeUnknown || !includeUnknown) {
+        if (!includeSafe || !includeModerate || !includeUnsafe || !includeUnknown) {
             val safeties: HashMap<String, String?>? =
                 InspectionManager.instance?.safetyLevels
             //If low selected
@@ -632,12 +632,20 @@ open class MapsFragment : Fragment(), OnMapReadyCallback {
                                         R.color.colorModerateHazard
                                     )
                                 )
-                            } else {
+                            } else if (mInspection.hazard.toLowerCase().contains("high")){
                                 getBitmapDescriptor(
                                     R.drawable.ic_hazard_high,
                                     ContextCompat.getColor(
                                         context,
                                         R.color.colorHighHazard
+                                    )
+                                )
+                            } else {
+                                getBitmapDescriptor(
+                                    R.drawable.ic_hazard_unknown,
+                                    ContextCompat.getColor(
+                                        context,
+                                        R.color.colorUnknownHazard
                                     )
                                 )
                             }
