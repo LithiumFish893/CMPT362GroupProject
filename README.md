@@ -31,16 +31,17 @@
 ## Show and Tell 1
 * https://docs.google.com/presentation/d/11CwGZ1_hoYxtPX6LLlGqM4BYVR58DcFBCd2HpLCIoh0/edit?usp=sharing
 * Video:  
-[![Project Pitch](http://img.youtube.com/vi/5Npa1MFbv5w/0.jpg)](http://www.youtube.com/watch?v=5Npa1MFbv5w "Show and Tell 1")
+[![Show and Tell 1](http://img.youtube.com/vi/5Npa1MFbv5w/0.jpg)](http://www.youtube.com/watch?v=5Npa1MFbv5w "Show and Tell 1")
 
 ## Show and Tell 2
 * https://docs.google.com/presentation/d/1uUcbLpZ12-iuLgq6auoPDe2XkdhCJqxzqzwauJ64NMI/edit?usp=sharing
 * Video:  
-[![Project Pitch](http://img.youtube.com/vi/H5655FbNSE8/0.jpg)](https://www.youtube.com/watch?v=H5655FbNSE8 "Show and Tell 2")
+[![Show and Tell 2](http://img.youtube.com/vi/H5655FbNSE8/0.jpg)](https://www.youtube.com/watch?v=H5655FbNSE8 "Show and Tell 2")
 
 ## Final Presentation
 * https://docs.google.com/presentation/d/1vWy5M3iH1h0D8PUQC7ZKARVhMqJYufv3el_a3rectvM/edit#slide=id.g13a2e38c383_7_2430
-* Video:  TODO
+* Video:  
+[![Final Presentation](http://img.youtube.com/vi/hE3EZI3LumE/0.jpg)](https://www.youtube.com/watch?v=hE3EZI3LumE "Final Presentation")
 
 ## APK Releases
 
@@ -67,5 +68,5 @@
 * Web page and GitHub maintenance (Jason)
 * Code refactoring: Stability and bug fixing in the existing code (Jasmeen, Jason)
 
-## Souce Code
+## Source Code
 * TODO
