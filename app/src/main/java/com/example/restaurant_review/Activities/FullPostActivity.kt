@@ -20,14 +20,14 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.io.FileNotFoundException
-import java.lang.Exception
 import java.util.*
 
-
+/**
+ * Activity that shows the full post of a social media post.
+ */
 class FullPostActivity : AppCompatActivity() {
     private var subscribed: Boolean = false
     private lateinit var locationImageView: ImageView

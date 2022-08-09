@@ -2,6 +2,10 @@ package com.example.restaurant_review.local_database
 
 import androidx.room.TypeConverter
 
+/**
+ * Converts a list of strings to a string and vice versa.
+ * Used to store/get imageList in SocialMediaPostModel.
+ */
 class Converters {
     // https://stackoverflow.com/questions/44986626/android-room-database-how-to-handle-arraylist-in-an-entity
     @TypeConverter

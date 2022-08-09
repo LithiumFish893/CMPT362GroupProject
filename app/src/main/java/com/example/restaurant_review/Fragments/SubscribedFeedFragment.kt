@@ -1,48 +1,27 @@
 package com.example.restaurant_review.Fragments
 
-import android.Manifest
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityOptionsCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.restaurant_review.Activities.SocialMediaPostActivity
-import com.example.restaurant_review.local_database.*
 import com.example.restaurant_review.R
-import com.example.restaurant_review.Util.Util
 import com.example.restaurant_review.Views.SocialMediaPostAdapter
-import com.example.restaurant_review.local_database.SocialMediaPostDatabase
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.Priority
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.example.restaurant_review.local_database.SocialMediaPostModel
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.launch
-import java.lang.Exception
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
+/**
+ * Fragment that shows all posts in the user's Subscribed feed for
+ * social media.
+ */
 class SubscribedFeedFragment : Fragment() {
 
     private lateinit var subscribedList: ArrayList<String>

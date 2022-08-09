@@ -1,7 +1,6 @@
 package com.example.restaurant_review.Fragments
 
 import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -14,7 +13,6 @@ import com.example.restaurant_review.Model.Restaurant
 import com.example.restaurant_review.Model.RestaurantManager
 import com.example.restaurant_review.R
 import com.example.restaurant_review.Views.RestaurantListAdapter
-import java.util.*
 
 /**
  * FavesUpdateFragment Class Implementation

@@ -1,32 +1,32 @@
 package com.example.restaurant_review.Fragments
 
 import android.content.Intent
-import android.graphics.Rect
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import androidx.viewpager2.widget.ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
 import com.example.restaurant_review.Activities.SocialMediaPostActivity
-import com.example.restaurant_review.local_database.*
-import com.example.restaurant_review.Fragments.NearbyFeedFragment
-import com.example.restaurant_review.Fragments.RecommendedFeedFragment
-import com.example.restaurant_review.Fragments.SubscribedFeedFragment
 import com.example.restaurant_review.R
 import com.example.restaurant_review.Util.Util
 import com.example.restaurant_review.Views.UiFragmentStateAdapter
+import com.example.restaurant_review.local_database.SocialMediaPostDatabase
+import com.example.restaurant_review.local_database.SocialMediaPostRepository
+import com.example.restaurant_review.local_database.SocialMediaPostViewModel
+import com.example.restaurant_review.local_database.SocialMediaPostViewModelFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
+/**
+ * Fragment that holds the tabs for the 3 main social media feeds.
+ * Also has the floating action button to make a post.
+ */
 class SocialMediaFragment : Fragment() {
     private lateinit var nearbyFeedFragment: NearbyFeedFragment
     private lateinit var recommendedFeedFragment: RecommendedFeedFragment

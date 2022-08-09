@@ -3,6 +3,9 @@ package com.example.restaurant_review.local_database
 import androidx.lifecycle.*
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * View model to access social media posts and comments from the repository
+ */
 class SocialMediaPostViewModel (private val repository: SocialMediaPostRepository) : ViewModel() {
 
     val allLikedPosts = repository.allLikedPosts2.asLiveData()

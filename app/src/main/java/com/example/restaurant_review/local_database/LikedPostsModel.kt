@@ -2,6 +2,9 @@ package com.example.restaurant_review.local_database
 
 import androidx.room.Entity
 
+/**
+ * Model to store information about posts that a user liked.
+ */
 @Entity(tableName = "liked_posts_table", primaryKeys = ["userId", "postId"])
 data class LikedPostsModel(
     val userId: Int = 0,

@@ -1,16 +1,18 @@
 package com.example.restaurant_review.local_database
 
 import com.example.restaurant_review.Util.Util
-import com.example.restaurant_review.local_database.*
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 
+/**
+ * Repository that can insert, delete and select data from the
+ * local Room database and Firebase.
+ */
 class SocialMediaPostRepository(private val socialMediaPostDatabase: SocialMediaPostDatabase) {
     var socialMediaPostDao = socialMediaPostDatabase.socialMediaPostDao
     var allPosts = socialMediaPostDao.getAllPosts()

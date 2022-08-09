@@ -4,6 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+/**
+ * Model that represents a comment on a social media post.
+ */
 @Entity(tableName = "comment_table")
 class CommentModel(
     @PrimaryKey(autoGenerate = true)

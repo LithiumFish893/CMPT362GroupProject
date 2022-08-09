@@ -4,17 +4,12 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.Rect
 import android.graphics.Typeface
-import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
-import android.view.Gravity
 import android.view.View
-import android.view.Window
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
@@ -46,17 +41,16 @@ import com.example.restaurant_review.local_database.SocialMediaPostModel
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageException
 import com.google.firebase.storage.StorageReference
+import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
-import org.json.JSONObject
-import kotlin.collections.ArrayList
 
-
+/**
+ * Activity that lets a user post a social media post.
+ */
 class SocialMediaPostActivity : AppCompatActivity() {
     private var locationName: String = ""
     private var isLookingForLocation: Boolean = false

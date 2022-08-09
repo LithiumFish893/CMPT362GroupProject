@@ -3,7 +3,6 @@ package com.example.restaurant_review.Activities
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.AsyncTask
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.util.Pair
@@ -12,7 +11,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
-import com.example.restaurant_review.Activities.CreateVRTourActivity.Companion.MAX_GRID_SIZE
+import androidx.appcompat.app.AppCompatActivity
 import com.example.restaurant_review.Activities.CreateVRTourActivity.Companion.NAME_KEY
 import com.example.restaurant_review.Activities.CreateVRTourActivity.Companion.PREVIEW_KEY
 import com.example.restaurant_review.Activities.CreateVRTourActivity.Companion.TOUR_KEY
@@ -27,6 +26,10 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
 
+/**
+ * Activity that holds the display for a VR Tour.
+ * Used and modified from Google's VR SDK.
+ */
 class VRViewActivity : AppCompatActivity() {
     /** Actual panorama widget.  */
     private var panoWidgetView: VrPanoramaView? = null

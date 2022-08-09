@@ -6,7 +6,11 @@ import com.android.volley.toolbox.Volley
 import java.lang.Exception
 import java.util.*
 
-
+/**
+ * Scrapes the Fraser Health website to obtain health inspection records
+ * for restaurants in the Fraser Health region.
+ * Adds the inspection data to InspectionManager.
+ */
 class HealthInspectionHtmlScraper (var onReadApiCompleteListener: OnReadApiCompleteListener? = null) {
     private val inspectionManager = InspectionManager.instance
     fun scrape(query: String, restaurantId: String){

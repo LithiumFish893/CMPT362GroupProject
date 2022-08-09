@@ -16,7 +16,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.arlib.floatingsearchview.FloatingSearchView
 import com.arlib.floatingsearchview.util.Util
-import com.example.restaurant_review.Model.HealthInspectionHtmlScraper
 import com.example.restaurant_review.Nav.KeepStateNavigator
 import com.example.restaurant_review.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -26,11 +25,11 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
-
+/**
+ * Main activity of app, if the user isn't signed in then they are taken
+ * to the login screen. Otherwise they are taken to the MapsFragment.
+ */
 class MainActivity : AppCompatActivity() {
     private var mFragmentManager: FragmentManager? = null
     private var mAppBarConfiguration: AppBarConfiguration? = null

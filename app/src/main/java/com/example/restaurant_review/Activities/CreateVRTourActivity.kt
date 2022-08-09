@@ -9,7 +9,6 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.setMargins
 import androidx.core.view.updateLayoutParams
@@ -25,11 +24,11 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
-import com.google.firebase.storage.ktx.storage
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
+/**
+ * Activity that lets the user create a VR tour.
+ */
 class CreateVRTourActivity: AppCompatActivity() {
     private lateinit var buttonList: ArrayList<ImageButton>
     private lateinit var rootAddButton: ImageButton

@@ -1,33 +1,25 @@
 package com.example.restaurant_review.Fragments
 
-import android.app.ActivityOptions
-import android.content.Intent
 import android.os.Bundle
-import android.util.Pair
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.restaurant_review.Activities.SocialMediaPostActivity
 import com.example.restaurant_review.R
-import com.example.restaurant_review.Util.Util
 import com.example.restaurant_review.Views.SocialMediaPostAdapter
-import com.example.restaurant_review.local_database.*
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.example.restaurant_review.local_database.SocialMediaPostModel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import java.lang.Exception
 
-
+/**
+ * Fragment that holds the user's recommended feed for social media.
+ */
 class RecommendedFeedFragment : Fragment() {
     
     private lateinit var postList: ArrayList<SocialMediaPostModel>

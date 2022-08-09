@@ -16,15 +16,17 @@ import com.example.restaurant_review.Activities.VRViewActivity
 import com.example.restaurant_review.Model.RestaurantTour
 import com.example.restaurant_review.Model.TourNode
 import com.example.restaurant_review.R
-import com.example.restaurant_review.Util.Util
 import com.example.restaurant_review.Views.TourAdapter
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
+/**
+ * Fragment that lets the user choose if they want to view a tour
+ * or upload their own tour.
+ */
 class VRTourFragment : Fragment() {
     private lateinit var viewVrRv: RecyclerView
     private lateinit var startVrButton: Button
@@ -42,16 +44,9 @@ class VRTourFragment : Fragment() {
         startVrButton = pView.findViewById(R.id.view_vr_tour_button)
         submitVrButton = pView.findViewById(R.id.submit_vr_tour_button)
         progressBar = pView.findViewById(R.id.vr_progress_bar)
-        /*viewVrButton.setOnClickListener {
-            val intent = Intent(requireContext(), VRViewActivity::class.java)
-            startActivity(intent)
-        }*/
         tourArrayList = arrayListOf<Pair<String, RestaurantTour>>()
         val database = Firebase.database.reference
         val tourRef = database.child("tours")
-        /*tourRef.get().addOnSuccessListener {
-            onSnapshotChanged(it)
-        }*/
         tourRef.addValueEventListener (object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 onSnapshotChanged(snapshot)

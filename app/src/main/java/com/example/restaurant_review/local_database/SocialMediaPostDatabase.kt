@@ -5,6 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
+/**
+ * Room database for social media posts.
+ */
 @Database(entities = [SocialMediaPostModel::class, LikedPostsModel::class, CommentModel::class], version = 13)
 abstract class SocialMediaPostDatabase : RoomDatabase() {
     abstract val socialMediaPostDao: SocialMediaPostDao

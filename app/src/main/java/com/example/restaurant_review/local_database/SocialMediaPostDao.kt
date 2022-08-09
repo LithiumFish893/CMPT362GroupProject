@@ -3,6 +3,9 @@ package com.example.restaurant_review.local_database
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * Dao for Social media room database.
+ */
 @Dao
 interface SocialMediaPostDao {
     @Insert

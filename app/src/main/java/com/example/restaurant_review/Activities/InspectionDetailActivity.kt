@@ -15,6 +15,9 @@ import com.example.restaurant_review.R
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ * Activity that shows health check information of a restaurant.
+ */
 class InspectionDetailActivity: AppCompatActivity(){
     var mInspection: Inspection? = null
     var ID: String? = null

@@ -8,11 +8,9 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RatingBar
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.restaurant_review.Activities.LoginActivity
 import com.example.restaurant_review.Data.Review
 import com.example.restaurant_review.R
 import com.example.restaurant_review.Views.ReviewHistoryAdapter
@@ -26,6 +24,9 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
+/**
+ * Activity that lets a user review a restaurant.
+ */
 class RestaurantReviewsActivity: AppCompatActivity(), DialogInterface.OnClickListener {
 
     private lateinit var writeReview: Button

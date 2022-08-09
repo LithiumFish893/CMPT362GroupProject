@@ -4,6 +4,9 @@ import android.graphics.Point
 import android.os.Parcel
 import android.os.Parcelable
 
+/**
+ * Class that holds a 2D grid representing a VR Tour.
+ */
 class RestaurantTour : Parcelable{
     private var root: TourNode
     private var size = 0
@@ -130,6 +133,9 @@ class RestaurantTour : Parcelable{
     }
 }
 
+/**
+ * Data class that holds a single node in the tour, has name and image name.
+ */
 data class TourNode (var name: String, var image: String?): Parcelable {
 
     constructor(parcel: Parcel) : this(

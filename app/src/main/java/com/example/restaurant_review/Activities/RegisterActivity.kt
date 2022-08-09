@@ -15,6 +15,9 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
+/**
+ * Activity that lets the user register an account.
+ */
 class RegisterActivity:AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var emailTV: EditText

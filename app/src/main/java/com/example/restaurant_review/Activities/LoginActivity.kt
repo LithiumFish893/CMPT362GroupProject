@@ -16,7 +16,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 
-
+/**
+ * Activity that lets the user login.
+ */
 class LoginActivity:AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var emailTV: EditText
