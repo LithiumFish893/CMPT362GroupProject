@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Restaurant Review</string>
+    <string name="app_name">WeReview</string>
 
     <string name="nav_header_title">WeReview</string>
     <string name="nav_header_subtitle">Restaurant Reviews, Health Inspections and Social Media</string>
