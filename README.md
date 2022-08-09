@@ -4,6 +4,7 @@
 * Integrated Restaurant Safety check
 * Unique Social Media components
 * Give ratings to nearby restuarants
+* Immersive VR restaurant tours
 * And much more...
 
 ## Group Members
@@ -12,6 +13,11 @@
 * Andy Lu
 * Jasmeen Kaur
 * Denson Zhong
+
+## Sample Accounts
+* Email: test@example.com, password: 123456
+* Email: a@example.com, password: 123456
+* Email: b@example.com, password: 123456
 
 ## Known Issues
 * May crash if scroll too fast in list of restaurant caused by yelp API.
