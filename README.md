@@ -31,12 +31,12 @@
 * send email to cla420@sfu.ca to get permission for access it.
 
 ## Project Pitch
-* https://docs.google.com/presentation/d/1PW60eODVg4fkimNwjGRQCn7IQHIoQK0vO8PW-_hfFdQ/edit?usp=sharing
+* [Slides](https://docs.google.com/presentation/d/1PW60eODVg4fkimNwjGRQCn7IQHIoQK0vO8PW-_hfFdQ/edit?usp=sharing)
 * Video:  
 [![Project Pitch](http://img.youtube.com/vi/wT05LbIq03k/0.jpg)](http://www.youtube.com/watch?v=wT05LbIq03k "Project Pitch")
 
 ## Show and Tell 1
-* https://docs.google.com/presentation/d/11CwGZ1_hoYxtPX6LLlGqM4BYVR58DcFBCd2HpLCIoh0/edit?usp=sharing
+* [Slides](https://docs.google.com/presentation/d/11CwGZ1_hoYxtPX6LLlGqM4BYVR58DcFBCd2HpLCIoh0/edit?usp=sharing)
 * Video:  
 [![Show and Tell 1](http://img.youtube.com/vi/5Npa1MFbv5w/0.jpg)](http://www.youtube.com/watch?v=5Npa1MFbv5w "Show and Tell 1")
 
