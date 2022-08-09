@@ -22,6 +22,7 @@
 ## Known Issues
 * May crash if scroll too fast in list of restaurant caused by yelp API.
 * Changing username will only shown to be changed in review details after refreshing.
+* For google login, firebase needs finger print(SHA-1 Key) to be build correctly,send email to cla420@sfu.ca for it.
  
 ## Acknowledgment
 * This project was developed based on a group member's CMPT 276 project, the original project was written in Java. 
@@ -55,7 +56,7 @@
 * https://github.com/LithiumFish893/CMPT362GroupProject/releases/tag/show_and_tell_2
 
 ### Final APK
-* Direct link: https://drive.google.com/file/d/1k8XtKsSehB3DafvJOnKMcuOwaALKBydH/view?usp=sharing
+* Direct link: https://drive.google.com/file/d/1KDOVwkCIOYvvpCer-VITQLFE9geGWk9Y/view?usp=sharing
 
 ## MVVM Diagram
 ![alt text](https://cdn.discordapp.com/attachments/990729392441405513/996991599974285362/unknown.png)
