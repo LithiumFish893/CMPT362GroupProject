@@ -21,8 +21,8 @@
 
 ## Known Issues
 * May crash if scroll too fast in list of restaurant caused by yelp API.
-* Changing username will only shown to be changed in review details after refreshing.
-* For google login, firebase needs finger print(SHA-1 Key) to be build correctly,send email to cla420@sfu.ca for it.
+* Changing username will not update review history in profile page untill it is refreshed.
+* For google login, firebase needs fingerprint(SHA-1 Key) to be build the APK correctly, send email to cla420@sfu.ca if you want to build your own APK in Android Studio.
  
 ## Acknowledgment
 * This project was developed based on a group member's CMPT 276 project, the original project was written in Java. 
