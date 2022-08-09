@@ -86,7 +86,7 @@ class HomeFragment : Fragment() {
             RestaurantManager.instance!!.allRestaurants
         restaurantListAdapter =
                 RestaurantListAdapter(
-                    activity,
+                    requireContext(),
                     R.layout.list_item_restaurant,
                     restaurantList
                 )
