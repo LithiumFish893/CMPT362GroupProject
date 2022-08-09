@@ -22,6 +22,7 @@
 ## Known Issues
 * May crash if scroll too fast in list of restaurant caused by yelp API.
 * Changing username will not update review history in profile page untill it is refreshed.
+* The map will not zoom in on the first install. After enabling permission it will work normally.
 * For google login, firebase needs fingerprint(SHA-1 Key) to be build the APK correctly, send email to cla420@sfu.ca if you want to build your own APK in Android Studio.
  
 ## Acknowledgment
