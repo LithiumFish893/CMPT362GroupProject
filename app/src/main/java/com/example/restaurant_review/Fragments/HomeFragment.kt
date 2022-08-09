@@ -18,6 +18,7 @@ import com.example.restaurant_review.Activities.RestaurantReview
 import com.example.restaurant_review.Model.*
 import com.example.restaurant_review.R
 import com.example.restaurant_review.Views.RestaurantListAdapter
+import java.lang.IllegalStateException
 
 
 /**
@@ -84,23 +85,25 @@ class HomeFragment : Fragment() {
         // setup ListView
         val restaurantList: ArrayList<Restaurant> =
             RestaurantManager.instance!!.allRestaurants
-        restaurantListAdapter =
+        try {
+            restaurantListAdapter =
                 RestaurantListAdapter(
                     requireContext(),
                     R.layout.list_item_restaurant,
                     restaurantList
                 )
-
-        restaurantListView!!.adapter = restaurantListAdapter
-
+            restaurantListView!!.adapter = restaurantListAdapter
+        }
+        catch (e: IllegalStateException){ }
         // read more data from api
         restaurantListView!!.setOnScrollListener (object: AbsListView.OnScrollListener {
             override fun onScrollStateChanged(view: AbsListView, scrollState: Int) {
                 // only update scroll of no query and no filter
-                if (floatingSearchView.query == "" && !MapsFragment.favesOnly && !restaurantListAdapter!!.filter.anyFiltered() &&
+                if (floatingSearchView.query == "" && !MapsFragment.favesOnly && restaurantListAdapter?.filter?.anyFiltered() == false &&
                     scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE
                     && restaurantListView!!.lastVisiblePosition - restaurantListView!!.headerViewsCount -
-                    restaurantListView!!.footerViewsCount >= restaurantListAdapter!!.count - 1
+                    restaurantListView!!.footerViewsCount >= (restaurantListAdapter?.count?.minus(1)
+                        ?: 0)
                 ) {
                     val progressBar = ProgressBar(requireContext())
                     progressBar.isIndeterminate = true
@@ -117,7 +120,7 @@ class HomeFragment : Fragment() {
                             progressBars.forEach{constraintLayout.removeView(it)}
                             progressBars = arrayListOf()
                             // populate the ListView
-                            restaurantListAdapter!!.updateList(restaurantList)
+                            restaurantListAdapter?.updateList(restaurantList)
                         }
                     }
                     yelpAPI.readMoreRestaurantData(PAGE_SIZE)
@@ -169,7 +172,7 @@ class HomeFragment : Fragment() {
                 // set the filter
                 val floatingSearchView : FloatingSearchView=
                     requireActivity().findViewById(R.id.floating_search_bar)
-                restaurantListAdapter!!.filter.filter(floatingSearchView.query)
+                restaurantListAdapter?.filter?.filter(floatingSearchView.query)
                 true
             }
             R.id.menu_filter_by_safety -> {
