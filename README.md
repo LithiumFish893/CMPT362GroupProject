@@ -46,7 +46,7 @@
 [![Show and Tell 2](http://img.youtube.com/vi/H5655FbNSE8/0.jpg)](https://www.youtube.com/watch?v=H5655FbNSE8 "Show and Tell 2")
 
 ## Final Presentation
-* https://docs.google.com/presentation/d/1vWy5M3iH1h0D8PUQC7ZKARVhMqJYufv3el_a3rectvM/edit#slide=id.g13a2e38c383_7_2430
+* [Slides](https://docs.google.com/presentation/d/1vWy5M3iH1h0D8PUQC7ZKARVhMqJYufv3el_a3rectvM/edit#slide=id.g13a2e38c383_7_2430)
 * Video:  
 [![Final Presentation](http://img.youtube.com/vi/hE3EZI3LumE/0.jpg)](https://www.youtube.com/watch?v=hE3EZI3LumE "Final Presentation")
 
