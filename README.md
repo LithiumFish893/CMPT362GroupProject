@@ -53,10 +53,10 @@
 ## APK Releases
 
 ### Show and Tell 2 APK
-* https://github.com/LithiumFish893/CMPT362GroupProject/releases/tag/show_and_tell_2
+* [Direct link](https://github.com/LithiumFish893/CMPT362GroupProject/releases/tag/show_and_tell_2)
 
 ### Final APK
-* Direct link: https://drive.google.com/file/d/1KDOVwkCIOYvvpCer-VITQLFE9geGWk9Y/view?usp=sharing
+* [Direct link](https://drive.google.com/file/d/1KDOVwkCIOYvvpCer-VITQLFE9geGWk9Y/view?usp=sharing)
 
 ## MVVM Diagram
 ![alt text](https://cdn.discordapp.com/attachments/990729392441405513/996991599974285362/unknown.png)
@@ -76,4 +76,4 @@
 * Code refactoring: Stability and bug fixing in the existing code (Jasmeen, Jason)
 
 ## Source Code
-* Direct link: https://drive.google.com/file/d/1ysYB24GXRJ7n0_uDI-0g_AQf0Wte2sxS/view?usp=sharing
+* [Direct link](https://drive.google.com/file/d/1ysYB24GXRJ7n0_uDI-0g_AQf0Wte2sxS/view?usp=sharing)
