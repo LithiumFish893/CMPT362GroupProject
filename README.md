@@ -55,7 +55,7 @@
 * https://github.com/LithiumFish893/CMPT362GroupProject/releases/tag/show_and_tell_2
 
 ### Final APK
-* TODO
+* Direct link: https://drive.google.com/file/d/1k8XtKsSehB3DafvJOnKMcuOwaALKBydH/view?usp=sharing
 
 ## MVVM Diagram
 ![alt text](https://cdn.discordapp.com/attachments/990729392441405513/996991599974285362/unknown.png)
