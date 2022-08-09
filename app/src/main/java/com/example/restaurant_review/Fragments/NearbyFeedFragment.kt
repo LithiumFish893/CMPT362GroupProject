@@ -84,12 +84,6 @@ class NearbyFeedFragment : Fragment() {
         return pView
     }
 
-    override fun onResume() {
-        super.onResume()
-        println("resumed")
-        //updateFirebaseDb()
-    }
-
     fun listenToFirebase () {
         val fireDatabase = Firebase.database
         val socialMediaPosts = fireDatabase.reference.child("socialMediaPost")
@@ -100,7 +94,6 @@ class NearbyFeedFragment : Fragment() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
                 }
 
             }

@@ -38,12 +38,10 @@ class CommentAdapter(private var commentList: MutableList<CommentModel>) : Recyc
                 .child(comment.userId).child("username").get().addOnCompleteListener() {
                     if (it.isSuccessful) {
                         username.text = it.result.value.toString()
-                        println("Debug: Success comment username, ${it.result.value.toString()}")
                     } else {
-                        println("Debug: Failed comment username")
+                        // failed getting username
                     }
                 }
-            //TODO needs new logic.
             date.text = Util.toDateString(comment.timeStamp)
             textContent.text = comment.textContent
         }
@@ -62,7 +60,6 @@ class CommentAdapter(private var commentList: MutableList<CommentModel>) : Recyc
     }
 
     fun updateList(newList: List<CommentModel>) {
-        println(newList)
         this.commentList = newList as MutableList<CommentModel>
         notifyDataSetChanged()
     }

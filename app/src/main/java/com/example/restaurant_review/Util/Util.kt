@@ -61,7 +61,6 @@ object Util {
         val perm: Boolean =  ContextCompat.checkSelfPermission(activity!!, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED //&&
                 //ContextCompat.checkSelfPermission(activity!!, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
         if (!perm) {
-            println("need to get perms")
             ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.CAMERA), 0)
         }
         return perm
@@ -180,9 +179,8 @@ object Util {
             .child(id).child("username").get().addOnCompleteListener() {
                 if (it.isSuccessful) {
                     userName = it.result.value.toString()
-                    println("Debug: Success username $userName, ${it.result.value.toString()}")
                 } else {
-                    println("Debug: Failed username")
+                    // failed getting username
                 }
             }
         return userName
@@ -190,14 +188,6 @@ object Util {
 
     fun getUserId () : Int {
         return 1234
-    }
-
-    fun userLikedPost (userId: Int, postId: Int) : Boolean {
-        TODO("when db is implemented")
-    }
-
-    fun selfLikedPost (postId: Int) : Boolean {
-        return false
     }
 
     fun getProfilePhotoFromUserId (id: String, context: Context) : Drawable {

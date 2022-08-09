@@ -2,35 +2,19 @@ package com.example.restaurant_review.Model
 
 import android.Manifest
 import android.content.Context
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.graphics.Typeface
-import android.location.Location
-import android.util.Log
-import android.view.View
-import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.updateLayoutParams
-import androidx.core.view.updatePadding
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.example.restaurant_review.R
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import org.json.JSONObject
-import java.io.*
-import java.nio.charset.StandardCharsets
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
- * ReadCSV Class Implementation
- *
- * Read inspection data from file and store in the objects.
+ * Read restaurant data from file and store in the restaurant manager.
  */
 class YelpAPI (val context: Context, var onReadApiCompleteListener: OnReadApiCompleteListener? = null) {
 

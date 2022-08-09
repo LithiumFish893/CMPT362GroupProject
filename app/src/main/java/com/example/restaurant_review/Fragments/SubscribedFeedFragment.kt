@@ -82,18 +82,11 @@ class SubscribedFeedFragment : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
             }
 
         })
 
         return pView
-    }
-
-    override fun onResume() {
-        super.onResume()
-        println("resumed")
-        //updateFirebaseDb()
     }
 
     fun updateSubscriptions (snapshot: DataSnapshot){
@@ -113,7 +106,6 @@ class SubscribedFeedFragment : Fragment() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
                 }
 
             }

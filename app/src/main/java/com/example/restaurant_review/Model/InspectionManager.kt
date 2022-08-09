@@ -1,9 +1,5 @@
 package com.example.restaurant_review.Model
 
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
-
 /**
  * InspectionManager Class Implementation
  *

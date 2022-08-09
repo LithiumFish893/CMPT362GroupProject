@@ -1,11 +1,8 @@
 package com.example.restaurant_review.Model
 
-import android.graphics.Bitmap
 import android.graphics.Point
-import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
-import android.util.Log
 
 class RestaurantTour : Parcelable{
     private var root: TourNode

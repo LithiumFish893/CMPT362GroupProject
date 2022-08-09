@@ -31,8 +31,6 @@ class SocialMediaPostRepository(private val socialMediaPostDatabase: SocialMedia
         CoroutineScope(Dispatchers.IO).launch {
             val id = socialMediaPostDao.insertPost(post)
             val userRef = firebaseMediaRef.child("users").child(post.userId)
-            //val postId = userRef.push().key
-            println("debug: id $id.")
 
             val postRef = userRef.child("posts").child(id.toString())
             postRef.child("title").setValue(post.title)
@@ -87,7 +85,6 @@ class SocialMediaPostRepository(private val socialMediaPostDatabase: SocialMedia
     fun insertComment (comment: CommentModel){
         CoroutineScope(Dispatchers.IO).launch {
             val id = socialMediaPostDao.insertComment(comment)
-            println("debug: ${comment.parentPostUserId}, ${comment.parentPostId}")
 
             val commentRef = firebaseMediaRef.child("users").child(comment.parentPostUserId)
                 .child("posts").child(comment.parentPostId.toString())
@@ -96,8 +93,6 @@ class SocialMediaPostRepository(private val socialMediaPostDatabase: SocialMedia
             commentRef.child("userId").setValue(comment.userId)
             commentRef.child("textContent").setValue(comment.textContent)
             commentRef.child("timeStamp").setValue(comment.timeStamp)
-            //val postId = userRef.push().key
-            //println("debug: id $id.")
         }
     }
 

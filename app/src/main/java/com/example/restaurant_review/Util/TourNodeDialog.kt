@@ -49,12 +49,9 @@ class TourNodeDialog(var listener: OnDialogSetListener?):  DialogFragment(), Dia
             ActivityResultContracts.StartActivityForResult()
         ) {
             if (it.resultCode == AppCompatActivity.RESULT_OK) {
-                println("image selected2")
                 // get the gallery image
-                println("image selected")
                 val targetUri: Uri? = it.data!!.data
                 uri = targetUri!!
-                println(uri)
                 textView.text = uri.toString()
             }
         }

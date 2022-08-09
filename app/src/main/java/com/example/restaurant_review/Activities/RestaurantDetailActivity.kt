@@ -144,14 +144,6 @@ class RestaurantDetailActivity : AppCompatActivity() {
         val inspectionListAdapter =
             InspectionList?.let { InspectionListAdapter(this, R.layout.list_item_inspection, it) }
         inspectionListView!!.adapter = inspectionListAdapter
-
-        //TODO: set up onclick for item in adapter
-        // click the item to launch the Restaurant Detail Activity
-        /*inspectionListView!!.setOnItemClickListener { _, view, position, _ ->
-            val intent: Intent? =
-                InspectionDetailActivity().makeLaunchIntent(applicationContext, ID, position)
-            startActivity(intent)
-        }*/
     }
 
     fun DDtoDMS(d: Double): String {

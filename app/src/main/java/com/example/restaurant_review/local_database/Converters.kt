@@ -13,9 +13,7 @@ class Converters {
 
     @TypeConverter
     fun toString(stringList: List<String>): String {
-        println(stringList)
         val res: String = stringList.joinToString(separator = ",")
-        println(res)
         return res
     }
 }

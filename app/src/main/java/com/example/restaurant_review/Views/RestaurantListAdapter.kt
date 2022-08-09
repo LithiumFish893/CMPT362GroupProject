@@ -38,7 +38,6 @@ class RestaurantListAdapter(
     override fun getView(position: Int, view: View?, parent: ViewGroup): View {
         val viewRestaurant: View =
             view ?: LayoutInflater.from(context).inflate(R.layout.list_item_restaurant, null)
-        println("getting view")
         // Get the restaurant and inspection objects.
         val mRestaurant: Restaurant = mRestaurantsList[position]
         val inspectionList: ArrayList<Inspection> ?=
@@ -81,7 +80,6 @@ class RestaurantListAdapter(
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
                 }
 
             })
@@ -97,7 +95,6 @@ class RestaurantListAdapter(
     }
 
 
-    // TODO: To Jason and Dylan
     // For setup filter/favorite functions
     override fun getFilter(): RestaurantsFilter {
         return RestaurantsFilter()

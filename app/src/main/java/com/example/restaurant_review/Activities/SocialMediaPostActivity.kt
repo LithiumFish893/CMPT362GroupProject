@@ -233,11 +233,7 @@ class SocialMediaPostActivity : AppCompatActivity() {
                                     val coords = businessArray.getJSONObject(i).getJSONObject("coordinates")
                                     val lat = coords.getDouble("latitude")
                                     val long = coords.getDouble("longitude")
-                                    val results = floatArrayOf(0f,0f,0f)
-                                    Location.distanceBetween(latitude, longitude, lat, long, results)
-                                    var dist = results[0]  // in meters
-                                    // todo: check
-                                    dist = businessArray.getJSONObject(i).getDouble("distance").toFloat()
+                                    val dist = businessArray.getJSONObject(i).getDouble("distance").toFloat()
                                     if (dist < minDist){
                                         minDist = dist
                                         minIndex = i

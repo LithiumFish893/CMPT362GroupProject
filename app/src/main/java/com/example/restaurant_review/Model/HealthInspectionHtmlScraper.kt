@@ -55,16 +55,6 @@ class HealthInspectionHtmlScraper (var onReadApiCompleteListener: OnReadApiCompl
                                     hazard = hazard
                                 )
                                 inspectionManager?.addInspection(inspection)
-                                /*val resLink = getInspectionLinkFromTr(tr).removeSurrounding("\"")
-                                val url3 = "https://www.healthspace.ca$resLink"
-                                println("url3=$url3")
-                                val violationRequest: StringRequest = object :StringRequest (
-                                    Method.GET, url3,
-                                    Response.Listener { response ->
-
-                                    },
-                                    Response.ErrorListener { }) { }
-                                queue.add(violationRequest)*/
                                 searchIndex = response.indexOf(toFind, trEnd)
                             }
                             onReadApiCompleteListener?.onReadApiComplete()
